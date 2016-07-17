@@ -1,8 +1,9 @@
 package Instruments;
 
 public abstract class AbstractInstrument implements Evolutable{
-	int size;
-	int temp;
-	int[] melody;
+	protected int number_of_notes_in_beat;
+	protected int number_of_beats;
+	protected int temp;
+	protected int[] melody;
 	
 }

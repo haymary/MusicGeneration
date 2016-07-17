@@ -1,10 +1,7 @@
 package Instruments;
-import java.util.ArrayList;
 import java.util.Comparator;
 
 public interface Evolutable{
-	
-	public ArrayList<Evolutable> createPopulation(int size);
 	
 	public void mutate();
 	
@@ -17,6 +14,8 @@ public interface Evolutable{
 	public void count_fitness();
 
 	public double get_fitness();
+
+	public Evolutable generateIndividual();
 
 		
 }

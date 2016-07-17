@@ -16,13 +16,21 @@ public class Evolution {
 	
 	public Evolution(final Evolutable parent) {
 		commonProgenetor = parent;
-		pop = parent.createPopulation(pop_size);
+		pop = createPopulation(pop_size);
 	}
 	
+	private ArrayList<Evolutable> createPopulation(final int pop_size2) {
+		ArrayList<Evolutable> newPop = new ArrayList<>();
+		for (int i = 0; i < pop_size; i++) {
+			newPop.add(commonProgenetor.generateIndividual());
+		}
+		return newPop;
+	}
+
 	public Evolution(final Evolutable parent, final int size, final int num_generations, final double lucky_part) {
 		this.pop_size = size;
 		this.max_num_generations = num_generations;
-		pop = parent.createPopulation(size);
+		pop = createPopulation(size);
 		number_of_servivors = (int) ((1-lucky_part)*size);
 	}
 	
@@ -49,7 +57,7 @@ public class Evolution {
 		for (int i = 0; i < servivour_num; i++) {
 			newPop.add(pop.get(random.nextInt(pop_size - 1)));
 		}
-		newPop.addAll(commonProgenetor.createPopulation(1 - servivour_num));
+		newPop.addAll(createPopulation(1 - servivour_num));
 	}
 
 	private boolean isInStagnation() {
