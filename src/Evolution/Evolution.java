@@ -19,6 +19,13 @@ public class Evolution {
 		pop = createPopulation(pop_size);
 	}
 	
+	public Evolution(final Evolutable parent, final int size, final int num_generations, final double lucky_part) {
+		this.pop_size = size;
+		this.max_num_generations = num_generations;
+		pop = createPopulation(size);
+		number_of_servivors = (int) ((1-lucky_part)*size);
+	}
+	
 	private ArrayList<Evolutable> createPopulation(final int pop_size2) {
 		ArrayList<Evolutable> newPop = new ArrayList<>();
 		for (int i = 0; i < pop_size; i++) {
@@ -27,13 +34,6 @@ public class Evolution {
 		return newPop;
 	}
 
-	public Evolution(final Evolutable parent, final int size, final int num_generations, final double lucky_part) {
-		this.pop_size = size;
-		this.max_num_generations = num_generations;
-		pop = createPopulation(size);
-		number_of_servivors = (int) ((1-lucky_part)*size);
-	}
-	
 	private void evolute() {
 		for (int i = 0; i < max_num_generations; i++) {
 			reproduce();
@@ -62,7 +62,7 @@ public class Evolution {
 
 	private boolean isInStagnation() {
 		int MAX_STAGNATION_DEPTH = 4;
-		Double current_fitness = count_generation_fitness();
+		Double current_fitness = countGenerationFitness();
 		fitness_factor.add(current_fitness);
 		if(current_fitness.equals(fitness_factor.get(
 				number_of_generations - MAX_STAGNATION_DEPTH))){
@@ -74,7 +74,7 @@ public class Evolution {
 		return false;
 	}
 
-	private Double count_generation_fitness() {
+	private Double countGenerationFitness() {
 		double generation_fitness = 0;
 		for (Evolutable individual : pop) {
 			generation_fitness += individual.get_fitness();
