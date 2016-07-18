@@ -17,5 +17,7 @@ public interface Evolutable{
 
 	public Evolutable generateIndividual();
 
+	public String getType();
+
 		
 }

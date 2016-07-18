@@ -1,33 +1,46 @@
 package Evolution;
 
+import java.util.ArrayList;
+
 import Instruments.DrumsGenome;
 import Instruments.PianoGenome;
 
 public class EvolutionSimulator {
-
-	Evolution pianoEvolution;
-	Evolution drumsEvolution;
 	private static final int MAX_NUMBER_GENERATIONS = 50;
 
+	ArrayList<Evolution> instrumentsEvolution;
+
 	public EvolutionSimulator() {
-		pianoEvolution = new Evolution(new PianoGenome());
-		drumsEvolution = new Evolution(new DrumsGenome());
+		instrumentsEvolution = new ArrayList<>();
+		instrumentsEvolution.add(new Evolution(new PianoGenome()));
+		instrumentsEvolution.add(new Evolution(new DrumsGenome()));
 	}
 	
 	public void startSimulation(){
-		while (!isAbsolutelyFitting() || pianoEvolution.getNumber_of_generations() < MAX_NUMBER_GENERATIONS) {
-			pianoEvolution.produceNextGeneration();
-			drumsEvolution.produceNextGeneration();
+		while (!isAbsolutelyFitting() 
+				|| instrumentsEvolution.get(0).getNumber_of_generations() 
+				< MAX_NUMBER_GENERATIONS) {
+			for (Evolution evolution : instrumentsEvolution) {
+				evolution.produceNextGeneration();
+			}
 			//TODO
 			//Method to check how they corelate with each other
 		}
-		GenomeParser p = new GenomeParser();
-		p.translateToPhenotype(pianoEvolution.getPop());
+		
+		for (Evolution evolution : instrumentsEvolution) {
+			evolution.popToPhenotype();
+		}
+		
+		//TODO
+		//Save samples somehow
+		
 	}
 
 	private boolean isAbsolutelyFitting() {
-		if(pianoEvolution.is_minimized()) {
-			return true;
+		for (Evolution evolution : instrumentsEvolution) {
+			if (evolution.is_minimized()){
+				return true;
+			}
 		}
 		return false;
 	}

@@ -1,51 +1,22 @@
 package Instruments;
 
-import java.util.Comparator;
-
-import Evolution.Evolutable;
-
-public class DrumsGenome implements Evolutable {
-
-	@Override
-	public void mutate() {
-		// TODO Auto-generated method stub
-
+public class DrumsGenome extends AbstractInstrument {
+	
+	public DrumsGenome() {
+		type = "Drums";
 	}
-
-	@Override
-	public Evolutable reproduce(Evolutable parent2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean fitsAbsolutely() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Comparator<Evolutable> getComporator() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public void count_fitness() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public double get_fitness() {
-		// TODO Auto-generated method stub
-		return 0;
+	public String getType() {
+		return type;
 	}
 
-	@Override
-	public Evolutable generateIndividual() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

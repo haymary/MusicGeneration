@@ -2,14 +2,18 @@ package Evolution;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Parser.GenomeParser;
+import Parser.ParserFactory;
+
 public class Evolution {
+	private static final double MIN_FITNESS = 0.6;
 	private int MAX_STAGNATION_DEPTH = 4;
 	
 	private boolean is_minimized = false;
 	private Evolutable commonProgenetor;
 	private ArrayList<Double> fitness_factor;
 	private ArrayList<Evolutable> pop;
-	private ArrayList<Evolutable> newGeneration;
+	private ArrayList<String> phenotype;
 	private int number_of_generations = 0;
 	private int pop_size = 100;
 	private int number_of_servivors = (int) (0.7*pop_size);
@@ -34,9 +38,10 @@ public class Evolution {
 	}
 
 	void produceNextGeneration() {
-		reproduce();
+		ArrayList<Evolutable> newGeneration;
+		newGeneration = reproduce();
 		increaseNumber_of_generations();
-		selection();
+		selection(newGeneration);
 		if(is_minimized) {
 			return;
 		}
@@ -80,7 +85,7 @@ public class Evolution {
 		return generation_fitness / pop_size;
 	}
 
-	private void selection() {
+	private void selection(final ArrayList<Evolutable> newGeneration) {
 		newGeneration.sort(commonProgenetor.getComporator());
 		if(newGeneration.get(0).fitsAbsolutely()){
 			set_minimized();
@@ -93,8 +98,8 @@ public class Evolution {
 	}
 
 
-	private void reproduce() {
-		newGeneration = new ArrayList<>();
+	private ArrayList<Evolutable> reproduce() {
+		ArrayList<Evolutable> newGeneration = new ArrayList<>();
 		for (Evolutable parent1 : getPop()) {
 			for (Evolutable parent2 : getPop()) {
 				if(!parent1.equals(parent2)) {
@@ -104,6 +109,7 @@ public class Evolution {
 				}
 			}
 		}
+		return newGeneration;
 	}
 
 	public boolean is_minimized() {
@@ -132,6 +138,27 @@ public class Evolution {
 	
 	private void increaseNumber_of_generations(){
 		this.number_of_generations++;
+	}
+
+	public ArrayList<Evolutable> getSuccessors() {
+		ArrayList<Evolutable> sucessors = new ArrayList<>();
+		pop.sort(commonProgenetor.getComporator());
+		
+		for (Evolutable individual : pop) {
+			if(individual.get_fitness() > MIN_FITNESS) {
+				sucessors.add(individual);
+			}
+		}
+		return sucessors;
+	}
+
+	public void popToPhenotype() {
+		phenotype = new ArrayList<>();
+		ParserFactory parser_factory = new ParserFactory();
+		GenomeParser parser = parser_factory.getParser(commonProgenetor.getType());
+		for (Evolutable individual : getSuccessors()) {
+			phenotype.add(parser.translateToPhenotype(individual));
+		}
 	}
 
 }

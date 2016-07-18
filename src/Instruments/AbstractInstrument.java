@@ -5,10 +5,12 @@ import java.util.Comparator;
 import Evolution.Evolutable;
 
 public abstract class AbstractInstrument implements Evolutable{
+	private String instrument_type;
 	protected int number_of_notes_in_beat;
 	protected int number_of_beats;
 	protected int temp;
 	protected int[] melody;
+	protected String type;
 	
 	protected void setNotesInterval(final int fromNote, final int toNote){
 		//TODO
@@ -49,4 +51,14 @@ public abstract class AbstractInstrument implements Evolutable{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public String getInstrument_type() {
+		return instrument_type;
+	}
+
+	@Override
+	public String getType() {
+		return type;
+	}
+
 }

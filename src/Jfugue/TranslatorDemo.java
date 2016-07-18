@@ -6,13 +6,15 @@ package Jfugue;
 
 import java.io.File;
 import java.io.IOException;
+
 import javax.sound.midi.InvalidMidiDataException;
+
 import org.jfugue.midi.MidiFileManager;
 import org.jfugue.pattern.Pattern;
 import org.jfugue.rhythm.Rhythm;
 
 public class TranslatorDemo {
-    public static void main(String[] args) throws IOException, InvalidMidiDataException {
+    public static void main(final String[] args) throws IOException, InvalidMidiDataException {
 
         /*Key-type midi pattern. V: 0 - 15 midi channel; I[Instrument] according to GeneralMidi standard
         E4q - 4 octave E note quarter length; | bar splitter;
