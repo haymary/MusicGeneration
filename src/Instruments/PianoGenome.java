@@ -1,12 +1,11 @@
-package Evolution;
+package Instruments;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Random;
 
-import Instruments.AbstractInstrument;
-import Instruments.Evolutable;
+import Evolution.Evolutable;
 
 public class PianoGenome extends AbstractInstrument{
 	static Map<Integer, ArrayList<Integer>> chordMap;

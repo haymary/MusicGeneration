@@ -1,4 +1,4 @@
-package Instruments;
+package Evolution;
 import java.util.Comparator;
 
 public interface Evolutable{
