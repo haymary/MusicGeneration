@@ -1,9 +1,9 @@
 package Parser;
 
-import Evolution.Evolutable;
+import Instruments.AbstractInstrument;
 
 public abstract class GenomeParser {
 	
-	public abstract String translateToPhenotype(final Evolutable individual);
+	public abstract String translateToPhenotype(final AbstractInstrument genome);
 	
 }

@@ -1,12 +1,12 @@
 package Parser;
 
-import Evolution.Evolutable;
+import Instruments.AbstractInstrument;
 
 public class ChordParser extends GenomeParser {
 
 	@Override
 	public
-	String translateToPhenotype(final Evolutable individual) {
+	String translateToPhenotype(final AbstractInstrument individual) {
 		// TODO Auto-generated method stub
 		return null;
 	}

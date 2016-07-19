@@ -1,23 +1,17 @@
 package Instruments;
 
-import java.util.ArrayList;
-import java.util.Map;
-
-public class PianoGenome extends AbstractInstrument{
-	static Map<Integer, ArrayList<Integer>> chordMap;
+public class PianoGenome extends AbstractInstrument       {
+	//static Map<Integer, ArrayList<Integer>> chordMap;
 
 	public PianoGenome() {
-		type = "Piano";
-		fillChordMap();
-		number_of_beats = 10;
-		number_of_notes_in_beat = 16;
-		melody = new int[number_of_beats * number_of_notes_in_beat];
+		instrument_type = "Piano";
+		//fillChordMap();
 	}
 
-	private void fillChordMap() {
-		// TODO Auto-generated method stub
-		
-	}
+//	private void fillChordMap() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 	@Override
 	public void count_fitness() {
@@ -25,8 +19,22 @@ public class PianoGenome extends AbstractInstrument{
 		
 	}
 
-	class PianoChord extends Chord{
+	@Override
+	public AbstractInstrument reproduce(final AbstractInstrument parent2) {
+		PianoGenome child = new PianoGenome();
+		child.notes.addAll(this.notes.subList(0, melody_length / 2));
+		child.notes.addAll(parent2.notes.subList(melody_length / 2, melody_length));
+		return child;
+	}
 
+	@Override
+	public AbstractInstrument generateIndividual() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	class PianoChord extends Chord{
+		
 		@Override
 		protected void generate_chord() {
 			// TODO Auto-generated method stub
@@ -34,5 +42,4 @@ public class PianoGenome extends AbstractInstrument{
 		}
 		
 	}
-
 }

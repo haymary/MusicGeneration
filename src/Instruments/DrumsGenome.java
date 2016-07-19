@@ -3,7 +3,7 @@ package Instruments;
 public class DrumsGenome extends AbstractInstrument {
 	
 	public DrumsGenome() {
-		type = "Drums";
+		instrument_type = "Drums";
 	}
 	
 	@Override
@@ -14,7 +14,7 @@ public class DrumsGenome extends AbstractInstrument {
 
 	@Override
 	public String getType() {
-		return type;
+		return instrument_type;
 	}
 
 
