@@ -2,7 +2,7 @@ package Evolution;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Instruments.AbstractInstrument;
+import Genome.AbstractInstrument;
 import Parser.GenomeParser;
 import Parser.ParserFactory;
 

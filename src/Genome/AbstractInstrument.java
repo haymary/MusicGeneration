@@ -1,13 +1,17 @@
-package Instruments;
+package Genome;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Random;
 
+import Gene.Chord;
+
 public abstract class AbstractInstrument{
 	protected int NUM_OF_NOTES_IN_BEAT= 16;
 	protected int NUM_OF_BEATS= 5;
 	protected int melody_length = NUM_OF_NOTES_IN_BEAT * NUM_OF_BEATS;
+	protected int FROM_NOTE, TO_NOTE;
+	
 	
 	protected ArrayList<Chord> notes;
 	protected String instrument_type;
@@ -15,6 +19,8 @@ public abstract class AbstractInstrument{
 
 	public AbstractInstrument() {
 		notes = new ArrayList<>();
+		//TODO
+		//Should somehow have an interval in which to generate notes
 	}
 	
 	public void mutate(){

@@ -1,6 +1,6 @@
 package Parser;
 
-import Instruments.AbstractInstrument;
+import Genome.AbstractInstrument;
 
 public abstract class GenomeParser {
 	

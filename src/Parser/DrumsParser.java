@@ -1,6 +1,6 @@
 package Parser;
 
-import Instruments.AbstractInstrument;
+import Genome.AbstractInstrument;
 
 public class DrumsParser extends GenomeParser{
 

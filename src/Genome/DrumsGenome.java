@@ -1,4 +1,4 @@
-package Instruments;
+package Genome;
 
 public class DrumsGenome extends AbstractInstrument {
 	

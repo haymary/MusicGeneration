@@ -2,8 +2,8 @@ package Evolution;
 
 import java.util.ArrayList;
 
-import Instruments.DrumsGenome;
-import Instruments.PianoGenome;
+import Genome.DrumsGenome;
+import Genome.PianoGenome;
 
 public class EvolutionSimulator {
 	private static final int MAX_NUMBER_GENERATIONS = 50;
