@@ -13,12 +13,12 @@ public abstract class AbstractInstrument{
 	protected int FROM_NOTE, TO_NOTE;
 	
 	
-	protected ArrayList<Chord> notes;
+	private ArrayList<Chord> notes;
 	protected String instrument_type;
 	protected double fitness = -1;
 
 	public AbstractInstrument() {
-		notes = new ArrayList<>();
+		setNotes(new ArrayList<>());
 		//TODO
 		//Should somehow have an interval in which to generate notes
 	}
@@ -27,7 +27,7 @@ public abstract class AbstractInstrument{
 		Random number_of_mutations = new Random();
 		for (int i = 0; i < number_of_mutations.nextInt(melody_length/3); i++) {
 			Random element_to_mutate = new Random();
-			notes.get(element_to_mutate.nextInt(melody_length)).mutate(); 
+			getNotes().get(element_to_mutate.nextInt(melody_length)).mutate(); 
 		}
 	}
 	
@@ -69,5 +69,13 @@ public abstract class AbstractInstrument{
 	public abstract AbstractInstrument reproduce(final AbstractInstrument parent2);
 
 	public abstract AbstractInstrument generateIndividual();
+
+	public ArrayList<Chord> getNotes() {
+		return notes;
+	}
+
+	public void setNotes(ArrayList<Chord> notes) {
+		this.notes = notes;
+	}
 
 }

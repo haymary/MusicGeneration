@@ -38,7 +38,7 @@ public class PianoGenome extends AbstractInstrument       {
 		{
 			int i = 0, iv = 0, v = 0;
 			int num_chords = 0;
-			for (Chord chord : notes) {
+			for (Chord chord : getNotes()) {
 				num_chords++;
 				if(chord.getChord().equals("I")){
 					i++;
@@ -53,7 +53,7 @@ public class PianoGenome extends AbstractInstrument       {
 			}
 		}
 		//A song usually ends on the I	
-		if(notes.get(melody_length - 1).getChord().equals("I")){
+		if(getNotes().get(melody_length - 1).getChord().equals("I")){
 			fit += 1;
 		}
 		
@@ -83,8 +83,8 @@ public class PianoGenome extends AbstractInstrument       {
 	@Override
 	public AbstractInstrument reproduce(final AbstractInstrument parent2) {
 		PianoGenome child = new PianoGenome();
-		child.notes.addAll(this.notes.subList(0, melody_length / 2));
-		child.notes.addAll(parent2.notes.subList(melody_length / 2, melody_length));
+		child.getNotes().addAll(this.getNotes().subList(0, melody_length / 2));
+		child.getNotes().addAll(parent2.getNotes().subList(melody_length / 2, melody_length));
 		return child;
 	}
 
@@ -97,7 +97,7 @@ public class PianoGenome extends AbstractInstrument       {
 
 	private void generateGenome() {
 		for (int i = 0; i < melody_length; i++) {
-			this.notes.add(new GeneralChord(NUM_OF_OCTAVES, START_OCTAVE));
+			this.getNotes().add(new GeneralChord(NUM_OF_OCTAVES, START_OCTAVE));
 		}
 		
 	}
