@@ -5,27 +5,24 @@ import java.util.Random;
 
 abstract class Chord{
 	ArrayList<Integer> chord;
-	Random random;
+	int min_note;
+	int max_note;
 	
 	public Chord() {
-		random = new Random();
-		chord = new ArrayList<>();
-		if(random.nextInt(2) == 0){
-			generate_chord();
-			return;
-		}
-		generate_note();
-		return;
-	}
-	
-	protected abstract void generate_chord() ;
-
-	private void generate_note() {
-		chord.add(random.nextInt(244) - 127);
+		generate_individual();
 	}
 
 	public void mutate() {
-		// TODO Auto-generated method stub
-		
+		Random rand = new Random();
+		if(rand.nextInt(2) == 0){
+			generate_individual();
+		}else{
+			Random place_in_chord = new Random();
+			chord.set(place_in_chord.nextInt(chord.size()), generateNote());
+		}
 	}
+
+	protected abstract void generate_individual() ;
+	
+	protected abstract int generateNote();
 }

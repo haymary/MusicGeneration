@@ -29,14 +29,22 @@ public class PianoGenome extends AbstractInstrument       {
 
 	@Override
 	public AbstractInstrument generateIndividual() {
-		// TODO Auto-generated method stub
-		return null;
+		PianoGenome child = new PianoGenome();
+		child.generateGenome();
+		return new PianoGenome();
+	}
+
+	private void generateGenome() {
+		for (int i = 0; i < melody_length; i++) {
+			this.notes.add(new PianoChord());
+		}
+		
 	}
 
 	class PianoChord extends Chord{
 		
 		@Override
-		protected void generate_chord() {
+		protected void generate_individual() {
 			// TODO Auto-generated method stub
 			
 		}

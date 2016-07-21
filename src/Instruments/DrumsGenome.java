@@ -13,8 +13,15 @@ public class DrumsGenome extends AbstractInstrument {
 	}
 
 	@Override
-	public String getType() {
-		return instrument_type;
+	public AbstractInstrument reproduce(final AbstractInstrument parent2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AbstractInstrument generateIndividual() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
