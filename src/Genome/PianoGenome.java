@@ -2,6 +2,7 @@ package Genome;
 
 import java.util.Random;
 
+import Gene.Chord;
 import Gene.GeneralChord;
 
 public class PianoGenome extends AbstractInstrument       {
@@ -9,7 +10,7 @@ public class PianoGenome extends AbstractInstrument       {
 	static int PIANO_START_OCTAVE = 3;
 	static int NUM_PIANO_OCTAVES = 4;
 	
-	static int NUM_OCTAVES = 2;
+	static int NUM_OF_OCTAVES = 2;
 	static int START_OCTAVE;
 	
 	public PianoGenome() {
@@ -20,9 +21,41 @@ public class PianoGenome extends AbstractInstrument       {
 
 	@Override
 	public void count_fitness() {
-		//C should be the most common key
+		int fit = 1;
+		
+		/*Most common chords
+		 * (Root note is C)
+		 * I - V - vi - IV
+		 * I - V - vi - iii
+		 * I - vi - IV - V
+		 * I - IV - vi - V 
+		 * vi - V - IV -V
+		 * i - V - IV - V
+		 */
+		
 		
 		//I, IV, V are most popular chords
+		{
+			int i = 0, iv = 0, v = 0;
+			int num_chords = 0;
+			for (Chord chord : notes) {
+				num_chords++;
+				if(chord.getChord().equals("I")){
+					i++;
+				}else if(chord.getChord().equals("IV")){
+					iv++;
+				}else if(chord.getChord().equals("V")){
+					v++;
+				}
+			}
+			if(i + iv + v >= num_chords/2){
+				
+			}
+		}
+		//A song usually ends on the I	
+		if(notes.get(melody_length - 1).getChord().equals("I")){
+			fit += 1;
+		}
 		
 		//If there many jumps between the notes from 
 		//one octave to another and back
@@ -43,6 +76,8 @@ public class PianoGenome extends AbstractInstrument       {
 		//Always choose a semitone step if one is available.
 		//Try to make the spacing of each chord as even as possible
 		//Never double the leading note of the scale.
+		
+		fitness = fit / 100;
 	}
 
 	@Override
@@ -62,7 +97,7 @@ public class PianoGenome extends AbstractInstrument       {
 
 	private void generateGenome() {
 		for (int i = 0; i < melody_length; i++) {
-			this.notes.add(new GeneralChord());
+			this.notes.add(new GeneralChord(NUM_OF_OCTAVES, START_OCTAVE));
 		}
 		
 	}

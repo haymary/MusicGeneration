@@ -12,4 +12,6 @@ public abstract class Chord{
 	protected abstract void generateChord() ;
 	
 	protected abstract void generateNote();
+
+	public abstract String getChord();
 }
