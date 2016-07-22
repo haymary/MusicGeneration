@@ -2,7 +2,6 @@ package Evolution;
 
 import java.util.ArrayList;
 
-import Genome.DrumsGenome;
 import Genome.PianoGenome;
 
 public class EvolutionSimulator {
@@ -13,7 +12,7 @@ public class EvolutionSimulator {
 	public EvolutionSimulator() {
 		instrumentsEvolution = new ArrayList<>();
 		instrumentsEvolution.add(new Evolution(new PianoGenome()));
-		instrumentsEvolution.add(new Evolution(new DrumsGenome()));
+		//instrumentsEvolution.add(new Evolution(new DrumsGenome()));
 	}
 	
 	public void startSimulation(){
@@ -23,6 +22,7 @@ public class EvolutionSimulator {
 			for (Evolution evolution : instrumentsEvolution) {
 				evolution.produceNextGeneration();
 			}
+			System.out.println(instrumentsEvolution.get(0).getNumber_of_generations());
 			//TODO
 			//Method to check how they corelate with each other
 		}
