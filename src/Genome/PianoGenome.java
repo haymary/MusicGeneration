@@ -1,8 +1,8 @@
 package Genome;
 
+import java.util.LinkedList;
 import java.util.Random;
 
-import Gene.Chord;
 import Gene.GeneralChord;
 
 public class PianoGenome extends AbstractInstrument       {
@@ -32,30 +32,73 @@ public class PianoGenome extends AbstractInstrument       {
 		 * vi - V - IV -V
 		 * i - V - IV - V
 		 */
-		
+		//Karp
+		{
+			int[][] target_num = {{1, 5, 6, 4},
+					{1, 5, 6,3},
+					{1,6,4,5},
+					{1, 4, 6, 5},
+					{6,5,4,5},
+					{1, 5,4,5}
+					};
+			
+			//Target hash 
+			LinkedList<Integer> target_hash = new LinkedList<>();
+			
+			for (int i = 0; i < target_num.length; i++) {
+				int hash = 0;
+					for (int j = 0; j < target_num[i].length; j++) {
+						hash += target_num[i][j] * Math.pow(10, j + 1);
+					}
+				target_hash.add(hash);
+			}			
+			
+			int num_elements = 1;
+			int hash = 0;
+			for(int i = 0; i < getNotes().size(); i++){
+				num_elements = 1;
+				hash = 0;
+				hash += getNotes().get(i).getValue() * Math.pow(10, num_elements);
+				
+				for (int j = i + 1; j < getNotes().size(); j++) {
+					if(num_elements == 4){
+						break;
+					}
+					if(!getNotes().get(j).equals(getNotes().get(j - 1))){
+						num_elements++;
+						hash += getNotes().get(j).getValue() * Math.pow(10, num_elements);
+					}
+				}
+				for (Integer integer : target_hash) {
+					if(integer.equals(hash)){
+						System.out.println(i);
+					}
+				}
+			}
+		}
 		
 		//I, IV, V are most popular chords
 		{
-			int i = 0, iv = 0, v = 0;
-			int num_chords = 0;
-			for (Chord chord : getNotes()) {
-				num_chords++;
-				if(chord.getChord().equals("I")){
-					i++;
-				}else if(chord.getChord().equals("IV")){
-					iv++;
-				}else if(chord.getChord().equals("V")){
-					v++;
-				}
-			}
-			if(i + iv + v >= num_chords/2){
-				
-			}
+//			int i = 0, iv = 0, v = 0;
+//			int num_chords = 0;
+//			for (Chord chord : getNotes()) {
+//				num_chords++;
+//				if(chord.getChord().equals("I")){
+//					i++;
+//				}else if(chord.getChord().equals("IV")){
+//					iv++;
+//				}else if(chord.getChord().equals("V")){
+//					v++;
+//				}
+//			}
+//			if(i + iv + v >= num_chords/2){
+//				
+//			}
 		}
 		//A song usually ends on the I	
-		if(getNotes().get(melody_length - 1).getChord().equals("I")){
-			fit += 1;
-		}
+//		if(getNotes().get(melody_length - 1).getChord().equals("I")){
+//			fit += 1;
+//		}
 		
 		//If there many jumps between the notes from 
 		//one octave to another and back

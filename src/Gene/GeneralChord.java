@@ -3,22 +3,15 @@ package Gene;
 import java.util.Random;
 
 public class GeneralChord extends Chord{
+	
+	static int NUM_OF_NOTES = 13;
+	static int NUM_OF_CHORDS = 7;
+	
 	/*
+	 * (-8, -1) - chords
 	 * (0 - 12) - standard notes in octave
 	 * 13 - nothing
 	 */
-	
-	static int NUM_OF_NOTES = 13;
-	static int NUM_OF_CHORDS = 31;
-	
-	int NUM_OCTAVES;
-	int START_OCTAVE;
-
-	int note;
-	int chord_num;
-	int octave_num;
-	
-	private boolean continues_last = false;
 	
 	public GeneralChord(final int NUM_OCTAVES, final int START_OCTAVE) {
 		this.NUM_OCTAVES = NUM_OCTAVES;
@@ -44,26 +37,13 @@ public class GeneralChord extends Chord{
 	@Override
 	protected void generateChord() {
 		Random random = new Random();
-		chord_num = random.nextInt(NUM_OF_CHORDS);
+		setValue( - (random.nextInt(NUM_OF_CHORDS) + 1));
 	}
 
 	@Override
 	protected void generateNote() {
 		Random random = new Random();
-		chord_num = random.nextInt(NUM_OF_NOTES);
+		setValue(random.nextInt(NUM_OF_NOTES));
 	}
 
-	public boolean is_continues_last() {
-		return continues_last;
-	}
-
-	public void set_continues_last(final boolean is_continues_last) {
-		this.continues_last = is_continues_last;
-	}
-
-	@Override
-	public String getChord() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
