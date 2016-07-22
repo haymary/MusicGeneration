@@ -34,4 +34,8 @@ public abstract class Chord{
 	public void setValue(final int value) {
 		this.value = value;
 	}
+
+	public int getOctave_num() {
+		return octave_num;
+	}
 }
