@@ -34,6 +34,8 @@ public class PianoGenome extends AbstractInstrument       {
 		 */
 		//Karp
 		{
+			int num_of_right_chords = 0;
+			
 			int[][] target_num = {{1, 5, 6, 4},
 					{1, 5, 6,3},
 					{1,6,4,5},
@@ -71,7 +73,7 @@ public class PianoGenome extends AbstractInstrument       {
 				}
 				for (Integer integer : target_hash) {
 					if(integer.equals(hash)){
-						System.out.println(i);
+						num_of_right_chords++;
 					}
 				}
 			}
@@ -135,12 +137,12 @@ public class PianoGenome extends AbstractInstrument       {
 	public AbstractInstrument generateIndividual() {
 		PianoGenome child = new PianoGenome();
 		child.generateGenome();
-		return new PianoGenome();
+		return child;
 	}
 
 	private void generateGenome() {
 		for (int i = 0; i < melody_length; i++) {
-			this.getNotes().add(new GeneralChord(NUM_OF_OCTAVES, START_OCTAVE));
+			this.notes.add(new GeneralChord(NUM_OF_OCTAVES, START_OCTAVE));
 		}
 		
 	}

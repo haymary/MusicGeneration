@@ -12,7 +12,7 @@ public class Evolution {
 	
 	private boolean is_minimized = false;
 	private AbstractInstrument commonProgenetor;
-	private ArrayList<Double> fitness_factor;
+	private ArrayList<Double> fitness_factor = new ArrayList<>();
 	private ArrayList<AbstractInstrument> pop;
 	private ArrayList<String> phenotype;
 	private int number_of_generations = 0;
@@ -24,7 +24,8 @@ public class Evolution {
 		setPop(createPopulation(pop_size));
 	}
 	
-	public Evolution(final AbstractInstrument parent, final int size, final int num_generations, final double lucky_part) {
+	public Evolution(final AbstractInstrument parent, final int size, 
+			final int num_generations, final double lucky_part) {
 		this.pop_size = size;
 		setPop(createPopulation(pop_size));
 		number_of_servivors = (int) ((1-lucky_part)*size);
@@ -68,6 +69,9 @@ public class Evolution {
 	private boolean isInStagnation() {
 		Double current_fitness = countGenerationFitness();
 		fitness_factor.add(current_fitness);
+		if(number_of_generations < MAX_STAGNATION_DEPTH + 1){
+			return false;
+		}
 		if(current_fitness.equals(fitness_factor.get(
 				getNumber_of_generations() - MAX_STAGNATION_DEPTH))){
 			if (current_fitness.equals(fitness_factor.get(
