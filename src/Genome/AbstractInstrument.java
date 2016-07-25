@@ -60,7 +60,7 @@ public abstract class AbstractInstrument{
 		};
 	}
 
-	public String getInstumentType() {
+	public String getInstrumentType() {
 		return instrument_type;
 	}
 

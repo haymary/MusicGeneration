@@ -18,7 +18,7 @@ public class GeneralChord extends Chord{
 		this.START_OCTAVE = START_OCTAVE;
 		Random random = new Random();
 		
-		//Does it continues previouse note?
+		//Does it continues previous note?
 		if(random.nextBoolean()){
 			set_continues_last(true);
 			return;

@@ -24,7 +24,7 @@ public class EvolutionSimulator {
 			}
 			System.out.println(instrumentsEvolution.get(0).getNumber_of_generations());
 			//TODO
-			//Method to check how they corelate with each other
+			//Method to check how they correlate with each other
 		}
 		
 		for (Evolution evolution : instrumentsEvolution) {
