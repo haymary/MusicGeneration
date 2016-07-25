@@ -2,7 +2,8 @@ package Evolution;
 
 public class Main {
 
-	public Main() {
-		// TODO Auto-generated constructor stub
+	public static void main(final String[] args) {
+		EvolutionSimulator evo_sym = new EvolutionSimulator();
+		evo_sym.startSimulation();
 	}
 }

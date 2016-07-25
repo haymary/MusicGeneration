@@ -13,7 +13,7 @@ public abstract class AbstractInstrument{
 	protected int FROM_NOTE, TO_NOTE;
 	
 	
-	private ArrayList<Chord> notes;
+	protected ArrayList<Chord> notes;
 	protected String instrument_type;
 	protected double fitness = -1;
 
@@ -74,7 +74,7 @@ public abstract class AbstractInstrument{
 		return notes;
 	}
 
-	public void setNotes(ArrayList<Chord> notes) {
+	public void setNotes(final ArrayList<Chord> notes) {
 		this.notes = notes;
 	}
 

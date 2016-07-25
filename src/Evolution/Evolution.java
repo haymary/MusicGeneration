@@ -12,22 +12,23 @@ public class Evolution {
 	
 	private boolean is_minimized = false;
 	private AbstractInstrument commonProgenitor;
-	private ArrayList<Double> fitness_factor;
+	private ArrayList<Double> fitness_factor = new ArrayList<>();
 	private ArrayList<AbstractInstrument> pop;
 	private ArrayList<String> phenotype;
 	private int number_of_generations = 0;
 	private int pop_size = 100;
-	private int number_of_survivor = (int) (0.7*pop_size);
+	private int number_of_survivors = (int) (0.7*pop_size);
 	
 	public Evolution(final AbstractInstrument parent) {
 		commonProgenitor = parent;
 		setPop(createPopulation(pop_size));
 	}
 	
-	public Evolution(final AbstractInstrument parent, final int size, final int num_generations, final double lucky_part) {
+	public Evolution(final AbstractInstrument parent, final int size, 
+			final int num_generations, final double lucky_part) {
 		this.pop_size = size;
 		setPop(createPopulation(pop_size));
-		number_of_survivor = (int) ((1-lucky_part)*size);
+		number_of_survivors = (int) ((1-lucky_part)*size);
 	}
 	
 	private ArrayList<AbstractInstrument> createPopulation(final int pop_size2) {
@@ -68,6 +69,9 @@ public class Evolution {
 	private boolean isInStagnation() {
 		Double current_fitness = countGenerationFitness();
 		fitness_factor.add(current_fitness);
+		if(number_of_generations < MAX_STAGNATION_DEPTH + 1){
+			return false;
+		}
 		if(current_fitness.equals(fitness_factor.get(
 				getNumber_of_generations() - MAX_STAGNATION_DEPTH))){
 			if (current_fitness.equals(fitness_factor.get(
@@ -87,15 +91,15 @@ public class Evolution {
 	}
 
 	private void selection(final ArrayList<AbstractInstrument> newGeneration) {
-		newGeneration.sort(commonProgenitor.getComparator());
+		newGeneration.sort(commonProgenitor.getComporator());
 		if(newGeneration.get(0).fitsAbsolutely()){
 			set_minimized();
 			return;
 		}
 		setPop(new ArrayList<>());
-		pop.addAll(newGeneration.subList(0, number_of_survivor));
+		pop.addAll(newGeneration.subList(0, number_of_survivors));
 		pop.addAll(newGeneration.subList(newGeneration.size() - 
-				(pop_size - number_of_survivor), newGeneration.size() - 1));
+				(pop_size - number_of_survivors), newGeneration.size() - 1));
 	}
 
 
@@ -142,15 +146,15 @@ public class Evolution {
 	}
 
 	public ArrayList<AbstractInstrument> getSuccessors() {
-		ArrayList<AbstractInstrument> sucessors = new ArrayList<>();
-		pop.sort(commonProgenitor.getComparator());
+		ArrayList<AbstractInstrument> successors = new ArrayList<>();
+		pop.sort(commonProgenitor.getComporator());
 		
 		for (AbstractInstrument individual : pop) {
 			if(individual.getFitness() > MIN_FITNESS) {
-				sucessors.add(individual);
+				successors.add(individual);
 			}
 		}
-		return sucessors;
+		return successors;
 	}
 
 	public void popToPhenotype() {
