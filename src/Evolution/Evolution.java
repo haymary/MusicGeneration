@@ -11,29 +11,29 @@ public class Evolution {
 	private int MAX_STAGNATION_DEPTH = 4;
 	
 	private boolean is_minimized = false;
-	private AbstractInstrument commonProgenetor;
+	private AbstractInstrument commonProgenitor;
 	private ArrayList<Double> fitness_factor;
 	private ArrayList<AbstractInstrument> pop;
 	private ArrayList<String> phenotype;
 	private int number_of_generations = 0;
 	private int pop_size = 100;
-	private int number_of_servivors = (int) (0.7*pop_size);
+	private int number_of_survivor = (int) (0.7*pop_size);
 	
 	public Evolution(final AbstractInstrument parent) {
-		commonProgenetor = parent;
+		commonProgenitor = parent;
 		setPop(createPopulation(pop_size));
 	}
 	
 	public Evolution(final AbstractInstrument parent, final int size, final int num_generations, final double lucky_part) {
 		this.pop_size = size;
 		setPop(createPopulation(pop_size));
-		number_of_servivors = (int) ((1-lucky_part)*size);
+		number_of_survivor = (int) ((1-lucky_part)*size);
 	}
 	
 	private ArrayList<AbstractInstrument> createPopulation(final int pop_size2) {
 		ArrayList<AbstractInstrument> newPop = new ArrayList<>();
 		for (int i = 0; i < pop_size; i++) {
-			newPop.add(commonProgenetor.generateIndividual());
+			newPop.add(commonProgenitor.generateIndividual());
 		}
 		return newPop;
 	}
@@ -54,14 +54,14 @@ public class Evolution {
 	}
 	
 	private void shake() {
-		double deth_rate = 0.7;
-		int servivour_num = (int) (pop_size * deth_rate);
+		double depth_rate = 0.7;
+		int survivor_num = (int) (pop_size * depth_rate);
 		ArrayList<AbstractInstrument> newPop = new ArrayList<>();
 		Random random = new Random();
-		for (int i = 0; i < servivour_num; i++) {
+		for (int i = 0; i < survivor_num; i++) {
 			newPop.add(getPop().get(random.nextInt(pop_size - 1)));
 		}
-		newPop.addAll(createPopulation(pop_size - servivour_num));
+		newPop.addAll(createPopulation(pop_size - survivor_num));
 		setPop(newPop);
 	}
 
@@ -87,15 +87,15 @@ public class Evolution {
 	}
 
 	private void selection(final ArrayList<AbstractInstrument> newGeneration) {
-		newGeneration.sort(commonProgenetor.getComporator());
+		newGeneration.sort(commonProgenitor.getComparator());
 		if(newGeneration.get(0).fitsAbsolutely()){
 			set_minimized();
 			return;
 		}
 		setPop(new ArrayList<>());
-		pop.addAll(newGeneration.subList(0, number_of_servivors));
+		pop.addAll(newGeneration.subList(0, number_of_survivor));
 		pop.addAll(newGeneration.subList(newGeneration.size() - 
-				(pop_size - number_of_servivors), newGeneration.size() - 1));
+				(pop_size - number_of_survivor), newGeneration.size() - 1));
 	}
 
 
@@ -143,7 +143,7 @@ public class Evolution {
 
 	public ArrayList<AbstractInstrument> getSuccessors() {
 		ArrayList<AbstractInstrument> sucessors = new ArrayList<>();
-		pop.sort(commonProgenetor.getComporator());
+		pop.sort(commonProgenitor.getComparator());
 		
 		for (AbstractInstrument individual : pop) {
 			if(individual.getFitness() > MIN_FITNESS) {
@@ -156,7 +156,7 @@ public class Evolution {
 	public void popToPhenotype() {
 		phenotype = new ArrayList<>();
 		ParserFactory parser_factory = new ParserFactory();
-		GenomeParser parser = parser_factory.getParser(commonProgenetor.getInstumentType());
+		GenomeParser parser = parser_factory.getParser(commonProgenitor.getInstrumentType());
 		for (AbstractInstrument individual : getSuccessors()) {
 			phenotype.add(parser.translateToPhenotype(individual));
 		}

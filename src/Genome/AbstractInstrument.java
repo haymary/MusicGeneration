@@ -7,9 +7,9 @@ import java.util.Random;
 import Gene.Chord;
 
 public abstract class AbstractInstrument{
-	protected int NUM_OF_NOTES_IN_BEAT= 16;
-	protected int NUM_OF_BEATS= 5;
-	protected int melody_length = NUM_OF_NOTES_IN_BEAT * NUM_OF_BEATS;
+	protected int NUM_OF_NOTES_IN_BAR = 16;
+	protected int NUM_OF_BARS = 4;
+	protected int melody_length = NUM_OF_NOTES_IN_BAR * NUM_OF_BARS;
 	protected int FROM_NOTE, TO_NOTE;
 	
 	
@@ -45,7 +45,7 @@ public abstract class AbstractInstrument{
 		return false;
 	}
 	
-	public Comparator<AbstractInstrument> getComporator(){
+	public Comparator<AbstractInstrument> getComparator(){
 		return new Comparator<AbstractInstrument>() {
 
 			@Override
@@ -60,7 +60,7 @@ public abstract class AbstractInstrument{
 		};
 	}
 
-	public String getInstumentType() {
+	public String getInstrumentType() {
 		return instrument_type;
 	}
 
