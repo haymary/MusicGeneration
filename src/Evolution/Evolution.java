@@ -108,7 +108,7 @@ public class Evolution {
 		ArrayList<AbstractInstrument> newGeneration = new ArrayList<>();
 		for (AbstractInstrument parent1 : getPop()) {
 			for (AbstractInstrument parent2 : getPop()) {
-				if(!parent1.equals(parent2)) {
+				if(!parent1.equals(parent2) & (parent1.getInstrumentType().compareTo(parent2.getInstrumentType()) == 0)) {
 					AbstractInstrument child = parent1.reproduce(parent2);
 					child.getFitness();
 					newGeneration.add(child);
