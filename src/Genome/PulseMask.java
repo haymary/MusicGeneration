@@ -6,11 +6,37 @@ import java.util.ArrayList;
  * Created by DmitryRukavchuk on 22.07.2016.
  */
 public class PulseMask {
-    protected int[] pulseMask;
+    private int[] pulseMask;
 
 
     public PulseMask(int pulseNum, int length) {
         pulseMask = new int[length];
+        generateCommonMask(pulseNum,length);
+    }
+
+
+    //offset pre-generated mask "101001" -> "110100"
+    public void createOffsetMask(int steps){
+        for (int j = 0; j < steps; j++) {
+            int save;
+            int write = pulseMask[pulseMask.length - 1];
+            for (int i = 0; i < pulseMask.length; i++){
+                save = pulseMask[i];
+                pulseMask[i] = write;
+                write = save;
+            }
+        }
+    }
+
+    //invert pre-generated mask "101001" -> "010110"
+    public void createInvertMask(){
+        for(int i = 0; i < pulseMask.length; i++){
+            if(pulseMask[i] == 0) pulseMask[i] = 1;
+            else pulseMask[i] = 0;
+        }
+    }
+
+    public int[] generateCommonMask(int pulseNum, int length){
         int i;
         ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
 
@@ -46,34 +72,20 @@ public class PulseMask {
 
         //Convert from array-list to int[] variable
         ArrayList<Integer> temp = matrix.get(0);
+        int[] tempMask = new int[temp.size()];
         for (int j = 0; j < temp.size(); j++) {
             pulseMask[j] = temp.get(j);
+            tempMask[j] = temp.get(j);
         }
+
+        return tempMask;
     }
-
-
-    //offset pre-generated mask "101001" -> "110100"
-    public void createOffsetMask(int steps){
-        for (int j = 0; j < steps; j++) {
-            int save;
-            int write = pulseMask[pulseMask.length];
-            for (int i = 0; i < pulseMask.length; i++){
-                save = pulseMask[i];
-                pulseMask[i] = write;
-                write = save;
-            }
-        }
-    }
-
-    //invert pre-generated mask "101001" -> "010110"
-    public void createInvertMask(){
-        for(int i = 0; i < pulseMask.length; i++){
-            if(pulseMask[i] == 0) pulseMask[i] = 1;
-            else pulseMask[i] = 0;
-        }
-    }
-
+    // TODO Solve Tom1 and Crash composition principles
     public void createFillingMask(){
 
+    }
+
+    public int[] getPulseMask() {
+        return pulseMask;
     }
 }

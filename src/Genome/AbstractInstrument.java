@@ -8,7 +8,7 @@ import Gene.Chord;
 
 public abstract class AbstractInstrument{
 	protected int NUM_OF_NOTES_IN_BAR = 16;
-	protected int NUM_OF_BARS = 4;
+	protected int NUM_OF_BARS = 1;
 	protected int melody_length = NUM_OF_NOTES_IN_BAR * NUM_OF_BARS;
 	protected int FROM_NOTE, TO_NOTE;
 	

@@ -4,17 +4,18 @@ import java.util.ArrayList;
 
 import Gene.Chord;
 import Genome.AbstractInstrument;
+import Genome.DrumsGenome;
 import Genome.PianoGenome;
 
 public class EvolutionSimulator {
-	private static final int MAX_NUMBER_GENERATIONS = 50;
+	private static final int MAX_NUMBER_GENERATIONS = 1;
 
 	ArrayList<Evolution> instrumentsEvolution;
 
 	public EvolutionSimulator() {
 		instrumentsEvolution = new ArrayList<>();
-		instrumentsEvolution.add(new Evolution(new PianoGenome()));
-		//instrumentsEvolution.add(new Evolution(new DrumsGenome()));
+		//instrumentsEvolution.add(new Evolution(new PianoGenome()));
+		instrumentsEvolution.add(new Evolution(new DrumsGenome()));
 	}
 	
 	public void startSimulation(){
@@ -26,8 +27,9 @@ public class EvolutionSimulator {
 				evolution.produceNextGeneration();
 				for (AbstractInstrument instr : evolution.getPop()) {
 					for (Chord chord : instr.getNotes()) {
-						System.out.print(chord.getValue() + " ");
+						System.out.print(chord.getValue() + " " );
 					}
+					System.out.println("; type = " + instr.getInstrumentType());
 					System.out.println();
 				}
 				
