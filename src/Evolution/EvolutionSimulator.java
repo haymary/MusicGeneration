@@ -2,6 +2,8 @@ package Evolution;
 
 import java.util.ArrayList;
 
+import Gene.Chord;
+import Genome.AbstractInstrument;
 import Genome.PianoGenome;
 
 public class EvolutionSimulator {
@@ -19,10 +21,18 @@ public class EvolutionSimulator {
 		while (!isAbsolutelyFitting() 
 				|| instrumentsEvolution.get(0).getNumber_of_generations() 
 				< MAX_NUMBER_GENERATIONS) {
+			System.out.println(instrumentsEvolution.get(0).getNumber_of_generations());
 			for (Evolution evolution : instrumentsEvolution) {
 				evolution.produceNextGeneration();
+				for (AbstractInstrument instr : evolution.getPop()) {
+					for (Chord chord : instr.getNotes()) {
+						System.out.print(chord.getValue() + " ");
+					}
+					System.out.println();
+				}
+				
 			}
-			System.out.println(instrumentsEvolution.get(0).getNumber_of_generations());
+			System.out.println();
 			//TODO
 			//Method to check how they corelate with each other
 		}
