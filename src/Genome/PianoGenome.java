@@ -3,6 +3,7 @@ package Genome;
 import java.util.LinkedList;
 import java.util.Random;
 
+import Gene.Chord;
 import Gene.GeneralChord;
 
 public class PianoGenome extends AbstractInstrument       {
@@ -34,7 +35,7 @@ public class PianoGenome extends AbstractInstrument       {
 		 */
 		//Karp
 		{
-			int num_of_right_chords = 0;
+			int num_of_right_progressions = 0;
 			
 			int[][] target_num = {{1, 5, 6, 4},
 					{1, 5, 6,3},
@@ -73,34 +74,36 @@ public class PianoGenome extends AbstractInstrument       {
 				}
 				for (Integer integer : target_hash) {
 					if(integer.equals(hash)){
-						num_of_right_chords++;
+						num_of_right_progressions++;
 					}
 				}
 			}
+			fit += num_of_right_progressions * 2;
 		}
+		
 		
 		//I, IV, V are most popular chords
 		{
-//			int i = 0, iv = 0, v = 0;
-//			int num_chords = 0;
-//			for (Chord chord : getNotes()) {
-//				num_chords++;
-//				if(chord.getChord().equals("I")){
-//					i++;
-//				}else if(chord.getChord().equals("IV")){
-//					iv++;
-//				}else if(chord.getChord().equals("V")){
-//					v++;
-//				}
-//			}
-//			if(i + iv + v >= num_chords/2){
-//				
-//			}
+			int i = 0, iv = 0, v = 0;
+			int num_chords = 0;
+			for (Chord chord : getNotes()) {
+				num_chords++;
+				if(chord.getValue() == -1){
+					i++;
+				}else if(chord.getValue() == -4){
+					iv++;
+				}else if(chord.getValue() == -5){
+					v++;
+				}
+			}
+			if(i + iv + v >= num_chords/2){
+				fit += 5;
+			}
 		}
 		//A song usually ends on the I	
-//		if(getNotes().get(melody_length - 1).getChord().equals("I")){
-//			fit += 1;
-//		}
+		if(getNotes().get(melody_length - 1).getValue() == -1){
+			fit += 1;
+		}
 		
 		//If there many jumps between the notes from 
 		//one octave to another and back
@@ -127,9 +130,12 @@ public class PianoGenome extends AbstractInstrument       {
 
 	@Override
 	public AbstractInstrument reproduce(final AbstractInstrument parent2) {
+		Random rand = new Random();
+		int point_of_division = rand.nextInt(melody_length);
+		
 		PianoGenome child = new PianoGenome();
-		child.getNotes().addAll(this.getNotes().subList(0, melody_length / 2));
-		child.getNotes().addAll(parent2.getNotes().subList(melody_length / 2, melody_length));
+		child.getNotes().addAll(parent2.getNotes().subList(point_of_division, melody_length));
+		child.getNotes().addAll(this.getNotes().subList(0, point_of_division));
 		return child;
 	}
 
