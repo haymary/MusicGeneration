@@ -21,10 +21,10 @@ public class Evolution {
 	private int number_of_generations = 0;
 	
 	public Evolution(final AbstractInstrument parent) {
-		commonProgenetor = parent;
+		commonProgenitor = parent;
 		POP_SIZE = Constants.POP_SIZE;
 		setPop(createPopulation(POP_SIZE));
-		NUB_OF_SURVIVORS = (int) (0.7*POP_SIZE);
+		NUM_OF_SERVIVOURS = (int) (0.7*POP_SIZE);
 	}
 	
 //	public Evolution(final AbstractInstrument parent, final int size, 
@@ -100,9 +100,9 @@ public class Evolution {
 			return;
 		}
 		setPop(new ArrayList<>());
-		pop.addAll(newGeneration.subList(0, NUB_OF_SURVIVORS));
+		pop.addAll(newGeneration.subList(0, NUM_OF_SERVIVOURS));
 		pop.addAll(newGeneration.subList(newGeneration.size() - 
-				(POP_SIZE - NUB_OF_SURVIVORS), newGeneration.size() - 1));
+				(POP_SIZE - NUM_OF_SERVIVOURS), newGeneration.size() - 1));
 	}
 
 
@@ -163,7 +163,7 @@ public class Evolution {
 	public void popToPhenotype() {
 		phenotype = new ArrayList<>();
 		ParserFactory parser_factory = new ParserFactory();
-		GenomeParser parser = parser_factory.getParser(commonProgenetor.getInstumentType());
+		GenomeParser parser = parser_factory.getParser(commonProgenitor.getInstrumentType());
 		for (AbstractInstrument individual : pop) {
 			phenotype.add(parser.translateToPhenotype(individual));
 		}
