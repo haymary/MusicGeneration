@@ -2,7 +2,6 @@ package Parser;
 
 import Gene.Chord;
 import Genome.AbstractInstrument;
-import Genome.PianoGenome;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -64,7 +63,7 @@ public class ChordParser extends GenomeParser {
             }
         }
         int n=0;
-        if (individual.getInstumentType()=="Piano") {
+        if (individual.getInstrumentType()=="Piano") {
             Random rand =new Random();
              n=rand.nextInt(7);//Random choose of piano
 
