@@ -9,8 +9,8 @@ import Parser.ParserFactory;
 public class Evolution {
 	private static final double MIN_FITNESS = 0.6;
 	private static int MAX_STAGNATION_DEPTH = 4;
-	private static int POP_SIZE = 100;
 	private int NUM_OF_SERVIVOURS;
+	int POP_SIZE;
 	
 	private boolean is_minimized = false;
 	private AbstractInstrument commonProgenetor;
@@ -21,6 +21,7 @@ public class Evolution {
 	
 	public Evolution(final AbstractInstrument parent) {
 		commonProgenetor = parent;
+		POP_SIZE = Constants.POP_SIZE;
 		setPop(createPopulation(POP_SIZE));
 		NUM_OF_SERVIVOURS = (int) (0.7*POP_SIZE);
 	}
@@ -43,15 +44,15 @@ public class Evolution {
 	void produceNextGeneration() {
 		ArrayList<AbstractInstrument> newGeneration;
 		newGeneration = reproduce();
-		increaseNumber_of_generations();
-		selection(newGeneration);
-		if(is_minimized) {
-			return;
-		}
-		if(isInStagnation()){
-			shake();
-			setNumber_of_generations(0);
-		}
+//		increaseNumber_of_generations();
+//		selection(newGeneration);
+//		if(is_minimized) {
+//			return;
+//		}
+//		if(isInStagnation()){
+//			shake();
+//			setNumber_of_generations(0);
+//		}
 		
 	}
 	
@@ -162,9 +163,17 @@ public class Evolution {
 		phenotype = new ArrayList<>();
 		ParserFactory parser_factory = new ParserFactory();
 		GenomeParser parser = parser_factory.getParser(commonProgenetor.getInstumentType());
-		for (AbstractInstrument individual : getSuccessors()) {
+		for (AbstractInstrument individual : pop) {
 			phenotype.add(parser.translateToPhenotype(individual));
 		}
+	}
+
+	public ArrayList<String> getPhenotype() {
+		return phenotype;
+	}
+
+	public void setPhenotype(final ArrayList<String> phenotype) {
+		this.phenotype = phenotype;
 	}
 
 }
