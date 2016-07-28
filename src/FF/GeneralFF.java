@@ -8,11 +8,30 @@ import java.util.Scanner;
 
 import Gene.Chord;
 
-public class PianoFF {
+public class GeneralFF {
 
 	public double countFF(final ArrayList<Chord> notes) {
 		int melody_length = notes.size();
 		int fit = 1;
+		/*
+		 * Penalize for not smooth steps
+		 * */
+		/*		
+		 * I chords can appear anywhere in a progression
+		 * ii chords lead to I, V, or vii° chords
+		 * iii chords lead to I, ii, IV, or vi chords
+		 * IV chords lead to I, ii, iii, V, or vii° chords
+		 * V chords lead to I or vi chords
+		 * vi chords lead to I, ii, iii, IV, or V chords
+		 * vii° chords lead to I or iii chords
+		 * i chords can appear anywhere in a progression
+		 * ii° or ii chords lead to i, iii, V, v, vii°, or VII chords
+		 * III or III+ chords lead to i, iv, IV, VI, #vi°, vii°, or VI chords
+		 * iv or IV chords lead to i, V, v, vii°, or VII chords
+		 * V or v chords lead to i, VI or #vi° chords
+		 * VI or #vi° chords lead to i, III, III+, iv, IV, V, v, vii°, or VII chords
+		 * vii° or VII chords lead to i chord
+ 		*/
 		
 		/*Most common chords
 		 * (Key note is C)

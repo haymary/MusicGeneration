@@ -1,4 +1,6 @@
 package Evolution;
+import static Evolution.Constants.POP_SIZE;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,23 +9,14 @@ import Parser.GenomeParser;
 import Parser.ParserFactory;
 
 public class Evolution {
-	private final double MIN_FITNESS = 0.6;
-	private final int MAX_STAGNATION_DEPTH = 4;
-	private final int NUM_OF_SERVIVOURS;
-	private final int POP_SIZE;
 	private final AbstractInstrument COMMON_PROGENITOR;
-
 	
-	private boolean is_minimized = false;
-	private ArrayList<Double> fitness_factor = new ArrayList<>();
 	private ArrayList<AbstractInstrument> pop;
 	private ArrayList<String> phenotype;
-	private int number_of_generations = 0;
+//	private int number_of_generations = 0;
 	
 	public Evolution(final AbstractInstrument parent) {
 		COMMON_PROGENITOR = parent;
-		POP_SIZE = Constants.POP_SIZE;
-		NUM_OF_SERVIVOURS = (int) (0.7*POP_SIZE);
 		setPop(createPopulation(POP_SIZE));
 	}
 	
@@ -122,9 +115,9 @@ public class Evolution {
 		this.pop = pop;
 	}
 
-	int getNumber_of_generations() {
-		return number_of_generations;
-	}
+//	int getNumber_of_generations() {
+//		return number_of_generations;
+//	}
 
 	public void popToPhenotype() {
 		phenotype = new ArrayList<>();
@@ -143,4 +136,7 @@ public class Evolution {
 		return pop.get(i);
 	}
 
+	public String getInstrumentType(){
+		return COMMON_PROGENITOR.getInstrumentType();
+	}
 }

@@ -72,5 +72,16 @@ public abstract class AbstractInstrument{
 	public void setFitness(final double total_fit) {
 		fitness = total_fit;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (Chord chord : notes) {
+			sb.append(chord.getValue());
+		}
+		return sb.toString();
+	}
+	
+	
 
 }

@@ -1,52 +1,49 @@
 package Evolution;
 
+import static Evolution.Constants.MAX_NUMBER_GENERATIONS;
+import static Evolution.Constants.POP_SIZE;
+
 import java.util.ArrayList;
 
 import FF.MultiInstrumentFF;
-import Gene.Chord;
 import Genome.AbstractInstrument;
 import Genome.PianoGenome;
+import Genome.ViolinGenome;
 
 public class EvolutionSimulator {
-	final int MAX_NUMBER_GENERATIONS;
-	final int POP_SIZE;
 	MultiInstrumentFF multiFF;
 	
 	private ArrayList<Evolution> instrumentsEvolution;
 	
 	public EvolutionSimulator() {
-		MAX_NUMBER_GENERATIONS = Constants.MAX_NUMBER_GENERATIONS;
-		POP_SIZE = Constants.POP_SIZE;
-		
 		instrumentsEvolution = new ArrayList<>();
 		instrumentsEvolution.add(new Evolution(new PianoGenome()));
-		//instrumentsEvolution.add(new Evolution(new DrumsGenome()));
+		instrumentsEvolution.add(new Evolution(new ViolinGenome()));
 	}
 	
 	public void startSimulation(){
 		for (int i = 0; i < MAX_NUMBER_GENERATIONS; i++) {
 			nextGeneration();
 			multiinstrumentSelection();
-			System.out.println(i);
+			//CHeck
+			{
+				System.out.println(i);
+				for (Evolution evolution : instrumentsEvolution) {
+					System.out.print(evolution.getInstrumentType() + ": ");
+					System.out.println(evolution.getGenomeByIndex(0).toString());
+				}
+	//			for (Evolution evolution : instrumentsEvolution) {
+	//				evolution.popToPhenotype();
+	//			}
+	//			
+	//			System.out.println(instrumentsEvolution.get(0).getPhenotype().get(0));
+				
+			}
 			//TODO:
 			//Save samples somehow
 			
 		}
 		
-		//CHeck
-		{
-			for (Chord chord : instrumentsEvolution.get(0).getPop().get(0).getNotes()) {
-				System.out.print(chord.getValue() + " ");
-			}
-			
-//			System.out.println();
-//			for (Evolution evolution : instrumentsEvolution) {
-//				evolution.popToPhenotype();
-//			}
-//			
-//			System.out.println(instrumentsEvolution.get(0).getPhenotype().get(0));
-			
-		}
 	}
 
 	private void multiinstrumentSelection(){
