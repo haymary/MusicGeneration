@@ -78,4 +78,8 @@ public abstract class AbstractInstrument{
 		this.notes = notes;
 	}
 
+	public void setFitness(final double total_fit) {
+		fitness = total_fit;
+	}
+
 }

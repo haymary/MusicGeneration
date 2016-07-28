@@ -1,4 +1,4 @@
-package Genome;
+package FF;
 
 import java.io.File;
 import java.io.FileNotFoundException;
