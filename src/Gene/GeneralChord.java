@@ -4,16 +4,16 @@ import java.util.Random;
 
 public class GeneralChord extends Chord{
 	
-	static int NUM_OF_NOTES = 9;
+	static int NUM_OF_NOTES = 7;
 	static int NUM_OF_CHORDS = 4;
 	
 	/*
 	 * 0 - R (rest)
-	 * (1 - 8) - standard notes in octave (only C, D, E, F, G, A, B)
-	 * (1 - 8) + (-1) * 8 - maj chords
-	 * (1 - 8) + (-2) * 8 - min
-	 * (1 - 8) + (-3) * 8 - aug
-	 * (1 - 8) + (-4) * 8 - dim
+	 * (1 - 7) - standard notes in octave (only C, D, E, F, G, A, B)
+	 * (1 - 7) + (-1) * 7 - maj chords
+	 * (1 - 7) + (-2) * 7 - min
+	 * (1 - 7) + (-3) * 7 - aug
+	 * (1 - 7) + (-4) * 7 - dim
 	 */
 	
 	public GeneralChord(final int NUM_OCTAVES, final int START_OCTAVE) {
@@ -44,7 +44,7 @@ public class GeneralChord extends Chord{
 	@Override
 	protected void generateNote() {
 		Random random = new Random();
-		setValue(random.nextInt(NUM_OF_NOTES));
+		setValue(random.nextInt(NUM_OF_NOTES + 1));
 	}
 
 }
