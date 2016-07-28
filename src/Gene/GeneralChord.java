@@ -10,10 +10,10 @@ public class GeneralChord extends Chord{
 	/*
 	 * 0 - R (rest)
 	 * (1 - 8) - standard notes in octave (only C, D, E, F, G, A, B)
-	 * (1 - 8) * (-1) - maj chords
-	 * (1 - 8) * (-2) - min
-	 * (1 - 8) * (-3) - aug
-	 * (1 - 8) * (-4) - dim
+	 * (1 - 8) + (-1) * 8 - maj chords
+	 * (1 - 8) + (-2) * 8 - min
+	 * (1 - 8) + (-3) * 8 - aug
+	 * (1 - 8) + (-4) * 8 - dim
 	 */
 	
 	public GeneralChord(final int NUM_OCTAVES, final int START_OCTAVE) {
@@ -38,7 +38,7 @@ public class GeneralChord extends Chord{
 	@Override
 	protected void generateChord() {
 		Random random = new Random();
-		setValue( - (value * random.nextInt(NUM_OF_CHORDS)));
+		setValue( - (value + NUM_OF_NOTES * random.nextInt(NUM_OF_CHORDS)));
 	}
 
 	@Override

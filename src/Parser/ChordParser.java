@@ -14,10 +14,10 @@ public class ChordParser extends GenomeParser {
 	/*
 	 * 0 - R (rest)
 	 * (1 - 8) - standard notes in octave (only C, D, E, F, G, A, B)
-	 * (1 - 8) * (-1) - maj chords
-	 * (1 - 8) * (-2) - min
-	 * (1 - 8) * (-3) - aug (+)
-	 * (1 - 8) * (-4) - dim (o)
+	 * (1 - 8) + (-1) * 8 - maj chords
+	 * (1 - 8) + (-2) * 8 - min
+	 * (1 - 8) + (-3) * 8 - aug
+	 * (1 - 8) + (-4) * 8 - dim
 	 */
     
     @Override
