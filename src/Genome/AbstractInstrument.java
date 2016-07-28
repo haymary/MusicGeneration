@@ -32,19 +32,10 @@ public abstract class AbstractInstrument{
 	}
 	
 	public double getFitness(){
-		if(fitness == -1){
-			count_fitness();
-		}
+		count_fitness();
 		return fitness;
 	}
 
-	public boolean fitsAbsolutely(){
-		if (fitness == 1){
-			return true;
-		}
-		return false;
-	}
-	
 	public Comparator<AbstractInstrument> getComparator(){
 		return new Comparator<AbstractInstrument>() {
 

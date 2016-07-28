@@ -2,6 +2,7 @@ package Genome;
 
 import java.util.Random;
 
+import FF.PianoFF;
 import Gene.GeneralChord;
 
 public class PianoGenome extends AbstractInstrument       {
@@ -16,11 +17,6 @@ public class PianoGenome extends AbstractInstrument       {
 		instrument_type = "Piano";
 		Random rand = new Random();
 		START_OCTAVE = rand.nextInt(4);
-	}
-
-	@Override
-	public void count_fitness() {
-		
 	}
 
 	@Override
@@ -46,6 +42,12 @@ public class PianoGenome extends AbstractInstrument       {
 			this.notes.add(new GeneralChord(NUM_OF_OCTAVES, START_OCTAVE));
 		}
 		
+	}
+
+	@Override
+	protected void count_fitness() {
+		PianoFF ff = new PianoFF();
+		fitness = ff.countFF(notes);
 	}
 
 }

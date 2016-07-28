@@ -27,7 +27,7 @@ public class EvolutionSimulator {
 		for (int i = 0; i < MAX_NUMBER_GENERATIONS; i++) {
 			nextGeneration();
 			multiinstrumentSelection();
-			
+			System.out.println(i);
 			//TODO:
 			//Save samples somehow
 			
@@ -39,12 +39,12 @@ public class EvolutionSimulator {
 				System.out.print(chord.getValue() + " ");
 			}
 			
-			System.out.println();
-			for (Evolution evolution : instrumentsEvolution) {
-				evolution.popToPhenotype();
-			}
-			
-			System.out.println(instrumentsEvolution.get(0).getPhenotype().get(0));
+//			System.out.println();
+//			for (Evolution evolution : instrumentsEvolution) {
+//				evolution.popToPhenotype();
+//			}
+//			
+//			System.out.println(instrumentsEvolution.get(0).getPhenotype().get(0));
 			
 		}
 	}

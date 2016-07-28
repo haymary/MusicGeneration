@@ -10,7 +10,7 @@ import Gene.Chord;
 
 public class PianoFF {
 
-	public int countFF(final ArrayList<Chord> notes) {
+	public double countFF(final ArrayList<Chord> notes) {
 		int melody_length = notes.size();
 		int fit = 1;
 		
@@ -26,7 +26,7 @@ public class PianoFF {
 		{
 			int num_of_right_progressions = 0;
 
-			LinkedList<Integer> commonProgressions = get_progressions();
+			LinkedList<Integer> commonProgressions = read_progressions();
 			
 			int num_elements = 1;
 			int hash = 0;
@@ -104,7 +104,7 @@ public class PianoFF {
 	/**
 	 * @return
 	 */
-	private LinkedList<Integer> get_progressions() {
+	private LinkedList<Integer> read_progressions() {
 		LinkedList<Integer> target_hash = new LinkedList<>();
 		File progressions = new File("Common Chord Progressions");
 		Scanner sc = null;

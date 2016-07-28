@@ -88,7 +88,9 @@ public class Evolution {
 //	}
 
 	public void selection() {
-		setPop((ArrayList<AbstractInstrument>) pop.subList(0, POP_SIZE));
+		ArrayList<AbstractInstrument> newPop = new ArrayList<>();
+		newPop.addAll(pop.subList(0, POP_SIZE));
+		setPop(newPop);
 	}
 
 
