@@ -1,8 +1,10 @@
 package Genome;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import Gene.Chord;
 import Gene.DrumChord;
 
 public class DrumsGenome extends AbstractInstrument {
@@ -20,23 +22,26 @@ public class DrumsGenome extends AbstractInstrument {
 	};
 
 	private PulseMask mask;
+	private int pulseNum;
 
 	public DrumsGenome(){
 		Random random = new Random();
 		//Use drums 0 - 4, because Crash and Tom1 generation is not done yet
 		instrument_type = drumType.get(random.nextInt(5));
-		int pulseNum = NUM_OF_BARS * random.nextInt(NUM_OF_NOTES_IN_BAR / 4 + 1);
+		pulseNum = NUM_OF_BARS * (random.nextInt(NUM_OF_NOTES_IN_BAR / 4) + 1);
 		mask = new PulseMask(pulseNum,melody_length);
 		generateInstPulseMask();
+		generateGenome();
 
 
 	}
 	public DrumsGenome(final String instrument_type){
 		Random random = new Random();
 		this.instrument_type = instrument_type;
-		int pulseNum = NUM_OF_BARS * random.nextInt(NUM_OF_NOTES_IN_BAR / 4 + 1);
+		pulseNum = NUM_OF_BARS * (random.nextInt(NUM_OF_NOTES_IN_BAR / 4) + 1);
 		mask = new PulseMask(pulseNum, melody_length);
 		generateInstPulseMask();
+		generateGenome();
 	}
 
 	
@@ -48,23 +53,40 @@ public class DrumsGenome extends AbstractInstrument {
 				if(this.notes.get(0).getValue() == 0) {
 					fitness /= 100;
 				}
+				int kickNum = 0;
 				for(int i = 0; i < this.notes.size(); i++){
 					if(this.notes.get(i).getValue() == 1){
+						kickNum++;
 						if(calculateDistanceFromMask(i, mask.getPulseMask()) > 1) {
 							fitness /= 2;
 						}
 					}
 				}
+				if(kickNum > pulseNum*2) fitness /= 10;
 				break;
 			case "Snare":
-			case "Clap":
+				kickNum = 0;
 				for(int i = 0; i < this.notes.size(); i++){
 					if(this.notes.get(i).getValue() == 1){
+						kickNum++;
 						if(calculateDistanceFromMask(i, mask.getPulseMask()) > 2) {
 							fitness /= 2;
 						}
 					}
 				}
+				if(kickNum > pulseNum*2) fitness /= 10;
+				break;
+			case "Clap":
+				kickNum = 0;
+				for(int i = 0; i < this.notes.size(); i++){
+					if(this.notes.get(i).getValue() == 1){
+						kickNum++;
+						if(calculateDistanceFromMask(i, mask.getPulseMask()) > 2) {
+							fitness /= 2;
+						}
+					}
+				}
+				if(kickNum > pulseNum*2) fitness /= 10;
 				break;
 
 			case "Closed Hi-Hat":
@@ -107,16 +129,17 @@ public class DrumsGenome extends AbstractInstrument {
 	@Override
 	public AbstractInstrument reproduce(final AbstractInstrument parent2) {
 		DrumsGenome child = new DrumsGenome(this.getInstrumentType());
-		child.getNotes().addAll(this.getNotes().subList(0, melody_length / 2));
-			child.getNotes().addAll(parent2.getNotes().subList(melody_length / 2, melody_length));
+		Random rand = new Random();
+		int point_of_division = melody_length - (melody_length/4) * (rand.nextInt(3) + 1);
+		child.getNotes().clear();
+		child.getNotes().addAll(parent2.getNotes().subList(point_of_division, melody_length));
+		child.getNotes().addAll(this.getNotes().subList(0, point_of_division));
 		return child;
 	}
 
 	@Override
-	public AbstractInstrument generateIndividual() {
-		DrumsGenome child = new DrumsGenome();
-		child.generateGenome();
-		return child;
+	public AbstractInstrument generateIndividual(String instrumentType) {
+		 return new DrumsGenome(instrumentType);
 	}
 
 	private void generateGenome(){

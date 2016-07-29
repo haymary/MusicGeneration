@@ -27,6 +27,8 @@ public class ChordParser extends GenomeParser {
         for (int i = 0; i < notes.size(); i++) {
 			
 		}
+        //TODO do we need this method?
+        return null;
     }
 
     // Method for translation number to note(when number is positive)

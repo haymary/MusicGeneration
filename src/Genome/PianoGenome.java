@@ -22,7 +22,7 @@ public class PianoGenome extends AbstractInstrument       {
 	@Override
 	public AbstractInstrument reproduce(final AbstractInstrument parent2) {
 		Random rand = new Random();
-		int point_of_division = rand.nextInt(melody_length);
+		int point_of_division = melody_length - (melody_length/4) * (rand.nextInt(3) + 1);
 		
 		PianoGenome child = new PianoGenome();
 		child.getNotes().addAll(parent2.getNotes().subList(point_of_division, melody_length));
@@ -31,7 +31,7 @@ public class PianoGenome extends AbstractInstrument       {
 	}
 
 	@Override
-	public AbstractInstrument generateIndividual() {
+	public AbstractInstrument generateIndividual(String instrumentType) {
 		PianoGenome child = new PianoGenome();
 		child.generateGenome();
 		return child;

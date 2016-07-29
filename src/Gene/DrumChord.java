@@ -11,23 +11,19 @@ public class DrumChord extends Chord{
 	 */
 
 	public DrumChord(boolean pulse){
-		if(pulse) generateNote();
-		else generateChord();
+		if(pulse) generateChord();
+		else generateNote();
 	}
 
 	//We use random in generation over standard pulse mask in order to make initial individuals differ from each over
 
 	@Override
 	protected void generateChord() {
-		Random random = new Random();
-		if (random.nextInt(4) > 0) setValue(0);
-		else setValue(1);
+		setValue(1);
 	}
 
 	@Override
 	protected void generateNote() {
-		Random random = new Random();
-		if (random.nextInt(3) > 0) setValue(1);
-		else setValue(0);
+		setValue(0);
 	}
 }

@@ -7,8 +7,11 @@ import java.util.ArrayList;
 
 import FF.MultiInstrumentFF;
 import Genome.AbstractInstrument;
+import Genome.DrumsGenome;
 import Genome.PianoGenome;
 import Genome.ViolinGenome;
+
+import javax.sound.midi.Soundbank;
 
 public class EvolutionSimulator {
 	MultiInstrumentFF multiFF;
@@ -17,8 +20,10 @@ public class EvolutionSimulator {
 	
 	public EvolutionSimulator() {
 		instrumentsEvolution = new ArrayList<>();
-		instrumentsEvolution.add(new Evolution(new PianoGenome()));
-		instrumentsEvolution.add(new Evolution(new ViolinGenome()));
+		//instrumentsEvolution.add(new Evolution(new PianoGenome()));
+		//instrumentsEvolution.add(new Evolution(new ViolinGenome()));
+		instrumentsEvolution.add(new Evolution(new DrumsGenome("Kick")));
+		//instrumentsEvolution.add(new Evolution(new DrumsGenome("Snare")));
 	}
 	
 	public void startSimulation(){
@@ -30,7 +35,10 @@ public class EvolutionSimulator {
 				System.out.println(i);
 				for (Evolution evolution : instrumentsEvolution) {
 					System.out.print(evolution.getInstrumentType() + ": ");
-					System.out.println(evolution.getGenomeByIndex(0).toString());
+					for(int j = 0; j < evolution.getPop().size(); j++){
+						System.out.println(evolution.getGenomeByIndex(j).toString());
+					}
+
 				}
 	//			for (Evolution evolution : instrumentsEvolution) {
 	//				evolution.popToPhenotype();
@@ -47,7 +55,7 @@ public class EvolutionSimulator {
 	}
 
 	private void multiinstrumentSelection(){
-		for (int i = 0; i < POP_SIZE * POP_SIZE; i++) {
+		for (int i = 0; i < POP_SIZE; i++) {
 			double total_fit = get_total_fitness(i);
 			for (Evolution evolution : instrumentsEvolution) {
 				evolution.getGenomeByIndex(i).setFitness(total_fit);
@@ -72,7 +80,7 @@ public class EvolutionSimulator {
 			return instrumentsEvolution.get(0).getGenomeByIndex(index_of_genome).getFitness();
 		} 
 		
-		double total_fit = sumInstrunmentFitness(index_of_genome) * WEIGHT_OF_OWN_FITNESS 
+		double total_fit = sumInstrumentFitness(index_of_genome) * WEIGHT_OF_OWN_FITNESS
 				+  count_instrument_interaction(index_of_genome) * WEIGHT_OF_INTERACTION;
 				
 		return total_fit;
@@ -82,7 +90,7 @@ public class EvolutionSimulator {
 	 * @param index
 	 * @return
 	 */
-	private double sumInstrunmentFitness(final int index) {
+	private double sumInstrumentFitness(final int index) {
 		double total_fit = 0;
 		for (Evolution evolution : instrumentsEvolution) {
 			total_fit += evolution.getGenomeByIndex(index).getFitness();

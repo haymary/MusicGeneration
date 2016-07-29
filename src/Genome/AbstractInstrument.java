@@ -10,8 +10,7 @@ public abstract class AbstractInstrument{
 	protected int NUM_OF_NOTES_IN_BAR = 16;
 	protected int NUM_OF_BARS = 1;
 	protected int melody_length = NUM_OF_NOTES_IN_BAR * NUM_OF_BARS;
-	protected int FROM_NOTE, TO_NOTE;
-	
+
 	
 	protected ArrayList<Chord> notes;
 	protected String instrument_type;
@@ -24,8 +23,9 @@ public abstract class AbstractInstrument{
 	}
 	
 	public void mutate(){
-		Random number_of_mutations = new Random();
-		for (int i = 0; i < number_of_mutations.nextInt(melody_length/3); i++) {
+		Random random = new Random();
+		int num_of_mutations = random.nextInt(melody_length/3);
+		for (int i = 0; i < num_of_mutations; i++) {
 			Random element_to_mutate = new Random();
 			getNotes().get(element_to_mutate.nextInt(melody_length)).mutate(); 
 		}
@@ -59,7 +59,7 @@ public abstract class AbstractInstrument{
 
 	public abstract AbstractInstrument reproduce(final AbstractInstrument parent2);
 
-	public abstract AbstractInstrument generateIndividual();
+	public abstract AbstractInstrument generateIndividual(String instrument_type);
 
 	public ArrayList<Chord> getNotes() {
 		return notes;

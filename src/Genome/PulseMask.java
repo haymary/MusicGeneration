@@ -67,7 +67,7 @@ public class PulseMask {
                 matrix.remove(matrix.size() - 1);
             }
             if(div == matrix.size()) div = matrix.size()/2;
-            else div = matrix.size() - div;
+            else if(matrix.size() / div < 2) div = matrix.size() - div;
         }
 
         //Convert from array-list to int[] variable

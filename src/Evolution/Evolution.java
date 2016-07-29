@@ -23,7 +23,7 @@ public class Evolution {
 	private ArrayList<AbstractInstrument> createPopulation(final int pop_size2) {
 		ArrayList<AbstractInstrument> newPop = new ArrayList<>();
 		for (int i = 0; i < POP_SIZE; i++) {
-			newPop.add(COMMON_PROGENITOR.generateIndividual());
+			newPop.add(COMMON_PROGENITOR.generateIndividual(COMMON_PROGENITOR.getInstrumentType()));
 		}
 		return newPop;
 	}
@@ -101,8 +101,9 @@ public class Evolution {
 	}
 
 	private void mutate(final AbstractInstrument child) {
-		Random rand = new Random();
-		if(rand.nextBoolean()){
+		Random chance = new Random();
+
+		if(chance.nextInt(11) > 9){
 			child.mutate();
 		}
 	}
