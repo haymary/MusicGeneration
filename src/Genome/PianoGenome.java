@@ -46,8 +46,8 @@ public class PianoGenome extends AbstractInstrument       {
 
 	@Override
 	protected void count_fitness() {
-		GeneralFF ff = new GeneralFF();
-		fitness = ff.countFF(notes);
+		GeneralFF ff = new GeneralFF(notes);
+		fitness = ff.calculateScore();
 	}
 
 }
