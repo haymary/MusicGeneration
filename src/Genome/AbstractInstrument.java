@@ -32,19 +32,10 @@ public abstract class AbstractInstrument{
 	}
 	
 	public double getFitness(){
-		if(fitness == -1){
-			count_fitness();
-		}
+		count_fitness();
 		return fitness;
 	}
 
-	public boolean fitsAbsolutely(){
-		if (fitness == 1){
-			return true;
-		}
-		return false;
-	}
-	
 	public Comparator<AbstractInstrument> getComparator(){
 		return new Comparator<AbstractInstrument>() {
 
@@ -77,5 +68,20 @@ public abstract class AbstractInstrument{
 	public void setNotes(final ArrayList<Chord> notes) {
 		this.notes = notes;
 	}
+
+	public void setFitness(final double total_fit) {
+		fitness = total_fit;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (Chord chord : notes) {
+			sb.append(chord.getValue());
+		}
+		return sb.toString();
+	}
+	
+	
 
 }

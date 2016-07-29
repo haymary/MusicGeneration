@@ -1,61 +1,139 @@
 package Evolution;
 
+import static Evolution.Constants.MAX_NUMBER_GENERATIONS;
+import static Evolution.Constants.POP_SIZE;
+
 import java.util.ArrayList;
 
-import Gene.Chord;
+import FF.MultiInstrumentFF;
 import Genome.AbstractInstrument;
-import Genome.DrumsGenome;
 import Genome.PianoGenome;
+import Genome.ViolinGenome;
 
 public class EvolutionSimulator {
-	private static final int MAX_NUMBER_GENERATIONS = 1;
-
-	ArrayList<Evolution> instrumentsEvolution;
-
+	MultiInstrumentFF multiFF;
+	
+	private ArrayList<Evolution> instrumentsEvolution;
+	
 	public EvolutionSimulator() {
 		instrumentsEvolution = new ArrayList<>();
-		//instrumentsEvolution.add(new Evolution(new PianoGenome()));
-		instrumentsEvolution.add(new Evolution(new DrumsGenome()));
+		instrumentsEvolution.add(new Evolution(new PianoGenome()));
+		instrumentsEvolution.add(new Evolution(new ViolinGenome()));
 	}
 	
 	public void startSimulation(){
-		while (!isAbsolutelyFitting() 
-				|| instrumentsEvolution.get(0).getNumber_of_generations() 
-				< MAX_NUMBER_GENERATIONS) {
-			System.out.println(instrumentsEvolution.get(0).getNumber_of_generations());
-			for (Evolution evolution : instrumentsEvolution) {
-				evolution.produceNextGeneration();
-				for (AbstractInstrument instr : evolution.getPop()) {
-					for (Chord chord : instr.getNotes()) {
-						System.out.print(chord.getValue() + " " );
-					}
-					System.out.println("; type = " + instr.getInstrumentType());
-					System.out.println();
+		for (int i = 0; i < MAX_NUMBER_GENERATIONS; i++) {
+			nextGeneration();
+			multiinstrumentSelection();
+			//CHeck
+			{
+				System.out.println(i);
+				for (Evolution evolution : instrumentsEvolution) {
+					System.out.print(evolution.getInstrumentType() + ": ");
+					System.out.println(evolution.getGenomeByIndex(0).toString());
 				}
+	//			for (Evolution evolution : instrumentsEvolution) {
+	//				evolution.popToPhenotype();
+	//			}
+	//			
+	//			System.out.println(instrumentsEvolution.get(0).getPhenotype().get(0));
 				
 			}
-			System.out.println();
-			//TODO
-			//Method to check how they correlate with each other
+			//TODO:
+			//Save samples somehow
+			
 		}
-		
-		for (Evolution evolution : instrumentsEvolution) {
-			evolution.popToPhenotype();
-		}
-		
-		//TODO
-		//Save samples somehow
 		
 	}
 
-	private boolean isAbsolutelyFitting() {
-		for (Evolution evolution : instrumentsEvolution) {
-			if (evolution.is_minimized()){
-				return true;
+	private void multiinstrumentSelection(){
+		for (int i = 0; i < POP_SIZE * POP_SIZE; i++) {
+			double total_fit = get_total_fitness(i);
+			for (Evolution evolution : instrumentsEvolution) {
+				evolution.getGenomeByIndex(i).setFitness(total_fit);
 			}
 		}
-		return false;
+		for (Evolution evolution : instrumentsEvolution) {
+			evolution.selection();
+		}
 	}
 	
-	
+	private void nextGeneration() {
+		for (Evolution evolution : instrumentsEvolution) {
+			evolution.produceNextGeneration();
+		}
+	}
+
+	private double get_total_fitness(final int index_of_genome) {
+		double WEIGHT_OF_OWN_FITNESS = 1;
+		double WEIGHT_OF_INTERACTION = 1;
+
+		if(instrumentsEvolution.size() == 1) {
+			return instrumentsEvolution.get(0).getGenomeByIndex(index_of_genome).getFitness();
+		} 
+		
+		double total_fit = sumInstrunmentFitness(index_of_genome) * WEIGHT_OF_OWN_FITNESS 
+				+  count_instrument_interaction(index_of_genome) * WEIGHT_OF_INTERACTION;
+				
+		return total_fit;
+	}
+
+	/**
+	 * @param index
+	 * @return
+	 */
+	private double sumInstrunmentFitness(final int index) {
+		double total_fit = 0;
+		for (Evolution evolution : instrumentsEvolution) {
+			total_fit += evolution.getGenomeByIndex(index).getFitness();
+		}
+		return total_fit;
+	}
+
+	private double count_instrument_interaction(final int index_of_genome) {
+		ArrayList<AbstractInstrument> instruments = new ArrayList<>();
+		for (Evolution evolution : instrumentsEvolution) {
+			instruments.add(evolution.getGenomeByIndex(index_of_genome));
+		}
+		multiFF = new MultiInstrumentFF(instruments);
+		return multiFF.count_ff();
+	}
+
+//	private class SelectionNode implements Comparable<SelectionNode>{
+//		private int fitness;
+//		private int index;
+//		
+//		public SelectionNode(final int fitness, final int index) {
+//			this.fitness = fitness;
+//			this.index = index;
+//		}
+//		
+//		@Override
+//		public int compareTo(final SelectionNode o) {
+//			if (o.getFitness() > this.fitness) {
+//				return -1;
+//			}
+//			if (o.getFitness() == this.fitness) {
+//				return 0;
+//			}
+//			return 1;
+//		}
+//
+//		public int getFitness() {
+//			return fitness;
+//		}
+//
+//		public void setFitness(final int fitness) {
+//			this.fitness = fitness;
+//		}
+//
+//		public int getIndex() {
+//			return index;
+//		}
+//
+//		public void setIndex(final int index) {
+//			this.index = index;
+//		}
+//		
+//	}
 }
