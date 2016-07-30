@@ -1,11 +1,15 @@
 package Genome;
 
+import static Evolution.Constants.MELODY_LENGTH;
+import static Evolution.Constants.NUM_OF_BARS;
+import static Evolution.Constants.NUM_OF_NOTES_IN_BAR;
+
 import java.util.HashMap;
 import java.util.Random;
 
 import Gene.DrumChord;
 
-public class DrumsGenome extends AbstractInstrument {
+public class DrumsGenome extends AbstractGenome {
 
 	public static final HashMap<Integer,String> drumType = new HashMap(){
 		{
@@ -26,7 +30,7 @@ public class DrumsGenome extends AbstractInstrument {
 		//Use drums 0 - 4, because Crash and Tom1 generation is not done yet
 		instrument_type = drumType.get(random.nextInt(5));
 		int pulseNum = NUM_OF_BARS * random.nextInt(NUM_OF_NOTES_IN_BAR / 4 + 1);
-		mask = new PulseMask(pulseNum,melody_length);
+		mask = new PulseMask(pulseNum,MELODY_LENGTH);
 		generateInstPulseMask();
 
 
@@ -35,7 +39,7 @@ public class DrumsGenome extends AbstractInstrument {
 		Random random = new Random();
 		this.instrument_type = instrument_type;
 		int pulseNum = NUM_OF_BARS * random.nextInt(NUM_OF_NOTES_IN_BAR / 4 + 1);
-		mask = new PulseMask(pulseNum, melody_length);
+		mask = new PulseMask(pulseNum, MELODY_LENGTH);
 		generateInstPulseMask();
 	}
 
@@ -75,10 +79,10 @@ public class DrumsGenome extends AbstractInstrument {
 						hitNum++;
 					}
 				}
-				if(hitNum == melody_length | hitNum == melody_length / 2 | hitNum == melody_length / 4){
-					int[] full = mask.generateCommonMask(hitNum, melody_length);
+				if(hitNum == MELODY_LENGTH | hitNum == MELODY_LENGTH / 2 | hitNum == MELODY_LENGTH / 4){
+					int[] full = mask.generateCommonMask(hitNum, MELODY_LENGTH);
 					for(int i = 0; i < this.notes.size(); i++) {
-						if (calculateDistanceFromMask(i, full) > melody_length / hitNum) {
+						if (calculateDistanceFromMask(i, full) > MELODY_LENGTH / hitNum) {
 							fitness /= 2;
 						}
 					}
@@ -105,15 +109,15 @@ public class DrumsGenome extends AbstractInstrument {
 	}
 
 	@Override
-	public AbstractInstrument reproduce(final AbstractInstrument parent2) {
+	public AbstractGenome reproduce(final AbstractGenome parent2) {
 		DrumsGenome child = new DrumsGenome(this.getInstrumentType());
-		child.getNotes().addAll(this.getNotes().subList(0, melody_length / 2));
-			child.getNotes().addAll(parent2.getNotes().subList(melody_length / 2, melody_length));
+		child.getNotes().addAll(this.getNotes().subList(0, MELODY_LENGTH / 2));
+			child.getNotes().addAll(parent2.getNotes().subList(MELODY_LENGTH / 2, MELODY_LENGTH));
 		return child;
 	}
 
 	@Override
-	public AbstractInstrument generateIndividual() {
+	public AbstractGenome generateIndividual() {
 		DrumsGenome child = new DrumsGenome();
 		child.generateGenome();
 		return child;
@@ -121,7 +125,7 @@ public class DrumsGenome extends AbstractInstrument {
 
 	private void generateGenome(){
 		int[] tempMask = mask.getPulseMask();
-		for (int i = 0; i < melody_length; i++) {
+		for (int i = 0; i < MELODY_LENGTH; i++) {
 			if(tempMask[i] == 1) {
 				this.notes.add(new DrumChord(true));
 			} else {
@@ -187,5 +191,10 @@ public class DrumsGenome extends AbstractInstrument {
 		} else {
 			return leftDistance;
 		}
+	}
+	@Override
+	public void mutate() {
+		// TODO Auto-generated method stub
+		
 	}
 }

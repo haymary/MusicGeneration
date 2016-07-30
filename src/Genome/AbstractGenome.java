@@ -2,45 +2,33 @@ package Genome;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Random;
 
 import Gene.Chord;
 
-public abstract class AbstractInstrument{
-	protected int NUM_OF_NOTES_IN_BAR = 16;
-	protected int NUM_OF_BARS = 1;
-	protected int melody_length = NUM_OF_NOTES_IN_BAR * NUM_OF_BARS;
-	protected int FROM_NOTE, TO_NOTE;
-	
+public abstract class AbstractGenome{
 	
 	protected ArrayList<Chord> notes;
 	protected String instrument_type;
 	protected double fitness = -1;
 
-	public AbstractInstrument() {
+	public AbstractGenome() {
 		setNotes(new ArrayList<>());
 		//TODO
 		//Should somehow have an interval in which to generate notes
 	}
 	
-	public void mutate(){
-		Random number_of_mutations = new Random();
-		for (int i = 0; i < number_of_mutations.nextInt(melody_length/3); i++) {
-			Random element_to_mutate = new Random();
-			getNotes().get(element_to_mutate.nextInt(melody_length)).mutate(); 
-		}
-	}
+	public abstract void mutate();
 	
 	public double getFitness(){
 		count_fitness();
 		return fitness;
 	}
 
-	public Comparator<AbstractInstrument> getComparator(){
-		return new Comparator<AbstractInstrument>() {
+	public Comparator<AbstractGenome> getComparator(){
+		return new Comparator<AbstractGenome>() {
 
 			@Override
-			public int compare(final AbstractInstrument o1, final AbstractInstrument o2) {
+			public int compare(final AbstractGenome o1, final AbstractGenome o2) {
 				if(o1.fitness > o2.fitness){
 					return 1;
 				}else if(o1.fitness == o2.fitness) {
@@ -57,9 +45,9 @@ public abstract class AbstractInstrument{
 
 	protected abstract void count_fitness();
 
-	public abstract AbstractInstrument reproduce(final AbstractInstrument parent2);
+	public abstract AbstractGenome reproduce(final AbstractGenome parent2);
 
-	public abstract AbstractInstrument generateIndividual();
+	public abstract AbstractGenome generateIndividual();
 
 	public ArrayList<Chord> getNotes() {
 		return notes;

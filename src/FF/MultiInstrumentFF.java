@@ -3,14 +3,14 @@ package FF;
 import java.util.ArrayList;
 
 import Gene.Chord;
-import Genome.AbstractInstrument;
+import Genome.AbstractGenome;
 
 public class MultiInstrumentFF {
 
-	private ArrayList<AbstractInstrument> instruments;
+	private ArrayList<AbstractGenome> instruments;
 	private double fit = 0;
 	
-	public MultiInstrumentFF(final ArrayList<AbstractInstrument> instruments) {
+	public MultiInstrumentFF(final ArrayList<AbstractGenome> instruments) {
 		this.instruments = instruments;
 	}
 

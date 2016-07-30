@@ -12,16 +12,16 @@ public class DrumChord extends Chord{
 
 	public DrumChord(final boolean pulse){
 		if(pulse) {
-			generateNote();
+			setNote();
 		} else {
-			generateChord();
+			setChord();
 		}
 	}
 
 	//We use random in generation over standard pulse mask in order to make initial individuals differ from each over
 
 	@Override
-	protected void generateChord() {
+	protected void setChord() {
 		Random random = new Random();
 		if (random.nextInt(4) > 0) {
 			setValue(0);
@@ -31,7 +31,7 @@ public class DrumChord extends Chord{
 	}
 
 	@Override
-	protected void generateNote() {
+	protected void setNote() {
 		Random random = new Random();
 		if (random.nextInt(3) > 0) {
 			setValue(1);
@@ -45,4 +45,5 @@ public class DrumChord extends Chord{
 		// TODO Auto-generated method stub
 		
 	}
+
 }

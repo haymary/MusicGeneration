@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Gene.Chord;
-import Genome.AbstractInstrument;
+import Genome.AbstractGenome;
 
 public class ChordParser extends GenomeParser {
 
@@ -20,13 +20,13 @@ public class ChordParser extends GenomeParser {
 	 */
 
     @Override
-	public String translateToPhenotype(final AbstractInstrument individual) {
+	public String translateToPhenotype(final AbstractGenome individual) {
         ArrayList<Chord> notes = individual.getNotes();
         int duration = 0;
         String result = new String();
         result = CheckType(individual);
         for (int i = 1; i < notes.size(); i++) {
-            if (notes.get(i).is_continues_last()) {
+            if (notes.get(i).isContinuesLast()) {
                 duration++;
             } else {
                 result += " " + NumberToNoteOrChord(notes.get(i - 1).getValue(), duration, notes.get(i - 1).getOctave_num());
@@ -71,7 +71,7 @@ public class ChordParser extends GenomeParser {
 
     }
 
-    private String CheckType(final AbstractInstrument individual) {
+    private String CheckType(final AbstractGenome individual) {
         String result = new String();
 
         Random rand = new Random(); //Random choose of instrument in JFugue

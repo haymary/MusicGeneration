@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import FF.MultiInstrumentFF;
-import Genome.AbstractInstrument;
+import Genome.AbstractGenome;
 import Genome.PianoGenome;
 import Genome.ViolinGenome;
 import MusicSaver.DataProvider;
@@ -113,7 +113,7 @@ public class EvolutionSimulator {
 	}
 
 	private double count_instrument_interaction(final int index_of_genome) {
-		ArrayList<AbstractInstrument> instruments = new ArrayList<>();
+		ArrayList<AbstractGenome> instruments = new ArrayList<>();
 		for (Evolution evolution : instrumentsEvolution) {
 			instruments.add(evolution.getGenomeByIndex(index_of_genome));
 		}
