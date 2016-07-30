@@ -3,15 +3,20 @@ package Evolution;
 import static Evolution.Constants.MAX_NUMBER_GENERATIONS;
 import static Evolution.Constants.POP_SIZE;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import FF.MultiInstrumentFF;
 import Genome.AbstractInstrument;
 import Genome.PianoGenome;
 import Genome.ViolinGenome;
+import MusicSaver.DataProvider;
+import MusicSaver.MusicSaver;
 
 public class EvolutionSimulator {
 	MultiInstrumentFF multiFF;
+	String rootFolder;
 	
 	private ArrayList<Evolution> instrumentsEvolution;
 	
@@ -19,6 +24,8 @@ public class EvolutionSimulator {
 		instrumentsEvolution = new ArrayList<>();
 		instrumentsEvolution.add(new Evolution(new PianoGenome()));
 		instrumentsEvolution.add(new Evolution(new ViolinGenome()));
+		
+		rootFolder = "Music";
 	}
 	
 	public void startSimulation(){
@@ -30,20 +37,35 @@ public class EvolutionSimulator {
 				System.out.println(i);
 				for (Evolution evolution : instrumentsEvolution) {
 					System.out.print(evolution.getInstrumentType() + ": ");
-					System.out.println(evolution.getGenomeByIndex(0).toString());
+					System.out.println(evolution.getGenomeByIndex(0).toString() + "*");
 				}
-	//			for (Evolution evolution : instrumentsEvolution) {
-	//				evolution.popToPhenotype();
-	//			}
-	//			
-	//			System.out.println(instrumentsEvolution.get(0).getPhenotype().get(0));
 				
+				for (Evolution evolution : instrumentsEvolution) {
+					evolution.popToPhenotype();
+				}
+	     		saveGenerationSamples(i);
 			}
-			//TODO:
-			//Save samples somehow
-			
 		}
 		
+	}
+
+	private void saveGenerationSamples(final int i) {
+		for (int j = 0; j < POP_SIZE;j++) {
+			LinkedList<String> song = new LinkedList<>();
+			for (Evolution evolution : instrumentsEvolution) {
+				song.add(evolution.getPhenotype().get(j));
+			}
+			DataProvider provider = new DataProvider(song);
+		    MusicSaver saver = new MusicSaver();
+		    saver.saveToMidi(provider, getFileName(i, j));
+		}
+	}
+
+	private String getFileName(final int i, final int j) {
+		String pathname = rootFolder + File.separator + i;  
+        File newDir = new File(pathname);
+        newDir.mkdirs();
+        return pathname + File.separator + j + ".midi";
 	}
 
 	private void multiinstrumentSelection(){
@@ -98,42 +120,4 @@ public class EvolutionSimulator {
 		multiFF = new MultiInstrumentFF(instruments);
 		return multiFF.count_ff();
 	}
-
-//	private class SelectionNode implements Comparable<SelectionNode>{
-//		private int fitness;
-//		private int index;
-//		
-//		public SelectionNode(final int fitness, final int index) {
-//			this.fitness = fitness;
-//			this.index = index;
-//		}
-//		
-//		@Override
-//		public int compareTo(final SelectionNode o) {
-//			if (o.getFitness() > this.fitness) {
-//				return -1;
-//			}
-//			if (o.getFitness() == this.fitness) {
-//				return 0;
-//			}
-//			return 1;
-//		}
-//
-//		public int getFitness() {
-//			return fitness;
-//		}
-//
-//		public void setFitness(final int fitness) {
-//			this.fitness = fitness;
-//		}
-//
-//		public int getIndex() {
-//			return index;
-//		}
-//
-//		public void setIndex(final int index) {
-//			this.index = index;
-//		}
-//		
-//	}
 }

@@ -12,7 +12,7 @@ public abstract class Chord{
 	}
 
 	public void mutate() {
-		generateChord();
+		newChord();
 	}
 
 	public boolean is_continues_last() {
@@ -23,6 +23,7 @@ public abstract class Chord{
 		this.continues_last = is_continues_last;
 	}
 	
+	protected abstract void newChord();
 	protected abstract void generateChord() ;
 	
 	protected abstract void generateNote();

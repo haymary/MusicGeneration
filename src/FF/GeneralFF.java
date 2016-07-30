@@ -1,12 +1,12 @@
 package FF;
 
-import Gene.CHORDS;
-import Gene.Chord;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+
+import Gene.CHORDS;
+import Gene.Chord;
 
 /**
  * Created by pisatel on 28.07.16.
@@ -21,7 +21,7 @@ public class GeneralFF {
     private final int HALF_RULES_HOLDS_BONUS = 30;
     private final int ALL_RULES_HOLDS_BONUS  = 100;
 
-    public GeneralFF(ArrayList<Chord> notes) {
+    public GeneralFF(final ArrayList<Chord> notes) {
         this.notes = notes;
     }
 
@@ -65,7 +65,7 @@ public class GeneralFF {
 
     //BEGIN #HELPER# PRIVATE METHODS
     private void parallelizeProcess() {
-        LinkedList<Thread> threads = new LinkedList<Thread>();
+        LinkedList<Thread> threads = new LinkedList<>();
         boolean isAlive;
         try {
             for (Rule rule : this.rules) {
@@ -95,6 +95,7 @@ public class GeneralFF {
     }
 
     private void initRulesArray() {
+    	rules = new LinkedList<>();
         this.rules.add(this.rule1());
         this.rules.add(this.rule2());
         this.rules.add(this.rule3());

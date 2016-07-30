@@ -77,7 +77,7 @@ public abstract class AbstractInstrument{
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Chord chord : notes) {
-			sb.append(chord.getValue());
+			sb.append(chord.getValue() + " ");
 		}
 		return sb.toString();
 	}

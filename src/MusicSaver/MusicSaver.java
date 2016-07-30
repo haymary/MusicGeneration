@@ -19,7 +19,7 @@ public class MusicSaver {
             saveManager.savePatternToMidi(music, new File(filename));
         }
         catch (Exception ex) {
-            System.out.print("SAVING TO MIDI ERROR");
+            System.out.print(ex);
         }
 
     }

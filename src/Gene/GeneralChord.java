@@ -19,6 +19,15 @@ public class GeneralChord extends Chord{
 	public GeneralChord(final int NUM_OCTAVES, final int START_OCTAVE) {
 		this.NUM_OCTAVES = NUM_OCTAVES;
 		this.START_OCTAVE = START_OCTAVE;
+		newChord();
+	}
+
+
+
+	/**
+	 * @param NUM_OCTAVES
+	 */
+	public void newChord() {
 		Random random = new Random();
 		
 		//Does it continues previous note?
@@ -35,6 +44,8 @@ public class GeneralChord extends Chord{
 		}
 	}
 
+	
+	
 	@Override
 	protected void generateChord() {
 		Random random = new Random();
