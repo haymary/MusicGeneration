@@ -1,8 +1,5 @@
 package Gene;
 
-/**
- * Created by pisatel on 29.07.16.
- */
 public enum CHORDS {
     i(setMinor(1)), ii(setMinor(2)), iii(setMinor(3)), iv(setMinor(4)),
     v(setMinor(5)), vi(setMinor(6)), vii(setMinor(7)),

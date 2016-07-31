@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import FF.MultiInstrumentFF;
 import Genome.AbstractGenome;
 import Genome.PianoGenome;
-import Genome.ViolinGenome;
 import MusicSaver.DataProvider;
 import MusicSaver.MusicSaver;
 
@@ -25,25 +24,24 @@ public class EvolutionSimulator {
 	public EvolutionSimulator() {
 		instrumentsEvolution = new ArrayList<>();
 		instrumentsEvolution.add(new Evolution(new PianoGenome()));
-		instrumentsEvolution.add(new Evolution(new ViolinGenome()));
+		//instrumentsEvolution.add(new Evolution(new ViolinGenome()));
 	}
 	
 	public void startSimulation(){
 		for (int generation_num = 0; generation_num < MAX_NUMBER_GENERATIONS; generation_num++) {
 			nextGeneration();
 			multiinstrumentSelection();
-			
-			System.out.println(generation_num);
-			printRowGenomeToConsole();
-			
 			translateGenerationToPhenotype();
+			saveThreeBestofGeneration(generation_num);
+			//saveAllofGeneration(generation_num);
 			
-			printTranslatedGenomeToConsole();
-				
-			saveGenerationSamples(generation_num);
+			//System.out.println(generation_num);
+			//printRowGenomeToConsole();
+			//printTranslatedGenomeToConsole();
 		}
 		
 	}
+
 
 	private void printTranslatedGenomeToConsole() {
 		for (Evolution evolution : instrumentsEvolution) {
@@ -64,8 +62,16 @@ public class EvolutionSimulator {
 		}
 	}
 
-	private void saveGenerationSamples(final int generation_num) {
-		for (int individual_num = 0; individual_num < POP_SIZE;individual_num++) {
+	private void saveThreeBestofGeneration(final int generation_num) {
+		saveGenerationSamples(generation_num, 3);
+	}
+	
+	private void saveAllofGeneration(final int generation_num) {
+		saveGenerationSamples(generation_num, POP_SIZE);
+	}
+
+	private void saveGenerationSamples(final int generation_num, final int num_to_save) {
+		for (int individual_num = 0; individual_num < num_to_save;individual_num++) {
 			LinkedList<String> song = getInstrumentsPhenotypes(individual_num);
 			DataProvider provider = new DataProvider(song);
 		    MusicSaver saver = new MusicSaver();

@@ -5,8 +5,13 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import FFRules.ARule;
+import FFRules.OneNoteRule;
+import FFRules.RandomRule;
+import FFRules.RuleOfFollowing;
 import Gene.CHORDS;
 import Gene.Chord;
+import Gene.NOTES;
 
 /**
  * Created by pisatel on 28.07.16.
@@ -14,7 +19,7 @@ import Gene.Chord;
 public class GeneralFF {
 
     private ArrayList<Chord> notes;
-    private LinkedList<Rule> rules;
+    private LinkedList<ARule> rules;
 
     private final int ENTRY_BONUS            = 1;
     private final int ONE_RULE_HOLDS_BONUS   = 10;
@@ -44,12 +49,16 @@ public class GeneralFF {
     private int calculateTotalBonus() {
         int score = 0;
         int count_activated_rules = 0;
-        for (Rule rule : this.rules) {
-            if (rule.isActivated()) {
-                score += ONE_RULE_HOLDS_BONUS;
-                count_activated_rules++;
-                score += rule.getPoints() * ENTRY_BONUS;
-            }
+        for (ARule rule : this.rules) {
+        	if(rule.getType() == 0){
+        		if (rule.isActivated()) {
+        			score += ONE_RULE_HOLDS_BONUS;
+        			count_activated_rules++;
+        			score += rule.getPoints() * ENTRY_BONUS;
+        		}
+        	}else{
+        		score += rule.getPoints();
+        	}
         }
         if (count_activated_rules > this.rules.size()/2) {
             score += HALF_RULES_HOLDS_BONUS;
@@ -68,7 +77,7 @@ public class GeneralFF {
         LinkedList<Thread> threads = new LinkedList<>();
         boolean isAlive;
         try {
-            for (Rule rule : this.rules) {
+            for (ARule rule : this.rules) {
                 threads.add((new Thread(rule)));
             }
             for (Thread thread : threads) {
@@ -108,6 +117,8 @@ public class GeneralFF {
         this.rules.add(this.rule10());
         this.rules.add(this.rule11());
         this.rules.add(this.rule12());
+        this.rules.add(this.rule13());
+        this.rules.add(this.rule14());
     }
 
     //END #HELPER# PRIVATE METHODS
@@ -125,28 +136,28 @@ public class GeneralFF {
 
 
     //ii chords lead to I, V, or vii° chords
-    private Rule rule1() {
+    private RuleOfFollowing rule1() {
         List<Integer> lead = Arrays.asList(CHORDS.ii.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
                                             CHORDS.V.getValue(),
                                             CHORDS.viiD.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //iii chords lead to I, ii, IV, or vi chords
-    private Rule rule2() {
+    private RuleOfFollowing rule2() {
         List<Integer> lead = Arrays.asList(CHORDS.iii.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
                                             CHORDS.ii.getValue(),
                                             CHORDS.IV.getValue(),
                                             CHORDS.vi.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //IV chords lead to I, ii, iii, V, or vii° chords
-    private Rule rule3() {
+    private RuleOfFollowing rule3() {
         List<Integer> lead = Arrays.asList(CHORDS.IV.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
@@ -154,20 +165,20 @@ public class GeneralFF {
                                             CHORDS.iii.getValue(),
                                             CHORDS.V.getValue(),
                                             CHORDS.viiD.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //V chords lead to I or vi chords
-    private Rule rule4() {
+    private RuleOfFollowing rule4() {
         List<Integer> lead = Arrays.asList(CHORDS.V.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
                                             CHORDS.vi.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //vi chords lead to I, ii, iii, IV, or V chords
-    private Rule rule5() {
+    private RuleOfFollowing rule5() {
         List<Integer> lead = Arrays.asList(CHORDS.vi.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
@@ -175,20 +186,20 @@ public class GeneralFF {
                                             CHORDS.iii.getValue(),
                                             CHORDS.IV.getValue(),
                                             CHORDS.V.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //vii° chords lead to I or iii chords
-    private Rule rule6() {
+    private RuleOfFollowing rule6() {
         List<Integer> lead = Arrays.asList(CHORDS.viiD.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
                                             CHORDS.iii.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //ii° or ii chords lead to i, iii, V, v, vii°, or VII chords
-    private Rule rule7() {
+    private RuleOfFollowing rule7() {
         List<Integer> lead = Arrays.asList(CHORDS.viiD.getValue(),
                                             CHORDS.ii.getValue());
 
@@ -198,11 +209,11 @@ public class GeneralFF {
                                             CHORDS.v.getValue(),
                                             CHORDS.viiD.getValue(),
                                             CHORDS.VII.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //III or III+ chords lead to i, iv, IV, VI, vii°, or VI chords
-    private Rule rule8() {
+    private RuleOfFollowing rule8() {
         List<Integer> lead = Arrays.asList(CHORDS.III.getValue(),
                                             CHORDS.IIIA.getValue());
 
@@ -212,11 +223,11 @@ public class GeneralFF {
                                             CHORDS.VI.getValue(),
                                             CHORDS.viiD.getValue(),
                                             CHORDS.VI.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //iv or IV chords lead to i, V, v, vii°, or VII chords
-    private Rule rule9() {
+    private RuleOfFollowing rule9() {
         List<Integer> lead = Arrays.asList(CHORDS.iv.getValue(),
                                             CHORDS.IV.getValue());
 
@@ -225,21 +236,21 @@ public class GeneralFF {
                                             CHORDS.v.getValue(),
                                             CHORDS.viiD.getValue(),
                                             CHORDS.VII.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //V or v chords lead to i, VI chords
-    private Rule rule10() {
+    private RuleOfFollowing rule10() {
         List<Integer> lead = Arrays.asList(CHORDS.V.getValue(),
                                             CHORDS.v.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.i.getValue(),
                                             CHORDS.VI.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //VI or #vi° chords lead to i, III, III+, iv, IV, V, v, vii°, or VII chords
-    private Rule rule11() {
+    private RuleOfFollowing rule11() {
         List<Integer> lead = Arrays.asList(CHORDS.VI.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.i.getValue(),
@@ -251,17 +262,30 @@ public class GeneralFF {
                                             CHORDS.v.getValue(),
                                             CHORDS.viiD.getValue(),
                                             CHORDS.VII.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
 
     //vii° or VII chords lead to i chord
-    private Rule rule12() {
+    private RuleOfFollowing rule12() {
         List<Integer> lead = Arrays.asList(CHORDS.viiD.getValue(),
                                             CHORDS.VII.getValue());
 
         List<Integer> next = Arrays.asList(CHORDS.i.getValue());
-        return new Rule(this.notes, lead, next);
+        return new RuleOfFollowing(this.notes, lead, next);
     }
+    
+    //not too much rest
+    private OneNoteRule rule13(){
+    	int note = NOTES.REST.getValue();
+    	int cost = 1;
+		return new OneNoteRule(this.notes, note, false, cost);
+    }
+    
+    //smooth moves
+    //unusual note length
+    private RandomRule rule14() {
+		return new RandomRule(notes);
+	}
 
     //END #RULES# PUBLIC METHODS
 
