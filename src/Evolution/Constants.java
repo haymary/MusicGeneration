@@ -13,4 +13,9 @@ public final class Constants {
 	public static final int GENERAL_NUM_OCTAVES = 4;
 	public static final int GENERAL_NUM_NOTES = 7;
 	public static final int GENERAL_NUM_TYPES_CHORDS = 4;
+	
+	public static final double WEIGHT_OF_INSTRUMENTS_FITNESS = 1;
+	public static final double WEIGHT_OF_INTERACTION = 1;
+	
+	public static final String ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic";
 }

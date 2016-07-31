@@ -35,8 +35,10 @@ public class DataProvider {
 
     //BEGIN #MAKE PATTERN FROM LIST# PRIVATE METHODS
     private void makePatternFromNotesList() {
+    	int voice = 0;
         for (String singleInstrumentNotes : this.listOfNotes) {
-            this.musicPattern.add(singleInstrumentNotes);
+            this.musicPattern.add("V" + voice + " " + singleInstrumentNotes);
+            voice++;
         }
     }
     //END #MAKE PATTRN FROM LIST# PRIVATE METHODS

@@ -20,7 +20,7 @@ public enum CHORDS {
 
     private int value;
 
-    private CHORDS(int value) {
+    private CHORDS(final int value) {
         this.value = value;
     }
 
@@ -31,22 +31,22 @@ public enum CHORDS {
     //END PUBLIC METHODS
 
     //BEGIN #FORMULA# PRIVATE METHODS
-    private static int setMajor(int note) {
-        return formula(-1, note);
+    private static int setMajor(final int note) {
+        return formula(0, note);
     }
 
-    private static int setMinor(int note) {
-        return formula(-2, note);
+    private static int setMinor(final int note) {
+        return formula(1, note);
     }
 
-    private static int setAug(int note) {
-        return formula(-3, note);
+    private static int setAug(final int note) {
+        return formula(2, note);
     }
-    private static int setDim(int note) {
-        return formula(-4, note);
+    private static int setDim(final int note) {
+        return formula(3, note);
     }
 
-    private static int formula(int type, int note) {
+    private static int formula(final int type, final int note) {
         return - (note + 7 * type);
     }
     //END #FORMULA# PRIVATE METHODS

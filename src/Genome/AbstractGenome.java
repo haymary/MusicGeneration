@@ -12,18 +12,14 @@ public abstract class AbstractGenome{
 	protected double fitness = -1;
 
 	public AbstractGenome() {
-		setNotes(new ArrayList<>());
-		//TODO
-		//Should somehow have an interval in which to generate notes
+		notes = new ArrayList<>();
 	}
 	
 	public abstract void mutate();
+	protected abstract void count_fitness();
+	public abstract AbstractGenome reproduce(final AbstractGenome parent2);
+	public abstract AbstractGenome generateIndividual();
 	
-	public double getFitness(){
-		count_fitness();
-		return fitness;
-	}
-
 	public Comparator<AbstractGenome> getComparator(){
 		return new Comparator<AbstractGenome>() {
 
@@ -43,18 +39,13 @@ public abstract class AbstractGenome{
 		return instrument_type;
 	}
 
-	protected abstract void count_fitness();
-
-	public abstract AbstractGenome reproduce(final AbstractGenome parent2);
-
-	public abstract AbstractGenome generateIndividual();
-
 	public ArrayList<Chord> getNotes() {
 		return notes;
 	}
 
-	public void setNotes(final ArrayList<Chord> notes) {
-		this.notes = notes;
+	public double getFitness(){
+		count_fitness();
+		return fitness;
 	}
 
 	public void setFitness(final double total_fit) {
@@ -65,9 +56,17 @@ public abstract class AbstractGenome{
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Chord chord : notes) {
-			sb.append(chord.getValue() + " ");
+			if(chord.isContinuesLast()){
+				sb.append("- ");
+			}else{
+				sb.append(chord.getValue() + " ");
+			}
 		}
 		return sb.toString();
+	}
+
+	public Chord getFirstNote() {
+		return notes.get(0);
 	}
 	
 	

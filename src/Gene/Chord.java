@@ -2,9 +2,9 @@ package Gene;
 
 public abstract class Chord{
 	
-	protected boolean continues_last = false;
-	protected int octave_num;
-	protected int value;
+	protected boolean 	continues_last = false;
+	protected int 		octave_num;
+	protected int 		value;
 	
 	public Chord() {}
 	
@@ -35,6 +35,7 @@ public abstract class Chord{
 	public int getOctave_num() {
 		return octave_num;
 	}
+
 
 	
 	

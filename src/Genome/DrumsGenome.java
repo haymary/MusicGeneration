@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import Gene.DrumChord;
+import Loop.PulseMask;
 
 public class DrumsGenome extends AbstractGenome {
 

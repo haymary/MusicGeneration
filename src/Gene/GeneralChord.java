@@ -8,7 +8,6 @@ import static Evolution.Constants.GENERAL_START_OCTAVE;
 import java.util.Random;
 
 public class GeneralChord extends Chord{
-	private int start_octave;
 	
 	/*
 	 * 0 - R (rest)
@@ -19,24 +18,53 @@ public class GeneralChord extends Chord{
 	 * (1 - 7) -  (-4) * 7 - dim
 	 */
 	
-	public GeneralChord() {
+	private Chord previouse_chord;
+
+	public GeneralChord(final Chord previouse_chord) {
+		this.previouse_chord = previouse_chord;
 		newChord();
 	}
 
 	@Override
 	public void newChord() {
-		Random random = new Random();
-		
-		if(random.nextBoolean()){
-			setContinuesLast(true);
+		if (isFirstChord()){
+			generareIndependentIndividual();
 		}else{
-			setOctave();
-			if(random.nextBoolean()){
-				setChord();
-			}else{
-				setNote();
-			}
+			generateGeneralIndividual();
 		}
+	}
+
+	private void generateGeneralIndividual() {
+		if(randomWithTwoThirdProbability()){
+			setContinuesLast(true);
+			value = previouse_chord.getValue();
+			octave_num = previouse_chord.getOctave_num();
+		}else{
+			generareIndependentIndividual();
+		}
+	}
+
+	private void generareIndependentIndividual() {
+		setOctave();
+		if(randomWithEqualProbability()){
+			setChord();
+		}else{
+			setNote();
+		}
+	}
+
+	private boolean isFirstChord() {
+		return previouse_chord == null;
+	}
+
+	private boolean randomWithEqualProbability() {
+		Random random = new Random();
+		return random.nextBoolean();
+	}
+
+	private boolean randomWithTwoThirdProbability() {
+		Random random = new Random();
+		return random.nextInt(3) == 2;
 	}
 
 	private void setOctave() {

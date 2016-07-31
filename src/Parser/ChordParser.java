@@ -1,5 +1,8 @@
 package Parser;
 
+import static Evolution.Constants.GENERAL_NUM_NOTES;
+import static Evolution.Constants.MELODY_LENGTH;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,8 +11,9 @@ import Genome.AbstractGenome;
 
 public class ChordParser extends GenomeParser {
 
-    public ChordParser() {
-    }
+
+	public ChordParser() {}
+	
     /*
      * 0 - R (rest)
 	 * (1 - 7) - standard notes in octave (only C, D, E, F, G, A, B)
@@ -21,38 +25,59 @@ public class ChordParser extends GenomeParser {
 
     @Override
 	public String translateToPhenotype(final AbstractGenome individual) {
-        ArrayList<Chord> notes = individual.getNotes();
+    	ArrayList<Chord> 	notes = individual.getNotes();
+		StringBuilder 		phenotype = new StringBuilder();
+        
+		phenotype.append(CheckType(individual));
+        
+        Chord current_note = null;
         int duration = 0;
-        String result = new String();
-        result = CheckType(individual);
-        for (int i = 1; i < notes.size(); i++) {
-            if (notes.get(i).isContinuesLast()) {
-                duration++;
-            } else {
-                result += " " + NumberToNoteOrChord(notes.get(i - 1).getValue(), duration, notes.get(i - 1).getOctave_num());
-                duration = 0;
-            }
+        
+        for (int note_num = 0; note_num < MELODY_LENGTH; note_num++) {
+			current_note = notes.get(note_num);
+			for (int i = note_num + 1; i < MELODY_LENGTH; i++) {
+					if(!notes.get(i).isContinuesLast()){
+					note_num = i - 1;
+					break;
+				}
+				duration++;	
+			}
+			phenotype.append(" ");
+			phenotype.append(NumberToNoteOrChord(current_note.getValue(), 
+													duration, 
+													current_note.getOctave_num()));
+		}
 
-        }
-
-        return result;
+        return phenotype.toString();
     }
 
     // Method for translation number to note or chord
-    private String NumberToNoteOrChord(final int number, final int duration, final int octave) {
-        String[] not = {"C", "D", "E", "F", "G", "A", "B"};
-        String[] chord = {"maj", "min", "aug", "dim"};
-        String result = new String();
-        if (number > 0 && number < 8) {
-            result = not[number - 1] + Integer.toString(octave) + NumberToDuration(duration);
-        } else if (number == 0) {
-            result = "R" + NumberToDuration(duration);
-        } else if (number < 0 && number > -29) {
-            result = not[(-1 * number - 1) % 7]+ Integer.toString(octave) + chord[(-1 * number - 1) / 7] + NumberToDuration(duration).toUpperCase();
+    private String NumberToNoteOrChord(int chord_value, final int duration, final int octave) {
+        String[] notes = {"R", "C", "D", "E", "F", "G", "A", "B"};
+        String[] chords = {"maj", "min", "aug", "dim"};
+        StringBuilder result = new StringBuilder();
+        if(chord_value >= 0){
+        	result.append(notes[chord_value]);
+        	if(chord_value != 0){
+        		result.append(octave);
+        	}
+        }else{
+        	chord_value = Math.abs(chord_value);
+        	int note_num = chord_value % GENERAL_NUM_NOTES;
+        	if(note_num == 0){
+        		note_num = GENERAL_NUM_NOTES;
+        	}
+        	int chord_num = (chord_value - note_num) / GENERAL_NUM_NOTES;
+        	result.append(notes[note_num]);
+        	result.append(octave);
+        	result.append(chords[chord_num]);
         }
-        return result;
+        result.append(NumberToDuration(duration));
+        
+        return result.toString();
 
     }
+
     //Method for translating numbers of sixteenths to duration
     private String NumberToDuration(final int n) {
         String result = new String();
@@ -61,28 +86,25 @@ public class ChordParser extends GenomeParser {
 				result += "w";
 			}
 		}
-
         String[] duration = {"s", "i", "i.", "q", "qs", "qi", "qi.", "h", "hs", "hi", "hi.", "hq", "hqs", "hqi", "hqi.", "w"};
-        if (n % 16 != 0) {
-			result += duration[n % 16 - 1];
+        if (n % 16 != 0 || n == 0) {
+			result += duration[n % 16];
 		}
-
         return result;
 
     }
 
     private String CheckType(final AbstractGenome individual) {
         String result = new String();
-
         Random rand = new Random(); //Random choose of instrument in JFugue
         if (individual.getInstrumentType() == "Piano") {
-
-            result = "I" + Integer.toString(rand.nextInt(7));
+            result = "I" + 0;//Integer.toString(rand.nextInt(7));
         } else if (individual.getInstrumentType() == "Violin") {
-
-            result = "I" + Integer.toString(rand.nextInt(7) + 40);
+            result = "I" + 40;//Integer.toString(rand.nextInt(7) + 40);
         }
         return result;
     }
 
+
 }
+
