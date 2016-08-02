@@ -4,26 +4,26 @@ import static Evolution.Constants.POP_SIZE;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Genome.AbstractInstrument;
+import Genome.AbstractGenome;
 import Parser.GenomeParser;
 import Parser.ParserFactory;
 
 public class Evolution {
-	private final AbstractInstrument COMMON_PROGENITOR;
+	private final AbstractGenome COMMON_PROGENITOR;
 	
-	private ArrayList<AbstractInstrument> pop;
+	private ArrayList<AbstractGenome> pop;
 	private ArrayList<String> phenotype;
 //	private int number_of_generations = 0;
 	
-	public Evolution(final AbstractInstrument parent) {
+	public Evolution(final AbstractGenome parent) {
 		COMMON_PROGENITOR = parent;
 		setPop(createPopulation(POP_SIZE));
 	}
 	
-	private ArrayList<AbstractInstrument> createPopulation(final int pop_size2) {
-		ArrayList<AbstractInstrument> newPop = new ArrayList<>();
+	private ArrayList<AbstractGenome> createPopulation(final int pop_size2) {
+		ArrayList<AbstractGenome> newPop = new ArrayList<>();
 		for (int i = 0; i < POP_SIZE; i++) {
-			newPop.add(COMMON_PROGENITOR.generateIndividual(COMMON_PROGENITOR.getInstrumentType()));
+			newPop.add(COMMON_PROGENITOR.generateIndividual());
 		}
 		return newPop;
 	}
@@ -81,18 +81,18 @@ public class Evolution {
 //	}
 
 	public void selection() {
-		ArrayList<AbstractInstrument> newPop = new ArrayList<>();
+		ArrayList<AbstractGenome> newPop = new ArrayList<>();
 		newPop.addAll(pop.subList(0, POP_SIZE));
 		setPop(newPop);
 	}
 
 
 	public void produceNextGeneration() {
-		ArrayList<AbstractInstrument> newGeneration = new ArrayList<>();
+		ArrayList<AbstractGenome> newGeneration = new ArrayList<>();
 		
-		for (AbstractInstrument parent1 : getPop()) {
-			for (AbstractInstrument parent2 : getPop()) {
-				AbstractInstrument child = parent1.reproduce(parent2);
+		for (AbstractGenome parent1 : getPop()) {
+			for (AbstractGenome parent2 : getPop()) {
+				AbstractGenome child = parent1.reproduce(parent2);
 				mutate(child);
 				newGeneration.add(child);
 			}
@@ -100,19 +100,18 @@ public class Evolution {
 		setPop(newGeneration);
 	}
 
-	private void mutate(final AbstractInstrument child) {
-		Random chance = new Random();
-
-		if(chance.nextInt(11) > 9){
+	private void mutate(final AbstractGenome child) {
+		Random rand = new Random();
+		if(rand.nextBoolean()){
 			child.mutate();
 		}
 	}
 
-	public ArrayList<AbstractInstrument> getPop() {
+	public ArrayList<AbstractGenome> getPop() {
 		return pop;
 	}
 
-	private void setPop(final ArrayList<AbstractInstrument> pop) {
+	private void setPop(final ArrayList<AbstractGenome> pop) {
 		this.pop = pop;
 	}
 
@@ -124,7 +123,7 @@ public class Evolution {
 		phenotype = new ArrayList<>();
 		ParserFactory parser_factory = new ParserFactory();
 		GenomeParser parser = parser_factory.getParser(COMMON_PROGENITOR.getInstrumentType());
-		for (AbstractInstrument individual : pop) {
+		for (AbstractGenome individual : pop) {
 			phenotype.add(parser.translateToPhenotype(individual));
 		}
 	}
@@ -133,7 +132,7 @@ public class Evolution {
 		return phenotype;
 	}
 
-	public AbstractInstrument getGenomeByIndex(final int i) {
+	public AbstractGenome getGenomeByIndex(final int i) {
 		return pop.get(i);
 	}
 

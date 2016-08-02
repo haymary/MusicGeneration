@@ -1,32 +1,29 @@
 package Gene;
 
 public abstract class Chord{
-	protected int NUM_OCTAVES;
-	protected int START_OCTAVE;
 	
-	protected boolean continues_last = false;
-	protected int octave_num;
-	protected int value;
+	protected boolean 	continues_last = false;
+	protected int 		octave_num;
+	protected int 		value;
 	
-	public Chord() {
-	}
-
+	public Chord() {}
+	
+	protected abstract void newChord();
+	protected abstract void setChord() ;
+	protected abstract void setNote();
+	
 	public void mutate() {
-		generateChord();
+		newChord();
 	}
-
-	public boolean is_continues_last() {
+	
+	public boolean isContinuesLast() {
 		return continues_last;
 	}
 	
-	public void set_continues_last(final boolean is_continues_last) {
+	public void setContinuesLast(final boolean is_continues_last) {
 		this.continues_last = is_continues_last;
 	}
 	
-	protected abstract void generateChord() ;
-	
-	protected abstract void generateNote();
-
 	public int getValue() {
 		return value;
 	}
@@ -36,6 +33,10 @@ public abstract class Chord{
 	}
 
 	public int getOctave_num() {
-		return octave_num + START_OCTAVE;
+		return octave_num;
 	}
+
+
+	
+	
 }

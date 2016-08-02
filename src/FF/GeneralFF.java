@@ -1,149 +1,295 @@
 package FF;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.List;
 
+import FFRules.ARule;
+import FFRules.OneNoteRule;
+import FFRules.RandomRule;
+import FFRules.RuleOfFollowing;
+import Gene.CHORDS;
 import Gene.Chord;
+import Gene.NOTES;
 
+/**
+ * Created by pisatel on 28.07.16.
+ */
 public class GeneralFF {
 
-	public double countFF(final ArrayList<Chord> notes) {
-		int melody_length = notes.size();
-		int fit = 1;
-		/*
-		 * Penalize for not smooth steps
-		 * */
-		/*		
-		 * I chords can appear anywhere in a progression
-		 * ii chords lead to I, V, or vii° chords
-		 * iii chords lead to I, ii, IV, or vi chords
-		 * IV chords lead to I, ii, iii, V, or vii° chords
-		 * V chords lead to I or vi chords
-		 * vi chords lead to I, ii, iii, IV, or V chords
-		 * vii° chords lead to I or iii chords
-		 * i chords can appear anywhere in a progression
-		 * ii° or ii chords lead to i, iii, V, v, vii°, or VII chords
-		 * III or III+ chords lead to i, iv, IV, VI, #vi°, vii°, or VI chords
-		 * iv or IV chords lead to i, V, v, vii°, or VII chords
-		 * V or v chords lead to i, VI or #vi° chords
-		 * VI or #vi° chords lead to i, III, III+, iv, IV, V, v, vii°, or VII chords
-		 * vii° or VII chords lead to i chord
- 		*/
-		
-		/*Most common chords
-		 * (Key note is C)
-		 * I - V - vi - IV
-		 * I - V - vi - iii
-		 * I - vi - IV - V
-		 * I - IV - vi - V 
-		 * vi - V - IV -V
-		 * i - V - IV - V
-		 */
-		{
-			int num_of_right_progressions = 0;
+    private ArrayList<Chord> notes;
+    private LinkedList<ARule> rules;
 
-			LinkedList<Integer> commonProgressions = read_progressions();
-			
-			int num_elements = 1;
-			int hash = 0;
-			for(int i = 0; i < notes.size(); i++){
-				num_elements = 1;
-				hash = 0;
-				hash += notes.get(i).getValue() * Math.pow(10, num_elements);
-				
-				for (int j = i + 1; j < notes.size(); j++) {
-					if(num_elements == 4){
-						break;
-					}
-					if(!notes.get(j).equals(notes.get(j - 1))){
-						num_elements++;
-						hash += notes.get(j).getValue() * Math.pow(10, num_elements);
-					}
-				}
-				for (Integer integer : commonProgressions) {
-					if(integer.equals(hash)){
-						num_of_right_progressions++;
-					}
-				}
-			}
-			fit += num_of_right_progressions * 2;
-		}
-		
-		
-		//I, IV, V are most popular chords
-		{
-			int i = 0, iv = 0, v = 0;
-			int num_chords = 0;
-			for (Chord chord : notes) {
-				num_chords++;
-				if(chord.getValue() == -1){
-					i++;
-				}else if(chord.getValue() == -4){
-					iv++;
-				}else if(chord.getValue() == -5){
-					v++;
-				}
-			}
-			if(i + iv + v >= num_chords/2){
-				fit += 5;
-			}
-		}
-		
-		//A song usually ends on the I	
-		if(notes.get(melody_length - 1).getValue() == -1){
-			fit += 1;
-		}
-		
-		//If there many jumps between the notes from 
-		//one octave to another and back
-		
-		//If there too many notes that are too short
-		
-		//IF it not have leaps between notes bigger 
-		//than a fifth
-		
-		//If it contain at least a minimum amount of
-		//of a second (50% in the current implementation)
-		
-		//In major keys, diminished/augmented melodic intervals are NOT recommended.
-		//Augmented 2nds and 4ths are NOT allowed.
-		//6ths should be avoided.
-		//Leading notes in dominant chords ALWAYS resolve onto the tonic of a tonic chord. (Bach didn't always do this, though!) 
-		//In a cadential 6-4, the 4 resolves to 3 and the 6 resolves to 5.
-		//Always choose a semitone step if one is available.
-		//Try to make the spacing of each chord as even as possible
-		//Never double the leading note of the scale.
-		
-		return fit ;
-	}
+    private final int ENTRY_BONUS            = 1;
+    private final int ONE_RULE_HOLDS_BONUS   = 10;
+    private final int HALF_RULES_HOLDS_BONUS = 30;
+    private final int ALL_RULES_HOLDS_BONUS  = 100;
 
-	/**
-	 * @return
+    public GeneralFF(final ArrayList<Chord> notes) {
+        this.notes = notes;
+    }
+
+    public int calculateScore() {
+        this.initRulesArray();
+
+        this.parallelizeProcess();
+
+        int score = this.calculateTotalBonus();
+
+        return score;
+
+    }
+
+    //1) If the rule is holds                    (+10)
+    //2) The number of times that the rule holds (+1/per time)
+    //3) If more than half rules holds           (+30)
+    //4) If all rules holds                      (+100)
+    //-The system is funded
+    private int calculateTotalBonus() {
+        int score = 0;
+        int count_activated_rules = 0;
+        for (ARule rule : this.rules) {
+        	if(rule.getType() == 0){
+        		if (rule.isActivated()) {
+        			score += ONE_RULE_HOLDS_BONUS;
+        			count_activated_rules++;
+        			score += rule.getPoints() * ENTRY_BONUS;
+        		}
+        	}else{
+        		score += rule.getPoints();
+        	}
+        }
+        if (count_activated_rules > this.rules.size()/2) {
+            score += HALF_RULES_HOLDS_BONUS;
+        }
+        if (count_activated_rules == this.rules.size()) {
+            score += ALL_RULES_HOLDS_BONUS;
+        }
+
+        return score;
+    }
+
+
+
+    //BEGIN #HELPER# PRIVATE METHODS
+    private void parallelizeProcess() {
+        LinkedList<Thread> threads = new LinkedList<>();
+        boolean isAlive;
+        try {
+            for (ARule rule : this.rules) {
+                threads.add((new Thread(rule)));
+            }
+            for (Thread thread : threads) {
+                thread.start();
+            }
+
+            //Wait until all the processes run
+            while(true) {
+                isAlive = false;
+                for (Thread thread : threads) {
+                    if (thread.isAlive()) {
+                        isAlive = true;
+                        break;
+                    }
+                }
+                if (!isAlive) {
+                    break;
+                }
+            }
+        }
+        catch (Exception ex){
+            System.out.println("PARALLELIZE ERROR!");
+        }
+    }
+
+    private void initRulesArray() {
+    	rules = new LinkedList<>();
+        this.rules.add(this.rule1());
+        this.rules.add(this.rule2());
+        this.rules.add(this.rule3());
+        this.rules.add(this.rule4());
+        this.rules.add(this.rule5());
+        this.rules.add(this.rule6());
+        this.rules.add(this.rule7());
+        this.rules.add(this.rule8());
+        this.rules.add(this.rule9());
+        this.rules.add(this.rule10());
+        this.rules.add(this.rule11());
+        this.rules.add(this.rule12());
+        this.rules.add(this.rule13());
+        this.rules.add(this.rule14());
+    }
+
+    //END #HELPER# PRIVATE METHODS
+
+
+    //BEGIN #RULES# PRIVATE METHODS
+
+    /*
+	 maj chords (I)
+	 min (i)
+	 aug (+)
+	 dim (o)
 	 */
-	private LinkedList<Integer> read_progressions() {
-		LinkedList<Integer> target_hash = new LinkedList<>();
-		File progressions = new File("Common Chord Progressions");
-		Scanner sc = null;
-		try {
-			sc = new Scanner(progressions);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		String[] line;
-		while (sc.hasNextLine()) {
-			line = sc.nextLine().split(" ");
-			int hash = 0;
-			int counter = 1;
-			for (String string : line) {
-				hash += Integer.parseInt(string) * Math.pow(10, counter);
-			}
-			target_hash.add(hash);
-			
-			
-		}
-		return target_hash;
+
+
+
+    //ii chords lead to I, V, or vii° chords
+    private RuleOfFollowing rule1() {
+        List<Integer> lead = Arrays.asList(CHORDS.ii.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
+                                            CHORDS.V.getValue(),
+                                            CHORDS.viiD.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //iii chords lead to I, ii, IV, or vi chords
+    private RuleOfFollowing rule2() {
+        List<Integer> lead = Arrays.asList(CHORDS.iii.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
+                                            CHORDS.ii.getValue(),
+                                            CHORDS.IV.getValue(),
+                                            CHORDS.vi.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //IV chords lead to I, ii, iii, V, or vii° chords
+    private RuleOfFollowing rule3() {
+        List<Integer> lead = Arrays.asList(CHORDS.IV.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
+                                            CHORDS.ii.getValue(),
+                                            CHORDS.iii.getValue(),
+                                            CHORDS.V.getValue(),
+                                            CHORDS.viiD.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //V chords lead to I or vi chords
+    private RuleOfFollowing rule4() {
+        List<Integer> lead = Arrays.asList(CHORDS.V.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
+                                            CHORDS.vi.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //vi chords lead to I, ii, iii, IV, or V chords
+    private RuleOfFollowing rule5() {
+        List<Integer> lead = Arrays.asList(CHORDS.vi.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
+                                            CHORDS.ii.getValue(),
+                                            CHORDS.iii.getValue(),
+                                            CHORDS.IV.getValue(),
+                                            CHORDS.V.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //vii° chords lead to I or iii chords
+    private RuleOfFollowing rule6() {
+        List<Integer> lead = Arrays.asList(CHORDS.viiD.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.I.getValue(),
+                                            CHORDS.iii.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //ii° or ii chords lead to i, iii, V, v, vii°, or VII chords
+    private RuleOfFollowing rule7() {
+        List<Integer> lead = Arrays.asList(CHORDS.viiD.getValue(),
+                                            CHORDS.ii.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.i.getValue(),
+                                            CHORDS.iii.getValue(),
+                                            CHORDS.V.getValue(),
+                                            CHORDS.v.getValue(),
+                                            CHORDS.viiD.getValue(),
+                                            CHORDS.VII.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //III or III+ chords lead to i, iv, IV, VI, vii°, or VI chords
+    private RuleOfFollowing rule8() {
+        List<Integer> lead = Arrays.asList(CHORDS.III.getValue(),
+                                            CHORDS.IIIA.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.i.getValue(),
+                                            CHORDS.iv.getValue(),
+                                            CHORDS.IV.getValue(),
+                                            CHORDS.VI.getValue(),
+                                            CHORDS.viiD.getValue(),
+                                            CHORDS.VI.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //iv or IV chords lead to i, V, v, vii°, or VII chords
+    private RuleOfFollowing rule9() {
+        List<Integer> lead = Arrays.asList(CHORDS.iv.getValue(),
+                                            CHORDS.IV.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.i.getValue(),
+                                            CHORDS.V.getValue(),
+                                            CHORDS.v.getValue(),
+                                            CHORDS.viiD.getValue(),
+                                            CHORDS.VII.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //V or v chords lead to i, VI chords
+    private RuleOfFollowing rule10() {
+        List<Integer> lead = Arrays.asList(CHORDS.V.getValue(),
+                                            CHORDS.v.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.i.getValue(),
+                                            CHORDS.VI.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //VI or #vi° chords lead to i, III, III+, iv, IV, V, v, vii°, or VII chords
+    private RuleOfFollowing rule11() {
+        List<Integer> lead = Arrays.asList(CHORDS.VI.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.i.getValue(),
+                                            CHORDS.III.getValue(),
+                                            CHORDS.IIIA.getValue(),
+                                            CHORDS.iv.getValue(),
+                                            CHORDS.IV.getValue(),
+                                            CHORDS.V.getValue(),
+                                            CHORDS.v.getValue(),
+                                            CHORDS.viiD.getValue(),
+                                            CHORDS.VII.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+
+    //vii° or VII chords lead to i chord
+    private RuleOfFollowing rule12() {
+        List<Integer> lead = Arrays.asList(CHORDS.viiD.getValue(),
+                                            CHORDS.VII.getValue());
+
+        List<Integer> next = Arrays.asList(CHORDS.i.getValue());
+        return new RuleOfFollowing(this.notes, lead, next);
+    }
+    
+    //not too much rest
+    private OneNoteRule rule13(){
+    	int note = NOTES.REST.getValue();
+    	int cost = 1;
+		return new OneNoteRule(this.notes, note, false, cost);
+    }
+    
+    //smooth moves
+    //unusual note length
+    private RandomRule rule14() {
+		return new RandomRule(notes);
 	}
+
+    //END #RULES# PUBLIC METHODS
+
+
 }
+
+

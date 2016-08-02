@@ -1,9 +1,9 @@
 package Parser;
 
-import Genome.AbstractInstrument;
+import Genome.AbstractGenome;
 
 public abstract class GenomeParser {
 	
-	public abstract String translateToPhenotype(final AbstractInstrument genome);
+	public abstract String translateToPhenotype(final AbstractGenome genome);
 	
 }
