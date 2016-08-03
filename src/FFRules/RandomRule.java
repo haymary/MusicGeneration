@@ -9,6 +9,7 @@ import static Evolution.Constants.STANDART_LENGTH_OF_NOTE_END;
 import static Evolution.Constants.STANDART_LENGTH_OF_NOTE_START;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import Evolution.Constants;
@@ -29,8 +30,29 @@ public class RandomRule extends ARule {
 		noRepetitionOfOneNoteRule();
 		longNoteInTheEndRule();
 		barStartRepetitionRule();
+		oneNoteRepetitionRule();
 	}
 	
+	private void oneNoteRepetitionRule() {
+		HashMap<Integer, Integer> notesMap = new HashMap<>();
+		for (Chord chord : notes) {
+			int key = chord.getValue();
+			if(notesMap.containsKey(key)){
+				notesMap.put(key, notesMap.get(key) + 1);
+			}else{
+				notesMap.put(key, 1);
+			}
+		}
+		LinkedList<Integer> repetitions = new LinkedList<>();
+		repetitions.addAll(notesMap.values());
+		
+		for (Integer num_repetitions : repetitions) {
+			if(num_repetitions > MELODY_LENGTH / 3){
+				count -= num_repetitions / MELODY_LENGTH * Constants.ONE_NOTE_REPETITION_FINE;
+			}
+		}
+	}
+
 	private void barStartRepetitionRule() {
 		LinkedList<Integer> start_notes = new LinkedList<>();
 		int iterator = 0;
@@ -48,18 +70,29 @@ public class RandomRule extends ARule {
 	}
 
 	private void longNoteInTheEndRule() {
-		if(getLastNoteLength() > STANDART_LENGTH_OF_NOTE_END){
+		int duration = getLastNoteDuration();
+		if(duration > STANDART_LENGTH_OF_NOTE_END){
 			count += Constants.LONG_END_NOTE_BONUS;
+		}
+		if(duration == -1){
+			count -= Constants.SHORT_END_FINE;
 		}
 	}
 
-	private int getLastNoteLength() {
+	private int getLastNoteDuration() {
 		int last_note_index = getLastNoteIndex();
 		int iterator = last_note_index - 1;
 		int duration = 1;
-		while(iterator > 0 || 
-				notes.get(last_note_index).getValue() 
-					== notes.get(iterator).getValue()){
+		
+		if(last_note_index == -1){
+			return -1;
+		}
+		if(!notes.get(last_note_index).isContinuesLast()){
+			return -1;
+		}
+		
+		while(iterator > 0 && 
+				notes.get(iterator).isContinuesLast()){
 			duration++;
 			iterator--;
 		}
@@ -71,7 +104,7 @@ public class RandomRule extends ARule {
 		while(notes.get(iterator).getValue() == NOTES.REST.getValue()){
 			iterator--;
 			if(iterator < 1){
-				return Integer.MAX_VALUE;
+				return -1;
 			}
 		}
 		return iterator;
@@ -103,7 +136,7 @@ public class RandomRule extends ARule {
 				jumps_count++;
 			}
 		}
-		count += - (jumps_count / MELODY_LENGTH) * JUMPS_BETWEEN_NOTES_FINE;
+		count -=  (jumps_count / MELODY_LENGTH) * JUMPS_BETWEEN_NOTES_FINE;
 	}
 
 	private int getDifferebceBetweenNotes(final Chord chord1, final Chord chord2) {
@@ -145,15 +178,12 @@ public class RandomRule extends ARule {
 	
 
 	private void averageLengthOfNotesRule(){
-		int UNUSUAL_LENGTH_FINE = 2;
-		
-
 		double 	punushment 	= 0;
 		int 	note_length = 1;
 		
 		for (Chord chord : notes) {
 			if(!chord.isContinuesLast()){
-				punushment += UNUSUAL_LENGTH_FINE *  fineForBeingNotInStandartInterval(note_length);
+				punushment += Constants.UNUSUAL_LENGTH_FINE *  fineForBeingNotInStandartInterval(note_length);
 				note_length = 0;
 			}
 			note_length++;

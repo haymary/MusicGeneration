@@ -5,6 +5,7 @@ public final class Constants {
 	public static final int 	POP_SIZE 					= 100;
 	public static final int 	MAX_NUMBER_GENERATIONS 		= 500;
 	
+	public static final double 	MIN_NOTE_DURATION 			= 0.0625;
 	public static final int 	NUM_OF_NOTES_IN_BAR 		= 16;
 	public static final int 	NUM_OF_BARS 				= 4;
 	
@@ -23,12 +24,14 @@ public final class Constants {
 	
 	//FINES
 	public static final int 	JUMPS_BETWEEN_NOTES_FINE 		= 10;
-	public static final int 	REST_FINE						= 10;
-	public static final int		ONE_NOTE_REPETITION_FINE		= 5;
+	public static final int 	REST_FINE						= 20;
+	public static final int		ONE_NOTE_REPETITION_FINE		= 20;
+	public static final int 	SHORT_END_FINE 					= 20;
+	public static final int 	UNUSUAL_LENGTH_FINE   			= 5;
 	
 	//BONUSES
-	public static final int 	ENTRY_BONUS            	= 1;
-	public static final int 	ONE_RULE_HOLDS_BONUS   	= 10;
+	public static final int 	ENTRY_BONUS            	= 10;
+	public static final int 	ONE_RULE_HOLDS_BONUS   	= 20;
 	public static final int 	HALF_RULES_HOLDS_BONUS 	= 30;
 	public static final int 	ALL_RULES_HOLDS_BONUS  	= 100;
 	public static final int 	LONG_END_NOTE_BONUS 	= 50;

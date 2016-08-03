@@ -41,7 +41,7 @@ public abstract class AbstractGenome implements Comparable<AbstractGenome>{
 		StringBuilder sb = new StringBuilder();
 		for (Chord chord : notes) {
 			if(chord.isContinuesLast()){
-				sb.append("- ");
+				sb.append("+ ");
 			}else{
 				sb.append(chord.getValue() + " ");
 			}

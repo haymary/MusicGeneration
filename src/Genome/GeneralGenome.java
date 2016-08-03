@@ -40,7 +40,7 @@ public abstract class GeneralGenome extends AbstractGenome{
 
 	private void generateGenome() {
 		for (int i = 0; i < MELODY_LENGTH; i++) {
-			this.notes.add(new GeneralChord(getPreviousNote()));
+			this.notes.add(new GeneralChord());
 		}
 	}
 
@@ -49,7 +49,6 @@ public abstract class GeneralGenome extends AbstractGenome{
 			return null;
 		}
 		return notes.get(notes.size() - 1);
-		
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public abstract class GeneralGenome extends AbstractGenome{
 
 	@Override
 	public void mutate() {
-		int MAX_NUM_MUTATIONS = MELODY_LENGTH/3;
+		int MAX_NUM_MUTATIONS = MELODY_LENGTH / 3;
 		
 		Random number_of_mutations = new Random();
 		for (int i = 0; i < number_of_mutations.nextInt(MAX_NUM_MUTATIONS); i++) {

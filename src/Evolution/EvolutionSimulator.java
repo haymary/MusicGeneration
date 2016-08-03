@@ -37,9 +37,9 @@ public class EvolutionSimulator {
 			
 			System.out.println(generation_num);
 			//printFF();
-			printGenomeLength();
-			//printRowGenomeToConsole();
-			//printTranslatedGenomeToConsole();
+			//printGenomeLength();
+			printRowGenomeToConsole();
+			printTranslatedGenomeToConsole();
 		}
 		
 	}
@@ -65,7 +65,7 @@ public class EvolutionSimulator {
 
 	private void printTranslatedGenomeToConsole() {
 		for (Evolution evolution : instrumentsEvolution) {
-			System.out.println(evolution.getPhenotype().get(0));
+			System.out.println(evolution.getPhenotype().get(1));
 		}
 	}
 
@@ -78,7 +78,7 @@ public class EvolutionSimulator {
 	private void printRowGenomeToConsole() {
 		for (Evolution evolution : instrumentsEvolution) {
 			System.out.print(evolution.getInstrumentType() + ": ");
-			System.out.println(evolution.getGenomeByIndex(0).toString());
+			System.out.println(evolution.getGenomeByIndex(1).toString());
 		}
 	}
 

@@ -5,6 +5,7 @@ import static Evolution.Constants.MELODY_LENGTH;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Evolution.Constants;
 import Gene.Chord;
 import Genome.AbstractGenome;
 
@@ -28,16 +29,16 @@ public class ChordParser extends GenomeParser {
 		StringBuilder 		phenotype = new StringBuilder();
         
 		phenotype.append(CheckType(individual));
-        
-        Chord current_note = null;
-        int duration = 0;
-        
+        boolean is_end = false;
         for (int note_num = 0; note_num < MELODY_LENGTH; note_num++) {
-			current_note = notes.get(note_num);
-			duration++;
+        	Chord current_note = notes.get(note_num);
+			int duration = 1;
 			for (int i = note_num + 1; i < MELODY_LENGTH; i++) {
 				if(notes.get(i).isContinuesLast()){
 					duration++;	
+					if(i == MELODY_LENGTH - 1){
+						is_end = true;
+					}
 				}else{
 					note_num = i - 1;
 					break;
@@ -46,7 +47,9 @@ public class ChordParser extends GenomeParser {
 			phenotype.append(" ");
 			phenotype.append(NumberToNoteOrChord(current_note, 
 													duration));
-			duration = 0;
+			if(is_end){
+				break;
+			}
 		}
 
         return phenotype.toString();
@@ -74,9 +77,12 @@ public class ChordParser extends GenomeParser {
     //Method for translating numbers of sixteenths to duration
     private String NumberToDuration(final int n) {
     	StringBuilder result = new StringBuilder();
-    	for (int i = 0; i < n; i++) {
-			result.append("s");
-		}
+//    	for (int i = 0; i < n; i++) {
+//			result.append("s");
+//		}
+    	double duration = Constants.MIN_NOTE_DURATION * n;
+    	result.append("/");
+    	result.append(duration);
         return result.toString();
 
     }

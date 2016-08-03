@@ -32,6 +32,7 @@ public class RuleOfFollowing extends ARule{
                 for (Integer next_chord: this.next) {
                     if (this.notes.get(i+1).getValue() == next_chord) {
                         this.count++;
+                        break;
                     }
                 }
             }
