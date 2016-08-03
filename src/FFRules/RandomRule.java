@@ -1,28 +1,98 @@
 package FFRules;
 
 import static Evolution.Constants.GENERAL_NUM_NOTES;
+import static Evolution.Constants.JUMPS_BETWEEN_NOTES_FINE;
 import static Evolution.Constants.MELODY_LENGTH;
+import static Evolution.Constants.NUM_OF_NOTES_IN_BAR;
+import static Evolution.Constants.ONE_NOTE_REPETITION_FINE;
+import static Evolution.Constants.STANDART_LENGTH_OF_NOTE_END;
+import static Evolution.Constants.STANDART_LENGTH_OF_NOTE_START;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import Evolution.Constants;
 import Gene.Chord;
 import Gene.NOTES;
 
-
 public class RandomRule extends ARule {
-	static final int FINE_FORE_JUMPS = 10;
 
 	public RandomRule(final ArrayList<Chord> notes) {
 		this.notes = notes;
+		this.type = 1;
 	}
 	
 	@Override
 	public void run() {
 		smoothMoveRule();
 		averageLengthOfNotesRule();
+		noRepetitionOfOneNoteRule();
+		longNoteInTheEndRule();
+		barStartRepetitionRule();
 	}
 	
+	private void barStartRepetitionRule() {
+		LinkedList<Integer> start_notes = new LinkedList<>();
+		int iterator = 0;
+		int num_repetitions = 0;
+		while(iterator < MELODY_LENGTH){
+			if(start_notes.contains(notes.get(iterator).getValue())){
+				num_repetitions++;
+			}else{
+				start_notes.add(notes.get(iterator).getValue());
+			}
+			iterator += NUM_OF_NOTES_IN_BAR;
+		}
+		count += (num_repetitions / Constants.NUM_OF_BARS) 
+				* Constants.BAR_BEGINNING_REPETITION_BONUS;
+	}
+
+	private void longNoteInTheEndRule() {
+		if(getLastNoteLength() > STANDART_LENGTH_OF_NOTE_END){
+			count += Constants.LONG_END_NOTE_BONUS;
+		}
+	}
+
+	private int getLastNoteLength() {
+		int last_note_index = getLastNoteIndex();
+		int iterator = last_note_index - 1;
+		int duration = 1;
+		while(iterator > 0 || 
+				notes.get(last_note_index).getValue() 
+					== notes.get(iterator).getValue()){
+			duration++;
+			iterator--;
+		}
+		return duration;
+	}
+
+	private int getLastNoteIndex() {
+		int iterator = MELODY_LENGTH - 1;
+		while(notes.get(iterator).getValue() == NOTES.REST.getValue()){
+			iterator--;
+			if(iterator < 1){
+				return Integer.MAX_VALUE;
+			}
+		}
+		return iterator;
+	}
+
+	private void noRepetitionOfOneNoteRule() {
+		int current_chord = Integer.MAX_VALUE;
+		int duration = 0;
+		for (Chord chord : notes) {
+			if(current_chord == chord.getValue()){
+				duration++;
+			}else{
+				if(duration > NUM_OF_NOTES_IN_BAR / 2){
+					count -= duration * ONE_NOTE_REPETITION_FINE;
+				}
+				current_chord = chord.getValue();
+				duration = 1;
+			}
+		}
+	}
+
 	private void smoothMoveRule(){
 		int jumps_count = 0;
 		
@@ -33,7 +103,7 @@ public class RandomRule extends ARule {
 				jumps_count++;
 			}
 		}
-		count += - (jumps_count / MELODY_LENGTH) * FINE_FORE_JUMPS;
+		count += - (jumps_count / MELODY_LENGTH) * JUMPS_BETWEEN_NOTES_FINE;
 	}
 
 	private int getDifferebceBetweenNotes(final Chord chord1, final Chord chord2) {
@@ -76,21 +146,35 @@ public class RandomRule extends ARule {
 
 	private void averageLengthOfNotesRule(){
 		int UNUSUAL_LENGTH_FINE = 2;
-		int STANDART_LENGTH 	= 3;
+		
 
 		double 	punushment 	= 0;
-		int 	note_length = 0;
+		int 	note_length = 1;
 		
 		for (Chord chord : notes) {
 			if(!chord.isContinuesLast()){
-				punushment += UNUSUAL_LENGTH_FINE * 
-						(Math.abs(STANDART_LENGTH - note_length));
+				punushment += UNUSUAL_LENGTH_FINE *  fineForBeingNotInStandartInterval(note_length);
 				note_length = 0;
 			}
 			note_length++;
 		}
 		
 		count -= (int) punushment;
+	}
+
+	private int fineForBeingNotInStandartInterval(final int note_length) {
+		int diff = 0;
+		if(note_length < STANDART_LENGTH_OF_NOTE_START){
+			diff = difference(STANDART_LENGTH_OF_NOTE_START, note_length);
+			
+		}else if(note_length > STANDART_LENGTH_OF_NOTE_END){
+			diff = difference(STANDART_LENGTH_OF_NOTE_END, note_length);
+		}
+		return diff;
+	}
+
+	private int difference(final int first, final int second) {
+		return Math.abs(first - second);
 	}
 	
 }

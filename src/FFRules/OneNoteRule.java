@@ -1,5 +1,7 @@
 package FFRules;
 
+import static Evolution.Constants.MELODY_LENGTH;
+
 import java.util.ArrayList;
 
 import Gene.Chord;
@@ -15,6 +17,7 @@ public class OneNoteRule extends ARule {
 		this.note 			= note;
 		this.is_beneficial 	= is_beneficial;
 		this.cost = cost;
+		this.type = 1;
 	}
 	
 	@Override
@@ -26,11 +29,9 @@ public class OneNoteRule extends ARule {
 			}
 		}
 		
-		if(is_beneficial){
-			count =  note_count * cost;
-		}else{
-			count  = - note_count * cost;
+		count = (note_count / MELODY_LENGTH) * cost;
+		if(!is_beneficial){
+			count *= (-1);
 		}
-	} 
-
+	}
 }

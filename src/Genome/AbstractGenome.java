@@ -1,11 +1,10 @@
 package Genome;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import Gene.Chord;
 
-public abstract class AbstractGenome{
+public abstract class AbstractGenome implements Comparable<AbstractGenome>{
 	
 	protected ArrayList<Chord> notes;
 	protected String instrument_type;
@@ -20,21 +19,6 @@ public abstract class AbstractGenome{
 	public abstract AbstractGenome reproduce(final AbstractGenome parent2);
 	public abstract AbstractGenome generateIndividual();
 	
-	public Comparator<AbstractGenome> getComparator(){
-		return new Comparator<AbstractGenome>() {
-
-			@Override
-			public int compare(final AbstractGenome o1, final AbstractGenome o2) {
-				if(o1.fitness > o2.fitness){
-					return 1;
-				}else if(o1.fitness == o2.fitness) {
-					return 0;
-				}
-				return -1;
-			}
-		};
-	}
-
 	public String getInstrumentType() {
 		return instrument_type;
 	}

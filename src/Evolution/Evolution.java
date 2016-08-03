@@ -28,59 +28,8 @@ public class Evolution {
 		return newPop;
 	}
 
-//	void produceNextGeneration() {
-//		ArrayList<AbstractInstrument> newGeneration;
-//		pop = reproduce();
-//
-//		//		increaseNumber_of_generations();
-////		selection(newGeneration);
-////		if(is_minimized) {
-////			return;
-////		}
-////		if(isInStagnation()){
-////			shake();
-////			setNumber_of_generations(0);
-////		}
-//		
-//	}
-	
-//	private void shake() {
-//		double depth_rate = 0.7;
-//		int survivor_num = (int) (POP_SIZE * depth_rate);
-//		ArrayList<AbstractInstrument> newPop = new ArrayList<>();
-//		Random random = new Random();
-//		for (int i = 0; i < survivor_num; i++) {
-//			newPop.add(getPop().get(random.nextInt(POP_SIZE - 1)));
-//		}
-//		newPop.addAll(createPopulation(POP_SIZE - survivor_num));
-//		setPop(newPop);
-//	}
-//
-//	private boolean isInStagnation() {
-//		Double current_fitness = countGenerationFitness();
-//		fitness_factor.add(current_fitness);
-//		if(number_of_generations < 10){
-//			return false;
-//		}
-//		if(current_fitness.equals(fitness_factor.get(
-//				getNumber_of_generations() - MAX_STAGNATION_DEPTH))){
-//			if (current_fitness.equals(fitness_factor.get(
-//					getNumber_of_generations() - 1 ))) {
-//				return true;
-//			}
-//		}
-//		return false;
-//	}
-
-//	private Double countGenerationFitness() {
-//		double generation_fitness = 0;
-//		for (AbstractInstrument individual : getPop()) {
-//			generation_fitness += individual.getFitness();
-//		}
-//		return generation_fitness / POP_SIZE;
-//	}
-
 	public void selection() {
+		java.util.Collections.sort(pop);
 		ArrayList<AbstractGenome> newPop = new ArrayList<>();
 		newPop.addAll(pop.subList(0, POP_SIZE));
 		setPop(newPop);

@@ -198,4 +198,9 @@ public class DrumsGenome extends AbstractGenome {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public int compareTo(final AbstractGenome o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

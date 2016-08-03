@@ -33,10 +33,7 @@ public abstract class GeneralGenome extends AbstractGenome{
 		return child;
 	}
 
-	/**
-	 * @param child
-	 * First element should not continue previous note
-	 */
+	//First element should not continue previous note
 	private void setFirstElementIndependent(final AbstractGenome child) {
 		child.getFirstNote().setContinuesLast(false);
 	}
@@ -73,4 +70,13 @@ public abstract class GeneralGenome extends AbstractGenome{
 		
 	}
 
+	@Override
+	public int compareTo(final AbstractGenome other_genome) {
+		if(this.fitness > other_genome.fitness){
+			return -1;
+		}else if(this.fitness == other_genome.fitness) {
+			return 0;
+		}
+		return 1;
+	}
 }

@@ -35,13 +35,33 @@ public class EvolutionSimulator {
 			saveThreeBestofGeneration(generation_num);
 			//saveAllofGeneration(generation_num);
 			
-			//System.out.println(generation_num);
+			System.out.println(generation_num);
+			//printFF();
+			printGenomeLength();
 			//printRowGenomeToConsole();
 			//printTranslatedGenomeToConsole();
 		}
 		
 	}
 
+
+	private void printGenomeLength() {
+		for (Evolution evolution : instrumentsEvolution) {
+			System.out.println("Genotype:");
+			for (AbstractGenome genome : evolution.getPop()) {
+				System.out.print(genome.getNotes().size());
+				System.out.print(" ");
+			}
+			System.out.println();
+		}
+		
+	}
+
+	private void printFF() {
+		for (Evolution evolution : instrumentsEvolution) {
+			System.out.println(evolution.getGenomeByIndex(0).getFitness());
+		}
+	}
 
 	private void printTranslatedGenomeToConsole() {
 		for (Evolution evolution : instrumentsEvolution) {
@@ -114,10 +134,6 @@ public class EvolutionSimulator {
 		}
 	}
 
-	/**
-	 * @param index_in_genome
-	 * @param song_fitness
-	 */
 	private void setSongFitness(final int index_in_genome, final double song_fitness) {
 		for (Evolution evolution : instrumentsEvolution) {
 			evolution.getGenomeByIndex(index_in_genome).setFitness(song_fitness);
@@ -132,16 +148,7 @@ public class EvolutionSimulator {
 				+  count_instrument_interaction(index_of_genome) * WEIGHT_OF_INTERACTION;
 	}
 
-	private void nextGeneration() {
-		for (Evolution evolution : instrumentsEvolution) {
-			evolution.produceNextGeneration();
-		}
-	}
 
-	/**
-	 * @param index
-	 * @return
-	 */
 	private double sumInstrunmentFitness(final int index) {
 		double total_fit = 0;
 		for (Evolution evolution : instrumentsEvolution) {
@@ -157,5 +164,11 @@ public class EvolutionSimulator {
 		}
 		multiFF = new MultiInstrumentFF(instruments);
 		return multiFF.count_ff();
+	}
+
+	private void nextGeneration() {
+		for (Evolution evolution : instrumentsEvolution) {
+			evolution.produceNextGeneration();
+		}
 	}
 }
