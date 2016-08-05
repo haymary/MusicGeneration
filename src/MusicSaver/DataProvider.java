@@ -34,11 +34,15 @@ public class DataProvider {
 
 
     //BEGIN #MAKE PATTERN FROM LIST# PRIVATE METHODS
+    //JUST FOR TESTING
     private void makePatternFromNotesList() {
     	int voice = 0;
         for (String singleInstrumentNotes : this.listOfNotes) {
-            this.musicPattern.add("V" + voice + " " + singleInstrumentNotes);
+            this.musicPattern.add("V" + voice + " " + singleInstrumentNotes);          
             voice++;
+            //test part
+            
+            this.musicPattern.add("V" + voice + " " + singleInstrumentNotes.replaceFirst("I0", "I50")); 
         }
     }
     //END #MAKE PATTRN FROM LIST# PRIVATE METHODS
