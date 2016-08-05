@@ -23,7 +23,7 @@ public class Evolution {
 	private ArrayList<AbstractGenome> createPopulation(final int pop_size2) {
 		ArrayList<AbstractGenome> newPop = new ArrayList<>();
 		for (int i = 0; i < POP_SIZE; i++) {
-			newPop.add(COMMON_PROGENITOR.generateIndividual());
+			newPop.add(COMMON_PROGENITOR.generateIndividual(COMMON_PROGENITOR.getInstrumentType()));
 		}
 		return newPop;
 	}

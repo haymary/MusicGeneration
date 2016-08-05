@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import FF.MultiInstrumentFF;
-import Genome.AbstractGenome;
-import Genome.PianoGenome;
+import Genome.*;
 import MusicSaver.DataProvider;
 import MusicSaver.MusicSaver;
 
@@ -23,8 +22,9 @@ public class EvolutionSimulator {
 	
 	public EvolutionSimulator() {
 		instrumentsEvolution = new ArrayList<>();
-		instrumentsEvolution.add(new Evolution(new PianoGenome()));
+		//instrumentsEvolution.add(new Evolution(new PianoGenome()));
 		//instrumentsEvolution.add(new Evolution(new ViolinGenome()));
+		instrumentsEvolution.add(new Evolution(new DrumInstrument()));
 	}
 	
 	public void startSimulation(){
@@ -91,12 +91,21 @@ public class EvolutionSimulator {
 	}
 
 	private void saveGenerationSamples(final int generation_num, final int num_to_save) {
-		for (int individual_num = 0; individual_num < num_to_save;individual_num++) {
+		for (int individual_num = 0; individual_num < num_to_save; individual_num++) {
 			LinkedList<String> song = getInstrumentsPhenotypes(individual_num);
-			DataProvider provider = new DataProvider(song);
+			LinkedList<String> instrumentTypes = getInstrumentTypes(individual_num);
+			DataProvider provider = new DataProvider(song, instrumentTypes);
 		    MusicSaver saver = new MusicSaver();
 		    saver.saveToMidi(provider, getFileName(generation_num, individual_num));
 		}
+	}
+
+	private LinkedList<String> getInstrumentTypes(int individual_num){
+		LinkedList<String> instrumentTypes = new LinkedList<>();
+		for (Evolution evolution : instrumentsEvolution) {
+			instrumentTypes.add(evolution.getPop().get(individual_num).getInstrumentType());
+		}
+		return instrumentTypes;
 	}
 
 	private LinkedList<String> getInstrumentsPhenotypes(final int individual_num) {
@@ -109,7 +118,7 @@ public class EvolutionSimulator {
 
 	private String getFileName(final int generation_num, final int individual_num) {
 		String pathname = getDirectoryForGeneration(generation_num);
-        return pathname + File.separator + individual_num + ".midi";
+        return pathname + File.separator + individual_num + ".mid";
 	}
 
 	private String getDirectoryForGeneration(final int generation_num) {

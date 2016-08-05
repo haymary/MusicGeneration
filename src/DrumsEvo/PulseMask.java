@@ -1,4 +1,4 @@
-package Loop;
+package DrumsEvo;
 
 import java.util.ArrayList;
 
@@ -80,6 +80,7 @@ public class PulseMask {
 
         return tempMask;
     }
+
     // TODO Solve Tom1 and Crash composition principles
     public void createFillingMask(){
 

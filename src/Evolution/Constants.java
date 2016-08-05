@@ -2,8 +2,8 @@ package Evolution;
 
 public final class Constants {
 
-	public static final int 	POP_SIZE 					= 100;
-	public static final int 	MAX_NUMBER_GENERATIONS 		= 500;
+	public static final int 	POP_SIZE 					= 20;
+	public static final int 	MAX_NUMBER_GENERATIONS 		= 30;
 	
 	public static final double 	MIN_NOTE_DURATION 			= 0.0625;
 	public static final int 	NUM_OF_NOTES_IN_BAR 		= 16;
@@ -16,8 +16,8 @@ public final class Constants {
 	public static final int 	GENERAL_NUM_NOTES 			= 7;
 	public static final int 	GENERAL_NUM_TYPES_CHORDS 	= 4;
 	
-	public static final int 	STANDART_LENGTH_OF_NOTE_START 	= 2;
-	public static final int 	STANDART_LENGTH_OF_NOTE_END 	= 4;
+	public static final int 	STANDARD_LENGTH_OF_NOTE_START = 2;
+	public static final int 	STANDARD_LENGTH_OF_NOTE_END = 4;
 	
 	public static final double 	WEIGHT_OF_INSTRUMENTS_FITNESS 	= 1;
 	public static final double 	WEIGHT_OF_INTERACTION 			= 1;

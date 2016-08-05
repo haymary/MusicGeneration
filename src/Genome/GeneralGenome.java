@@ -26,7 +26,7 @@ public abstract class GeneralGenome extends AbstractGenome{
 
 	
 	@Override
-	public AbstractGenome generateIndividual() {
+	public AbstractGenome generateIndividual(String instrument_type) {
 		GeneralGenome child = generateChild();
 		child.generateGenome();
 		setFirstElementIndependent(child);
