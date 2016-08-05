@@ -18,43 +18,28 @@ public class GeneralChord extends Chord{
 	 * (1 - 7) -  (-4) * 7 - dim
 	 */
 	
-	private Chord previouse_chord;
-
-	public GeneralChord(final Chord previouse_chord) {
-		this.previouse_chord = previouse_chord;
+	
+	public GeneralChord() {
 		newChord();
 	}
 
 	@Override
 	public void newChord() {
-		if (isFirstChord()){
-			generareIndependentIndividual();
-		}else{
-			generateGeneralIndividual();
-		}
-	}
-
-	private void generateGeneralIndividual() {
-		if(randomWithTwoThirdProbability()){
-			setContinuesLast(true);
-			value = previouse_chord.getValue();
-			octave_num = previouse_chord.getOctave_num();
-		}else{
-			generareIndependentIndividual();
-		}
-	}
-
-	private void generareIndependentIndividual() {
 		setOctave();
 		if(randomWithEqualProbability()){
 			setChord();
 		}else{
 			setNote();
 		}
-	}
-
-	private boolean isFirstChord() {
-		return previouse_chord == null;
+		if(randomWithTwoThirdProbability()){
+			setContinuesLast(true);
+//			value = previouse_chord.getValue();
+//			octave_num = previouse_chord.getOctave_num();
+//			root_note = previouse_chord.getRoot_note();
+//			chord_type = previouse_chord.getChord_type();
+		}else{
+			setContinuesLast(false);
+		}
 	}
 
 	private boolean randomWithEqualProbability() {
@@ -76,13 +61,15 @@ public class GeneralChord extends Chord{
 	protected void setChord() {
 		setNote();
 		Random random = new Random();
-		setValue( - (value + GENERAL_NUM_NOTES * random.nextInt(GENERAL_NUM_TYPES_CHORDS)));
+		chord_type = random.nextInt(GENERAL_NUM_TYPES_CHORDS);
+		setValue( - (value + GENERAL_NUM_NOTES * chord_type));
 	}
 
 	@Override
 	protected void setNote() {
 		Random random = new Random();
-		setValue(random.nextInt(GENERAL_NUM_NOTES + 1));
+		root_note = random.nextInt(GENERAL_NUM_NOTES + 1);
+		setValue(root_note);
 	}
 
 }

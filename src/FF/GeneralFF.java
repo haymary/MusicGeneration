@@ -1,5 +1,11 @@
 package FF;
 
+import static Evolution.Constants.ALL_RULES_HOLDS_BONUS;
+import static Evolution.Constants.ENTRY_BONUS;
+import static Evolution.Constants.HALF_RULES_HOLDS_BONUS;
+import static Evolution.Constants.ONE_RULE_HOLDS_BONUS;
+import static Evolution.Constants.REST_FINE;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -12,7 +18,6 @@ import FFRules.RuleOfFollowing;
 import Gene.CHORDS;
 import Gene.Chord;
 import Gene.NOTES;
-
 /**
  * Created by pisatel on 28.07.16.
  */
@@ -21,10 +26,7 @@ public class GeneralFF {
     private ArrayList<Chord> notes;
     private LinkedList<ARule> rules;
 
-    private final int ENTRY_BONUS            = 1;
-    private final int ONE_RULE_HOLDS_BONUS   = 10;
-    private final int HALF_RULES_HOLDS_BONUS = 30;
-    private final int ALL_RULES_HOLDS_BONUS  = 100;
+    
 
     public GeneralFF(final ArrayList<Chord> notes) {
         this.notes = notes;
@@ -277,8 +279,7 @@ public class GeneralFF {
     //not too much rest
     private OneNoteRule rule13(){
     	int note = NOTES.REST.getValue();
-    	int cost = 1;
-		return new OneNoteRule(this.notes, note, false, cost);
+		return new OneNoteRule(this.notes, note, false, REST_FINE);
     }
     
     //smooth moves

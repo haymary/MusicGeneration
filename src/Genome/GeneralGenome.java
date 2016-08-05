@@ -33,17 +33,14 @@ public abstract class GeneralGenome extends AbstractGenome{
 		return child;
 	}
 
-	/**
-	 * @param child
-	 * First element should not continue previous note
-	 */
+	//First element should not continue previous note
 	private void setFirstElementIndependent(final AbstractGenome child) {
 		child.getFirstNote().setContinuesLast(false);
 	}
 
 	private void generateGenome() {
 		for (int i = 0; i < MELODY_LENGTH; i++) {
-			this.notes.add(new GeneralChord(getPreviousNote()));
+			this.notes.add(new GeneralChord());
 		}
 	}
 
@@ -52,7 +49,6 @@ public abstract class GeneralGenome extends AbstractGenome{
 			return null;
 		}
 		return notes.get(notes.size() - 1);
-		
 	}
 
 	@Override
@@ -63,7 +59,7 @@ public abstract class GeneralGenome extends AbstractGenome{
 
 	@Override
 	public void mutate() {
-		int MAX_NUM_MUTATIONS = MELODY_LENGTH/3;
+		int MAX_NUM_MUTATIONS = MELODY_LENGTH / 3;
 		
 		Random number_of_mutations = new Random();
 		for (int i = 0; i < number_of_mutations.nextInt(MAX_NUM_MUTATIONS); i++) {
@@ -73,4 +69,13 @@ public abstract class GeneralGenome extends AbstractGenome{
 		
 	}
 
+	@Override
+	public int compareTo(final AbstractGenome other_genome) {
+		if(this.fitness > other_genome.fitness){
+			return -1;
+		}else if(this.fitness == other_genome.fitness) {
+			return 0;
+		}
+		return 1;
+	}
 }
