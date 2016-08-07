@@ -5,11 +5,11 @@ package MusicSaver;
  */
 
 public class Tester {
-    public static void main(final String[] args) {
+    /*public static void main(final String[] args) {
 
         DataProvider provider = new DataProvider(DataTester.getMusicStringTestMethod());
         MusicSaver saver = new MusicSaver();
-        saver.saveToMidi(provider, "out.midi");
+        saver.saveToMidi(provider, "out.mid");
 
-    }
+    }*/
 }

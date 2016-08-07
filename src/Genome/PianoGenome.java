@@ -1,6 +1,6 @@
 package Genome;
 
-public class PianoGenome extends GeneralGenome       {
+public class PianoGenome extends GeneralGenome{
 	
 	public PianoGenome() {
 		instrument_type = "Piano";

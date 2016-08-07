@@ -5,8 +5,8 @@ import static Evolution.Constants.JUMPS_BETWEEN_NOTES_FINE;
 import static Evolution.Constants.MELODY_LENGTH;
 import static Evolution.Constants.NUM_OF_NOTES_IN_BAR;
 import static Evolution.Constants.ONE_NOTE_REPETITION_FINE;
-import static Evolution.Constants.STANDART_LENGTH_OF_NOTE_END;
-import static Evolution.Constants.STANDART_LENGTH_OF_NOTE_START;
+import static Evolution.Constants.STANDARD_LENGTH_OF_NOTE_END;
+import static Evolution.Constants.STANDARD_LENGTH_OF_NOTE_START;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +71,7 @@ public class RandomRule extends ARule {
 
 	private void longNoteInTheEndRule() {
 		int duration = getLastNoteDuration();
-		if(duration > STANDART_LENGTH_OF_NOTE_END){
+		if(duration > STANDARD_LENGTH_OF_NOTE_END){
 			count += Constants.LONG_END_NOTE_BONUS;
 		}
 		if(duration == -1){
@@ -194,11 +194,11 @@ public class RandomRule extends ARule {
 
 	private int fineForBeingNotInStandartInterval(final int note_length) {
 		int diff = 0;
-		if(note_length < STANDART_LENGTH_OF_NOTE_START){
-			diff = difference(STANDART_LENGTH_OF_NOTE_START, note_length);
+		if(note_length < STANDARD_LENGTH_OF_NOTE_START){
+			diff = difference(STANDARD_LENGTH_OF_NOTE_START, note_length);
 			
-		}else if(note_length > STANDART_LENGTH_OF_NOTE_END){
-			diff = difference(STANDART_LENGTH_OF_NOTE_END, note_length);
+		}else if(note_length > STANDARD_LENGTH_OF_NOTE_END){
+			diff = difference(STANDARD_LENGTH_OF_NOTE_END, note_length);
 		}
 		return diff;
 	}
