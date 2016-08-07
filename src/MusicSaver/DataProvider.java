@@ -42,7 +42,7 @@ public class DataProvider {
             voice++;
             //test part
             
-            this.musicPattern.add("V" + voice + " " + singleInstrumentNotes.replaceFirst("I0", "I50")); 
+            //this.musicPattern.add("V" + voice + " " + singleInstrumentNotes.replaceFirst("I0", "I50")); 
         }
     }
     //END #MAKE PATTRN FROM LIST# PRIVATE METHODS

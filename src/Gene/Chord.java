@@ -38,7 +38,7 @@ public abstract class Chord{
 		return octave_num;
 	}
 
-	public int getRoot_note() {
+	public int getRootNote() {
 		return root_note;
 	}
 

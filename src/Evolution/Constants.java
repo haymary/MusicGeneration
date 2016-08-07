@@ -37,6 +37,6 @@ public final class Constants {
 	public static final int 	LONG_END_NOTE_BONUS 	= 50;
 	public static final int 	BAR_BEGINNING_REPETITION_BONUS 	= 10;
 	
-	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic";
+	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\Test";
 }
 	

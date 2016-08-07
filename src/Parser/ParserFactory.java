@@ -5,7 +5,8 @@ public class ParserFactory {
 		if (type.equals("Drums")){
 			return new DrumsParser();
 		}
-		return new ChordParser();
+		//return new ChordParser();
+		return new AlternativeParser();
 	}
 
 }

@@ -93,6 +93,14 @@ public class EvolutionSimulator {
 	private void saveGenerationSamples(final int generation_num, final int num_to_save) {
 		for (int individual_num = 0; individual_num < num_to_save;individual_num++) {
 			LinkedList<String> song = getInstrumentsPhenotypes(individual_num);
+			//FOR TEST
+			String[] instruments = song.get(0).split(";");
+			song = new LinkedList<>();
+			for (String string : instruments) {
+				song.add(string);
+				System.out.println(string);
+			}
+			//-----
 			DataProvider provider = new DataProvider(song);
 		    MusicSaver saver = new MusicSaver();
 		    saver.saveToMidi(provider, getFileName(generation_num, individual_num));

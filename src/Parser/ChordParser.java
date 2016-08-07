@@ -61,7 +61,7 @@ public class ChordParser extends GenomeParser {
         String[] chords = {"maj", "min", "aug", "dim"};
         StringBuilder result = new StringBuilder();
         
-        result.append(notes[chord.getRoot_note()]);
+        result.append(notes[chord.getRootNote()]);
         if(chord.isNotRest()){
         	result.append(chord.getOctave_num());
         	if(chord.isChord()){
