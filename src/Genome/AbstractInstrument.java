@@ -59,7 +59,7 @@ public abstract class AbstractInstrument{
 
 	public abstract AbstractInstrument reproduce(final AbstractInstrument parent2);
 
-	public abstract AbstractInstrument generateIndividual(String instrument_type);
+	public abstract AbstractInstrument generateIndividual(String instrument_type1);
 
 	public ArrayList<Chord> getNotes() {
 		return notes;

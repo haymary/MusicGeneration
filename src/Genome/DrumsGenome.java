@@ -1,14 +1,14 @@
 package Genome;
 
 
+import static Evolution.Constants.MELODY_LENGTH;
+import static Evolution.Constants.NUM_OF_NOTES_IN_BAR;
+
 import java.util.HashMap;
 import java.util.Random;
 
-
-import Gene.DrumChord;
 import DrumsEvo.PulseMask;
-
-import static Evolution.Constants.*;
+import Gene.DrumChord;
 
 public abstract class DrumsGenome extends AbstractGenome {
 
@@ -28,7 +28,7 @@ public abstract class DrumsGenome extends AbstractGenome {
 	protected int pulseNum;
 
 
-	protected abstract DrumsGenome generateChild(String instrument_type);
+	protected abstract DrumsGenome generateChild(String instrument_type1);
 	
 	@Override
 	public void count_fitness(){
@@ -47,7 +47,9 @@ public abstract class DrumsGenome extends AbstractGenome {
 						}
 					}
 				}
-				if(kickNum > pulseNum*2) fitness /= 100;
+				if(kickNum > pulseNum*2) {
+					fitness /= 100;
+				}
 				break;
 			case "Snare":
 				kickNum = 0;
@@ -59,7 +61,9 @@ public abstract class DrumsGenome extends AbstractGenome {
 						}
 					}
 				}
-				if(kickNum > pulseNum*2) fitness /= 100;
+				if(kickNum > pulseNum*2) {
+					fitness /= 100;
+				}
 				break;
 			case "Clap":
 				kickNum = 0;
@@ -71,7 +75,9 @@ public abstract class DrumsGenome extends AbstractGenome {
 						}
 					}
 				}
-				if(kickNum > pulseNum*2) fitness /= 100;
+				if(kickNum > pulseNum*2) {
+					fitness /= 100;
+				}
 				break;
 
 			case "Closed Hi-Hat":
@@ -157,14 +163,14 @@ public abstract class DrumsGenome extends AbstractGenome {
 	}
 
 	@Override
-	public AbstractGenome generateIndividual(String instrument_type) {
-		DrumsGenome child = generateChild(instrument_type);
+	public AbstractGenome generateIndividual(final String instrument_type1) {
+		DrumsGenome child = generateChild(instrument_type1);
 		child.generateGenome();
 		return child;
 	}
 
 	@Override
-	public int compareTo(AbstractGenome other_genome) {
+	public int compareTo(final AbstractGenome other_genome) {
 		if(this.fitness > other_genome.fitness){
 			return -1;
 		}else if(this.fitness == other_genome.fitness) {

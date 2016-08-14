@@ -17,7 +17,7 @@ public abstract class AbstractGenome implements Comparable<AbstractGenome>{
 	public abstract void mutate();
 	protected abstract void count_fitness();
 	public abstract AbstractGenome reproduce(final AbstractGenome parent2);
-	public abstract AbstractGenome generateIndividual(String instrument_type);
+	public abstract AbstractGenome generateIndividual(String instrument_type1);
 	
 	public String getInstrumentType() {
 		return instrument_type;

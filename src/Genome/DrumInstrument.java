@@ -1,12 +1,12 @@
 package Genome;
 
-import DrumsEvo.PulseMask;
-
-import java.util.Random;
-
 import static Evolution.Constants.MELODY_LENGTH;
 import static Evolution.Constants.NUM_OF_BARS;
 import static Evolution.Constants.NUM_OF_NOTES_IN_BAR;
+
+import java.util.Random;
+
+import DrumsEvo.PulseMask;
 
 /**
  * Created by DmitryRukavchuk on 05.08.2016.
@@ -32,7 +32,7 @@ public class DrumInstrument extends DrumsGenome {
     }
 
     @Override
-    protected DrumsGenome generateChild(String instrument_type) {
-        return new DrumInstrument(instrument_type);
+    protected DrumsGenome generateChild(final String instrument_type1) {
+        return new DrumInstrument(instrument_type1);
     }
 }
