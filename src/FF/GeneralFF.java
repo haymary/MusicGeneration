@@ -1,11 +1,5 @@
 package FF;
 
-import static Evolution.Constants.ALL_RULES_HOLDS_BONUS;
-import static Evolution.Constants.ENTRY_BONUS;
-import static Evolution.Constants.HALF_RULES_HOLDS_BONUS;
-import static Evolution.Constants.ONE_RULE_HOLDS_BONUS;
-import static Evolution.Constants.REST_FINE;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -15,9 +9,10 @@ import FFRules.ARule;
 import FFRules.OneNoteRule;
 import FFRules.RandomRule;
 import FFRules.RuleOfFollowing;
-import Gene.CHORDS;
 import Gene.Chord;
-import Gene.NOTES;
+import Service.CHORDS;
+import Service.Constants;
+import Service.NOTES;
 /**
  * Created by pisatel on 28.07.16.
  */
@@ -54,19 +49,19 @@ public class GeneralFF {
         for (ARule rule : this.rules) {
         	if(rule.getType() == 0){
         		if (rule.isActivated()) {
-        			score += ONE_RULE_HOLDS_BONUS;
+        			score += Constants.ONE_RULE_HOLDS_BONUS;
         			count_activated_rules++;
-        			score += rule.getPoints() * ENTRY_BONUS;
+        			score += rule.getPoints() * Constants.ENTRY_BONUS;
         		}
         	}else{
         		score += rule.getPoints();
         	}
         }
         if (count_activated_rules > this.rules.size()/2) {
-            score += HALF_RULES_HOLDS_BONUS;
+            score += Constants.HALF_RULES_HOLDS_BONUS;
         }
         if (count_activated_rules == this.rules.size()) {
-            score += ALL_RULES_HOLDS_BONUS;
+            score += Constants.ALL_RULES_HOLDS_BONUS;
         }
 
         return score;
@@ -279,7 +274,7 @@ public class GeneralFF {
     //not too much rest
     private OneNoteRule rule13(){
     	int note = NOTES.REST.getValue();
-		return new OneNoteRule(this.notes, note, false, REST_FINE);
+		return new OneNoteRule(this.notes, note, false, Constants.REST_FINE);
     }
     
     //smooth moves

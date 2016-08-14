@@ -1,5 +1,7 @@
 package Gene;
 
+import Service.NOTES;
+
 public abstract class Chord{
 	
 	protected int 		root_note;

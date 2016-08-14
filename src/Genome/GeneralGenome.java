@@ -1,6 +1,6 @@
 package Genome;
 
-import static Evolution.Constants.MELODY_LENGTH;
+import static Service.Constants.MELODY_LENGTH;
 
 import java.util.Random;
 

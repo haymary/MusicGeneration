@@ -1,12 +1,10 @@
 package Gene;
 
-import static Evolution.Constants.GENERAL_NUM_NOTES;
-import static Evolution.Constants.GENERAL_NUM_OCTAVES;
-import static Evolution.Constants.GENERAL_NUM_TYPES_CHORDS;
-import static Evolution.Constants.GENERAL_START_OCTAVE;
+import static Service.Constants.GENERAL_NUM_NOTES;
 
 import java.util.Random;
 
+import Service.Constants;
 public class GeneralChord extends Chord{
 	
 	/*
@@ -26,19 +24,23 @@ public class GeneralChord extends Chord{
 	@Override
 	public void newChord() {
 		setOctave();
+		if(Constants.IS_FOUR_PART_HARMONY){
+			setChord();
+		}else{
+			setChordOrNote();
+		}
+		if(randomWithTwoThirdProbability()){
+			setContinuesLast(true);
+		}else{
+			setContinuesLast(false);
+		}
+	}
+
+	private void setChordOrNote() {
 		if(randomWithEqualProbability()){
 			setChord();
 		}else{
 			setNote();
-		}
-		if(randomWithTwoThirdProbability()){
-			setContinuesLast(true);
-//			value = previouse_chord.getValue();
-//			octave_num = previouse_chord.getOctave_num();
-//			root_note = previouse_chord.getRoot_note();
-//			chord_type = previouse_chord.getChord_type();
-		}else{
-			setContinuesLast(false);
 		}
 	}
 
@@ -54,14 +56,14 @@ public class GeneralChord extends Chord{
 
 	private void setOctave() {
 		Random random = new Random();
-		octave_num = GENERAL_START_OCTAVE + (random.nextInt(GENERAL_NUM_OCTAVES) + 1);
+		octave_num = Constants.GENERAL_START_OCTAVE + (random.nextInt(Constants.GENERAL_NUM_OCTAVES) + 1);
 	}
 
 	@Override
 	protected void setChord() {
 		setNote();
 		Random random = new Random();
-		chord_type = random.nextInt(GENERAL_NUM_TYPES_CHORDS);
+		chord_type = random.nextInt(Constants.GENERAL_NUM_TYPES_CHORDS);
 		setValue( - (value + GENERAL_NUM_NOTES * chord_type));
 	}
 

@@ -1,15 +1,14 @@
 package Genome;
 
 
-import static Evolution.Constants.MELODY_LENGTH;
-import static Evolution.Constants.NUM_OF_NOTES_IN_BAR;
+import static Service.Constants.MELODY_LENGTH;
+import static Service.Constants.NUM_OF_NOTES_IN_BAR;
 
 import java.util.HashMap;
 import java.util.Random;
 
 import DrumsEvo.PulseMask;
 import Gene.DrumChord;
-
 public abstract class DrumsGenome extends AbstractGenome {
 
 	public static final HashMap<Integer,String> drumType = new HashMap(){

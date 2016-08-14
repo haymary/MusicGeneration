@@ -1,14 +1,14 @@
 package Parser;
 
-import static Evolution.Constants.MELODY_LENGTH;
+import static Service.Constants.MELODY_LENGTH;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import Evolution.Constants;
 import Gene.Chord;
-import Gene.NOTES;
 import Genome.AbstractGenome;
+import Service.Constants;
+import Service.NOTES;
 
 public class AlternativeParser extends GenomeParser{
 	private final int FIRST_INSTRUMENT 	= 1;

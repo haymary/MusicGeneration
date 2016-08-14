@@ -1,9 +1,10 @@
-package Evolution;
+package Service;
+
 
 public final class Constants {
 
 	public static final int 	POP_SIZE 					= 20;
-	public static final int 	MAX_NUMBER_GENERATIONS 		= 30;
+	public static final int 	MAX_NUMBER_GENERATIONS 		= 100;
 	
 	public static final double 	MIN_NOTE_DURATION 			= 0.0625;
 	public static final int 	NUM_OF_NOTES_IN_BAR 		= 16;
@@ -37,6 +38,12 @@ public final class Constants {
 	public static final int 	LONG_END_NOTE_BONUS 	= 50;
 	public static final int 	BAR_BEGINNING_REPETITION_BONUS 	= 10;
 	
-	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\Test";
+	public static final boolean IS_FOUR_PART_HARMONY = true;
+	public static final boolean IS_ALTERNATIVE_EVOLUTION = false;
+
+	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\NormalEvo";
+//	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\FourPartEvo";
+//	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\AlternativeEvo";
+	
 }
 	

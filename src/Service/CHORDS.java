@@ -1,4 +1,4 @@
-package Gene;
+package Service;
 
 public enum CHORDS {
     i(setMinor(1)), ii(setMinor(2)), iii(setMinor(3)), iv(setMinor(4)),

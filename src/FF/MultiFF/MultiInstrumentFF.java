@@ -1,39 +1,29 @@
-package FF;
+package FF.MultiFF;
 
 import java.util.ArrayList;
 
 import Gene.Chord;
 import Genome.AbstractGenome;
 
-public class MultiInstrumentFF {
+public abstract class MultiInstrumentFF {
 
-	private ArrayList<AbstractGenome> instruments;
-	private double fit = 0;
+	protected ArrayList<AbstractGenome> instruments;
 	
-	public MultiInstrumentFF(final ArrayList<AbstractGenome> instruments) {
+	protected double fit = 0;
+	
+	public void setInstruments(final ArrayList<AbstractGenome> instruments){
 		this.instruments = instruments;
 	}
-
-	public double count_ff() {
-		
-		// Bass tends to play root note of the chord
-		
-		differentDirectionsRule();
-		//Use as a small move as possible. 
-		//Be super lazy! The best is to keep the alto and tenor part very «boring».
-		return 0;
-	}
-
+	
+	public abstract double count_ff();
+	
 	/*
 	 * Rule:
 	 * Let the four parts move in different directions if possible, 
 	 * even if only one does it’s OK.
 	 */
-	private void differentDirectionsRule() {
+	protected void differentDirectionsRule(final ArrayList<Chord> leadNotes, final ArrayList<Chord> backNotes) {
 		int WINDOW_SIZE = 3;
-		
-		ArrayList<Chord> leadNotes = instruments.get(0).getNotes();
-		ArrayList<Chord> backNotes = instruments.get(1).getNotes();
 		
 		for (int i = 0; i < leadNotes.size() - WINDOW_SIZE; i++) {
 			if(isIncreasing(leadNotes, i, WINDOW_SIZE)){

@@ -1,14 +1,13 @@
 package Parser;
 
-import static Evolution.Constants.MELODY_LENGTH;
+import static Service.Constants.MELODY_LENGTH;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import Evolution.Constants;
 import Gene.Chord;
 import Genome.AbstractGenome;
-
+import Service.Constants;
 public class ChordParser extends GenomeParser {
 
 

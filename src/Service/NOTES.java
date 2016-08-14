@@ -1,4 +1,4 @@
-package Gene;
+package Service;
 
 public enum NOTES {
 	REST(0), 

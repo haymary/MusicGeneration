@@ -1,5 +1,5 @@
 package Evolution;
-import static Evolution.Constants.POP_SIZE;
+import static Service.Constants.POP_SIZE;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -60,8 +60,9 @@ public class Evolution {
 		return pop;
 	}
 
-	private void setPop(final ArrayList<AbstractGenome> pop) {
+	public Evolution setPop(final ArrayList<AbstractGenome> pop) {
 		this.pop = pop;
+		return this;
 	}
 
 //	int getNumber_of_generations() {

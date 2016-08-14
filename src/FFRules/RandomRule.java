@@ -1,21 +1,18 @@
 package FFRules;
 
-import static Evolution.Constants.GENERAL_NUM_NOTES;
-import static Evolution.Constants.JUMPS_BETWEEN_NOTES_FINE;
-import static Evolution.Constants.MELODY_LENGTH;
-import static Evolution.Constants.NUM_OF_NOTES_IN_BAR;
-import static Evolution.Constants.ONE_NOTE_REPETITION_FINE;
-import static Evolution.Constants.STANDARD_LENGTH_OF_NOTE_END;
-import static Evolution.Constants.STANDARD_LENGTH_OF_NOTE_START;
+import static Service.Constants.GENERAL_NUM_NOTES;
+import static Service.Constants.MELODY_LENGTH;
+import static Service.Constants.NUM_OF_NOTES_IN_BAR;
+import static Service.Constants.STANDARD_LENGTH_OF_NOTE_END;
+import static Service.Constants.STANDARD_LENGTH_OF_NOTE_START;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import Evolution.Constants;
 import Gene.Chord;
-import Gene.NOTES;
-
+import Service.Constants;
+import Service.NOTES;
 public class RandomRule extends ARule {
 
 	public RandomRule(final ArrayList<Chord> notes) {
@@ -71,7 +68,7 @@ public class RandomRule extends ARule {
 
 	private void longNoteInTheEndRule() {
 		int duration = getLastNoteDuration();
-		if(duration > STANDARD_LENGTH_OF_NOTE_END){
+		if(duration > Constants.STANDARD_LENGTH_OF_NOTE_END){
 			count += Constants.LONG_END_NOTE_BONUS;
 		}
 		if(duration == -1){
@@ -118,7 +115,7 @@ public class RandomRule extends ARule {
 				duration++;
 			}else{
 				if(duration > NUM_OF_NOTES_IN_BAR / 2){
-					count -= duration * ONE_NOTE_REPETITION_FINE;
+					count -= duration * Constants.ONE_NOTE_REPETITION_FINE;
 				}
 				current_chord = chord.getValue();
 				duration = 1;
@@ -136,7 +133,7 @@ public class RandomRule extends ARule {
 				jumps_count++;
 			}
 		}
-		count -=  (jumps_count / MELODY_LENGTH) * JUMPS_BETWEEN_NOTES_FINE;
+		count -=  (jumps_count / MELODY_LENGTH) * Constants.JUMPS_BETWEEN_NOTES_FINE;
 	}
 
 	private int getDifferebceBetweenNotes(final Chord chord1, final Chord chord2) {

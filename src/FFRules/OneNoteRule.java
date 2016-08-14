@@ -1,10 +1,9 @@
 package FFRules;
 
-import static Evolution.Constants.MELODY_LENGTH;
-
 import java.util.ArrayList;
 
 import Gene.Chord;
+import Service.Constants;
 
 public class OneNoteRule extends ARule {
 
@@ -12,7 +11,8 @@ public class OneNoteRule extends ARule {
 	private boolean is_beneficial;
 	private int cost;
 	
-	public OneNoteRule(final ArrayList<Chord> notes, final int note, final boolean is_beneficial, final int cost) {
+	public OneNoteRule(final ArrayList<Chord> notes, final int note, 
+			final boolean is_beneficial, final int cost) {
 		this.notes 			= notes;
 		this.note 			= note;
 		this.is_beneficial 	= is_beneficial;
@@ -29,7 +29,7 @@ public class OneNoteRule extends ARule {
 			}
 		}
 		
-		count = (note_count / MELODY_LENGTH) * cost;
+		count = (note_count / Constants.MELODY_LENGTH) * cost;
 		if(!is_beneficial){
 			count *= (-1);
 		}

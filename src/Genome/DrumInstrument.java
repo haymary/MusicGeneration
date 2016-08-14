@@ -1,8 +1,8 @@
 package Genome;
 
-import static Evolution.Constants.MELODY_LENGTH;
-import static Evolution.Constants.NUM_OF_BARS;
-import static Evolution.Constants.NUM_OF_NOTES_IN_BAR;
+import static Service.Constants.MELODY_LENGTH;
+import static Service.Constants.NUM_OF_BARS;
+import static Service.Constants.NUM_OF_NOTES_IN_BAR;
 
 import java.util.Random;
 
