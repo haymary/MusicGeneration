@@ -1,7 +1,5 @@
 package Evolution.Selection;
 
-import static Service.Constants.POP_SIZE;
-
 import java.util.ArrayList;
 
 import Evolution.Evolution;
@@ -23,7 +21,8 @@ public abstract class AbstractSelection {
 	}
 
 	private void countFitnessForEachSong() {
-		for (int index_in_genome = 0; index_in_genome < POP_SIZE * POP_SIZE; index_in_genome++) {
+		for (int index_in_genome = 0; index_in_genome < 
+				instrumentsEvolution.get(0).getPop().size() - 1; index_in_genome++) {
 			double song_fitness = countSongFitness(index_in_genome);
 			setSongFitness(index_in_genome, song_fitness);
 		}
@@ -37,10 +36,13 @@ public abstract class AbstractSelection {
 	
 	private double countSongFitness(final int index_of_genome) {
 		if(instrumentsEvolution.size() == 1) {
-			return instrumentsEvolution.get(0).getGenomeByIndex(index_of_genome).getFitness();
+			return instrumentsEvolution.get(0).getGenomeByIndex(
+					index_of_genome).getFitness();
 		} 
-		return sumInstrunmentFitness(index_of_genome) * Constants.WEIGHT_OF_INSTRUMENTS_FITNESS 
-				+  count_instrument_interaction(index_of_genome) * Constants.WEIGHT_OF_INTERACTION;
+		return sumInstrunmentFitness(index_of_genome) 
+				* Constants.WEIGHT_OF_INSTRUMENTS_FITNESS 
+				+ count_instrument_interaction(index_of_genome) 
+				* Constants.WEIGHT_OF_INTERACTION;
 	}
 
 

@@ -24,15 +24,16 @@ public abstract class MultiInstrumentFF {
 	 */
 	protected void differentDirectionsRule(final ArrayList<Chord> leadNotes, final ArrayList<Chord> backNotes) {
 		int WINDOW_SIZE = 3;
+		int FINE_FOR_GOING_IN_SAME_DIRECTIONS = 2;
 		
 		for (int i = 0; i < leadNotes.size() - WINDOW_SIZE; i++) {
 			if(isIncreasing(leadNotes, i, WINDOW_SIZE)){
 				if(isIncreasing(leadNotes, i, WINDOW_SIZE)){
-					fit -= 1;
+					fit -= FINE_FOR_GOING_IN_SAME_DIRECTIONS;
 				}
 			}else if(isDecreasing(leadNotes, i, WINDOW_SIZE)) {
 				if(isDecreasing(backNotes, i, WINDOW_SIZE)){
-					fit -= 1;
+					fit -= FINE_FOR_GOING_IN_SAME_DIRECTIONS;
 				}
 			}
 		}

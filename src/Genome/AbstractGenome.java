@@ -6,10 +6,11 @@ import Gene.Chord;
 
 public abstract class AbstractGenome implements Comparable<AbstractGenome>{
 	
-	protected ArrayList<Chord> notes;
-	protected String instrument_type;
-	protected double fitness = -1;
-
+	protected ArrayList<Chord> 	notes;
+	protected String 			instrument_type;
+	protected double 			fitness = -1;
+	protected int 				instrument_type_num;
+	
 	public AbstractGenome() {
 		notes = new ArrayList<>();
 	}
@@ -51,6 +52,14 @@ public abstract class AbstractGenome implements Comparable<AbstractGenome>{
 
 	public Chord getFirstNote() {
 		return notes.get(0);
+	}
+
+	public int getInstrument_type_num() {
+		return instrument_type_num;
+	}
+
+	protected void setInstrument_type_num(final int instrument_type_num) {
+		this.instrument_type_num = instrument_type_num;
 	}
 	
 	

@@ -4,11 +4,12 @@ package Service;
 public final class Constants {
 
 	public static final int 	POP_SIZE 					= 20;
-	public static final int 	MAX_NUMBER_GENERATIONS 		= 100;
+	public static final int 	MAX_NUMBER_GENERATIONS 		= 200;
 	
 	public static final double 	MIN_NOTE_DURATION 			= 0.0625;
 	public static final int 	NUM_OF_NOTES_IN_BAR 		= 16;
 	public static final int 	NUM_OF_BARS 				= 4;
+	public static final int 	NUM_VALUES_CHORDS 			= 8 * 5 + 1;
 	
 	public static final int 	MELODY_LENGTH = NUM_OF_NOTES_IN_BAR * NUM_OF_BARS;
 	
@@ -36,14 +37,15 @@ public final class Constants {
 	public static final int 	HALF_RULES_HOLDS_BONUS 	= 30;
 	public static final int 	ALL_RULES_HOLDS_BONUS  	= 100;
 	public static final int 	LONG_END_NOTE_BONUS 	= 50;
-	public static final int 	BAR_BEGINNING_REPETITION_BONUS 	= 10;
+	public static final int 	BAR_BEGINNING_REPETITION_BONUS 			= 10;
+	public static final int 	SMALL_VARIETY_IN_SECONDARY_VOICE_BONUS 	= 10;
 	
-	public static final boolean IS_FOUR_PART_HARMONY = true;
-	public static final boolean IS_ALTERNATIVE_EVOLUTION = false;
+	public static final boolean IS_FOUR_PART_HARMONY = false;
+	public static final boolean IS_ALTERNATIVE_EVOLUTION = true;
 
-	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\NormalEvo";
+//	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\NormalEvo";
 //	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\FourPartEvo";
-//	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\AlternativeEvo";
+	public static final String 	ROOT_FOLDER = "C:\\1 ---- MINE-----\\GeneratedMusic\\AlternativeEvo";
 	
 }
 	

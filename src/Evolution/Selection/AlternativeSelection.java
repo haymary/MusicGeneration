@@ -3,16 +3,19 @@ package Evolution.Selection;
 import java.util.ArrayList;
 
 import Evolution.Evolution;
-import FF.MultiFF.FFFactory;
+import FF.MultiFF.AlternativeMultiInsrumentFF;
 import Genome.AbstractGenome;
 
 public class AlternativeSelection extends AbstractSelection{
 
 	private AbstractGenome 	original_genome;
 	
-	public AlternativeSelection(final ArrayList<Evolution> instrumentsEvolution) {
+	public AlternativeSelection(final ArrayList<Evolution> instrumentsEvolution, 
+			final AbstractGenome genome) {
 		this.instrumentsEvolution = instrumentsEvolution;
-		multiFF = new FFFactory().getFFMethod("Alt");
+		setOriginalGenome(genome);
+		multiFF = new AlternativeMultiInsrumentFF();
+		multiinstrumentSelection();
 	}
 
 	public void setOriginalGenome(final AbstractGenome genome) {

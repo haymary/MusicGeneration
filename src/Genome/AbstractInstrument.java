@@ -12,9 +12,9 @@ public abstract class AbstractInstrument{
 	protected int melody_length = NUM_OF_NOTES_IN_BAR * NUM_OF_BARS;
 
 	
-	protected ArrayList<Chord> notes;
-	protected String instrument_type;
-	protected double fitness = -1;
+	protected ArrayList<Chord> 	notes;
+	protected String 			instrument_type;
+	protected double 			fitness 			= -1;
 
 	public AbstractInstrument() {
 		setNotes(new ArrayList<>());
@@ -81,7 +81,4 @@ public abstract class AbstractInstrument{
 		}
 		return sb.toString();
 	}
-	
-	
-
-}
+}	

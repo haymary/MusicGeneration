@@ -53,9 +53,6 @@ public class AlternativeParser extends GenomeParser{
 		return result.toString();
 	}
 
-	/**
-	 * 
-	 */
 	private void newStringBuilderForEachInstrument() {
 		instruments = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {

@@ -3,7 +3,6 @@ package Parser;
 import static Service.Constants.MELODY_LENGTH;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import Gene.Chord;
 import Genome.AbstractGenome;
@@ -76,9 +75,6 @@ public class ChordParser extends GenomeParser {
     //Method for translating numbers of sixteenths to duration
     private String NumberToDuration(final int n) {
     	StringBuilder result = new StringBuilder();
-//    	for (int i = 0; i < n; i++) {
-//			result.append("s");
-//		}
     	double duration = Constants.MIN_NOTE_DURATION * n;
     	result.append("/");
     	result.append(duration);
@@ -87,14 +83,18 @@ public class ChordParser extends GenomeParser {
     }
 
     private String CheckType(final AbstractGenome individual) {
-        String result = new String();
-        Random rand = new Random(); //Random choose of instrument in JFugue
-        if (individual.getInstrumentType() == "Piano") {
-            result = "I" + 0;
-        } else if (individual.getInstrumentType() == "Violin") {
-            result = "I" + 40;
-        }
-        return result;
+    	StringBuilder result = new StringBuilder();
+    	result.append("I");
+    	if(Constants.IS_ALTERNATIVE_EVOLUTION){
+    		result.append(individual.getInstrument_type_num());
+    	}else{
+    		if (individual.getInstrumentType() == "Piano") {
+    			result.append(0);
+    		} else if (individual.getInstrumentType() == "Violin") {
+    			result.append(40);
+    		}
+    	}
+        return result.toString();
     }
 
 

@@ -14,10 +14,10 @@ import Service.Constants;
 
 public class EvolutionSimulator extends AbstractEvoSimulator{
 	
-	private ArrayList<Evolution> instrumentsEvolution;
 	private ArrayList<Evolution> instrumentsEvolutionForSave;
 	
 	public EvolutionSimulator() {
+		instrumentsEvolutionForSave = new ArrayList<>();
 		instrumentsEvolution = new ArrayList<>();
 		instrumentsEvolution.add(new Evolution(new PianoGenome()));
 		//instrumentsEvolution.add(new Evolution(new ViolinGenome()));
